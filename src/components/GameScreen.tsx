@@ -57,7 +57,7 @@ export default function GameScreen({
       />
       {!currentQuestion.completed && (
         <p className="text-center text-purple-400">
-          Next up: {nextParticipant.name}
+          Tiếp theo: {nextParticipant.name}
         </p>
       )}
     </div>
