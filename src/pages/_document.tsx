@@ -22,7 +22,7 @@ export default function Document() {
         <meta name="description" content={SEOPages.description} />
         <meta name="keywords" content={SEOPages.keywords} />
         <meta name="twitter:card" content="summary_large_image" />
-        <link rel="shortcut icon" href="/favicon.svg" />
+        <link rel="shortcut icon" href="/favicon.png" />
         <meta name="emotion-insertion-point" content="" />
 
         <meta property="og:title" content={SEOPages.title} />
