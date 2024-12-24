@@ -54,7 +54,7 @@ export default function QuestionDisplay({
     >
       <div className="text-center">
         <h3 className={`text-lg sm:text-xl font-semibold mb-2 ${textColor}`}>
-          {participant.name}'s {questionType.toUpperCase()}
+          {participant.name}&apos;s {questionType.toUpperCase()}
         </h3>
         <p className="text-base sm:text-xl mb-4 text-white font-medium">{question}</p>
         {timeLeft !== null && !completed && (
