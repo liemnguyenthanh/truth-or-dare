@@ -10,6 +10,8 @@ const SEOPages = {
   thumbnail: `${URL}/thumbnail.png`,
 };
 
+const FACEBOOK_APP_ID = "612056397866068";
+
 export default function Document() {
   return (
     <Html lang="en">
@@ -31,7 +33,7 @@ export default function Document() {
         <meta property="og:image" content={SEOPages.thumbnail} />
         <meta property="og:url" content={URL} />
         <meta property="og:type" content="website" />
-        <meta property="fb:app_id" content="15087023444" />
+        <meta property="fb:app_id" content={FACEBOOK_APP_ID} />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={SEOPages.title} />
