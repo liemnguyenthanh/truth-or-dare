@@ -1,18 +1,18 @@
-import { useState, useEffect } from 'react';
-import { supabase } from '@/lib/supabase';
-import { PostgrestError } from '@supabase/supabase-js';
+import { useState, useEffect } from "react";
+import { supabase } from "@/lib/supabase";
+import { PostgrestError } from "@supabase/supabase-js";
 
 export interface Question {
   id?: string;
   question: string;
-  type: 'truth' | 'dare';
+  type: "truth" | "dare";
 }
 
 interface UseQuestionsReturn {
   questions: Question[];
   loading: boolean;
   error: PostgrestError | null;
-  addQuestion: (newQuestion: Omit<Question, 'id'>) => Promise<void>;
+  addQuestion: (newQuestion: Omit<Question, "id">) => Promise<void>;
   removeQuestion: (id: string) => Promise<void>;
   refetch: () => Promise<void>;
 }
@@ -26,9 +26,9 @@ export function useQuestions(): UseQuestionsReturn {
     try {
       setLoading(true);
       const { data, error } = await supabase
-        .from('question')
-        .select('*')
-        .order('created_at', { ascending: false });
+        .from("question")
+        .select("*")
+        .order("created_at", { ascending: false });
 
       if (error) {
         setError(error);
@@ -38,14 +38,14 @@ export function useQuestions(): UseQuestionsReturn {
       setQuestions(data || []);
       setError(null);
     } catch (err) {
-      console.error('Error fetching questions:', err);
+      console.error("Error fetching questions:", err);
       if (err instanceof Error) {
         setError({
-          name: 'Error',
+          name: "Error",
           message: err.message,
-          details: '',
-          hint: '',
-          code: 'UNKNOWN_ERROR'
+          details: "",
+          hint: "",
+          code: "UNKNOWN_ERROR",
         });
       }
     } finally {
@@ -53,10 +53,10 @@ export function useQuestions(): UseQuestionsReturn {
     }
   };
 
-  const addQuestion = async (newQuestion: Omit<Question, 'id'>) => {
+  const addQuestion = async (newQuestion: Omit<Question, "id">) => {
     try {
-      const { error: insertError } = await supabase
-        .from('question')
+      const { data, error: insertError } = await supabase
+        .from("question")
         .insert([newQuestion]);
 
       if (insertError) {
@@ -64,9 +64,9 @@ export function useQuestions(): UseQuestionsReturn {
         throw insertError;
       }
 
-      await fetchQuestions();
+      if (data) setQuestions([data[0], ...questions]);
     } catch (err) {
-      console.error('Error adding question:', err);
+      console.error("Error adding question:", err);
       throw err;
     }
   };
@@ -74,18 +74,21 @@ export function useQuestions(): UseQuestionsReturn {
   const removeQuestion = async (id: string) => {
     try {
       const { error: deleteError } = await supabase
-        .from('question')
+        .from("question")
         .delete()
-        .eq('id', id);
+        .eq("id", id);
 
       if (deleteError) {
         setError(deleteError);
         throw deleteError;
       }
 
-      await fetchQuestions();
+      const filteredQuestions = questions.filter(
+        (question) => question.id !== id
+      );
+      setQuestions(filteredQuestions);
     } catch (err) {
-      console.error('Error removing question:', err);
+      console.error("Error removing question:", err);
       throw err;
     }
   };
