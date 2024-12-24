@@ -18,7 +18,7 @@ export default function ParticipantsList({
         Players
       </h2>
       <div className="space-y-2">
-        {participants.map((participant, index) => (
+        {participants.map((participant) => (
           <motion.div
             key={participant.id}
             initial={{ opacity: 0, y: 20 }}
