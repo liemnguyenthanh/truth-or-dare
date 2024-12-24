@@ -5,7 +5,7 @@ const SEOPages = {
   description: "Trò chơi dằm khăm của Mợ Linh, A2 Tiến, Chị Heo.",
   keywords:
     "Truth or Dare, Truth or Dare Game, Truth or Dare Game Online, Truth or Dare Game Online Free, Truth or Dare Game Online for Free, Truth or Dare Game Online for Free",
-  thumbnail: "https://tienbip.vercel.app/thumbnail.png",
+  thumbnail: "https://a2tienbip.vercel.app/thumbnail.png",
 };
 
 export default function Document() {
