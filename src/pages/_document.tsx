@@ -48,12 +48,12 @@ export default function Document() {
         />
         <meta name="apple-mobile-web-app-title" content="Tiến Bịp" />
         <meta name="application-name" content="Tiến Bịp" />
-        <meta name="theme-color" content="#111111" />
+        <meta name="theme-color" content="#111827" />
         <link rel="icon" type="image/png" href="/favicon.svg" />
         <link rel="manifest" href="/manifest.json" />
       </Head>
 
-      <body>
+      <body className="bg-gray-900">
         <Main />
         <NextScript />
       </body>
