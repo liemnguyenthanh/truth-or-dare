@@ -1,7 +1,7 @@
 import { useLocalStorage } from './useLocalStorage';
 import { GameState, Participant, QuestionData } from '../types';
-import { truthQuestions, dareQuestions } from '../data/questions';
 import { defaultPlayers } from '../config/defaultPlayers';
+import { supabase } from '@/lib/supabase';
 
 const createInitialState = (): GameState => {
   const initialParticipants: Participant[] = defaultPlayers.map(name => ({
@@ -20,6 +20,32 @@ const createInitialState = (): GameState => {
 
 export function useGame() {
   const [gameState, setGameState] = useLocalStorage<GameState>('truthOrDare', createInitialState());
+
+  const generateQuestions = async (participants: Participant[]): Promise<QuestionData[]> => {
+    if (participants.length < 2) return [];
+    
+    const { data: questions } = await supabase
+      .from('question')
+      .select('*');
+
+    if (!questions) return [];
+    
+    const shuffledParticipants = [...participants]
+      .sort(() => Math.random() - 0.5);
+    
+    return shuffledParticipants.map(participant => {
+      const type = Math.random() > 0.5 ? 'truth' : 'dare';
+      const typeQuestions = questions.filter(q => q.type === type);
+      const randomIndex = Math.floor(Math.random() * typeQuestions.length);
+      
+      return {
+        participantId: participant.id,
+        type,
+        question: typeQuestions[randomIndex].question,
+        completed: false
+      };
+    });
+  };
 
   const addParticipant = (name: string) => {
     if (!name.trim()) return;
@@ -43,30 +69,10 @@ export function useGame() {
     }));
   };
 
-  const generateQuestions = (participants: Participant[]): QuestionData[] => {
-    if (participants.length < 2) return [];
-    
-    const shuffledParticipants = [...participants]
-      .sort(() => Math.random() - 0.5);
-    
-    return shuffledParticipants.map(participant => {
-      const type = Math.random() > 0.5 ? 'truth' : 'dare';
-      const questions = type === 'truth' ? truthQuestions : dareQuestions;
-      const randomIndex = Math.floor(Math.random() * questions.length);
-      
-      return {
-        participantId: participant.id,
-        type,
-        question: questions[randomIndex],
-        completed: false
-      };
-    });
-  };
-
-  const startGame = () => {
+  const startGame = async () => {
     if (gameState.participants.length < 2) return;
     
-    const questions = generateQuestions(gameState.participants);
+    const questions = await generateQuestions(gameState.participants);
     setGameState(prev => ({
       ...prev,
       currentQuestions: questions,

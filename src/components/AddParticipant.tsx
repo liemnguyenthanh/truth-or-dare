@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
-import { UserPlusIcon } from '@heroicons/react/24/outline';
+import { UserPlusIcon, PlusIcon } from '@heroicons/react/24/outline';
+import { useRouter } from 'next/router';
 
 interface AddParticipantProps {
   onAdd: (name: string) => void;
@@ -8,6 +9,7 @@ interface AddParticipantProps {
 
 export default function AddParticipant({ onAdd }: AddParticipantProps) {
   const [name, setName] = useState('');
+  const router = useRouter();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,8 +20,8 @@ export default function AddParticipant({ onAdd }: AddParticipantProps) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="w-full max-w-md mx-auto">
-      <div className="flex gap-2">
+    <div className="w-full max-w-md mx-auto space-y-4">
+      <form onSubmit={handleSubmit} className="flex gap-2">
         <input
           type="text"
           value={name}
@@ -36,7 +38,17 @@ export default function AddParticipant({ onAdd }: AddParticipantProps) {
           <UserPlusIcon className="w-4 h-4 sm:w-5 sm:h-5" />
           Add
         </motion.button>
-      </div>
-    </form>
+      </form>
+      
+      <motion.button
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+        onClick={() => router.push('/questions')}
+        className="w-full px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors font-semibold flex items-center justify-center gap-2 text-sm"
+      >
+        <PlusIcon className="w-4 h-4" />
+        Add More Questions
+      </motion.button>
+    </div>
   );
 }
