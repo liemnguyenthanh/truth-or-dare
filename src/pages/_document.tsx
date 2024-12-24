@@ -1,11 +1,13 @@
 import { Html, Head, Main, NextScript } from "next/document";
 
+const URL = "https://a2tienbip.vercel.app";
+
 const SEOPages = {
   title: "Truth or Dare",
   description: "Trò chơi dằm khăm của Mợ Linh, A2 Tiến, Chị Heo.",
   keywords:
     "Truth or Dare, Truth or Dare Game, Truth or Dare Game Online, Truth or Dare Game Online Free, Truth or Dare Game Online for Free, Truth or Dare Game Online for Free",
-  thumbnail: "https://a2tienbip.vercel.app/thumbnail.png",
+  thumbnail: `${URL}/thumbnail.png`,
 };
 
 export default function Document() {
@@ -21,18 +23,22 @@ export default function Document() {
         <meta name="title" content={SEOPages.title} />
         <meta name="description" content={SEOPages.description} />
         <meta name="keywords" content={SEOPages.keywords} />
-        <meta name="twitter:card" content="summary_large_image" />
         <link rel="shortcut icon" href="/favicon.png" />
         <meta name="emotion-insertion-point" content="" />
 
         <meta property="og:title" content={SEOPages.title} />
         <meta property="og:description" content={SEOPages.description} />
-        <meta name="twitter:title" content={SEOPages.title} />
         <meta property="og:image" content={SEOPages.thumbnail} />
+        <meta property="og:url" content={URL} />
+        <meta property="og:type" content="website" />
+        <meta property="fb:app_id" content="15087023444" />
+
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:image" content={SEOPages.thumbnail} />
+        <meta name="twitter:title" content={SEOPages.title} />
         <meta name="twitter:description" content={SEOPages.description} />
+        <meta name="twitter:image" content={SEOPages.thumbnail} />
       </Head>
+
       <body>
         <Main />
         <NextScript />
