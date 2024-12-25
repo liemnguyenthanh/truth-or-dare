@@ -8,6 +8,15 @@ interface QuestionTabsProps {
   onRemove: (id: string) => void;
 }
 
+const formatDate = (date: string) => {
+  return new Date(date).toLocaleDateString('en-US', {
+    hour: 'numeric',
+    minute: 'numeric',
+    month: 'short',
+    day: 'numeric',
+  });
+};
+
 export default function QuestionTabs({ questions, onRemove }: QuestionTabsProps) {
   const categories = [
     { key: 'truth', label: 'Truth Questions', color: 'blue' },
@@ -49,7 +58,14 @@ export default function QuestionTabs({ questions, onRemove }: QuestionTabsProps)
                   animate={{ opacity: 1, y: 0 }}
                   className={`flex items-center justify-between p-3 bg-gray-800/50 rounded-lg border border-${color}-500/30`}
                 >
-                  <p className="text-white">{question.question}</p>
+                  <p className="text-white">{question.question}
+
+                    {question?.created_at && (
+                      <span className="text-xs text-gray-400 pl-2">
+                        {formatDate(question.created_at)}
+                      </span>
+                    )}
+                  </p>
                   <motion.button
                     whileHover={{ scale: 1.1 }}
                     whileTap={{ scale: 0.9 }}

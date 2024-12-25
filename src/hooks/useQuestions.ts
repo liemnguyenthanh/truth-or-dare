@@ -6,6 +6,7 @@ export interface Question {
   id?: string;
   question: string;
   type: "truth" | "dare";
+  created_at?: string;
 }
 
 interface UseQuestionsReturn {
@@ -24,7 +25,6 @@ export function useQuestions(): UseQuestionsReturn {
 
   const fetchQuestions = async () => {
     try {
-      setLoading(true);
       const { data, error } = await supabase
         .from("question")
         .select("*")
@@ -48,9 +48,7 @@ export function useQuestions(): UseQuestionsReturn {
           code: "UNKNOWN_ERROR",
         });
       }
-    } finally {
-      setLoading(false);
-    }
+    } 
   };
 
   const addQuestion = async (newQuestion: Omit<Question, "id">) => {
@@ -94,7 +92,17 @@ export function useQuestions(): UseQuestionsReturn {
   };
 
   useEffect(() => {
-    fetchQuestions();
+    const interval = setInterval(() => {
+      fetchQuestions();
+    }, 5000);
+
+    const initFetch = async () => {
+      setLoading(true);
+      await fetchQuestions();
+      setLoading(false);
+    };
+    initFetch();
+    return () => clearInterval(interval);
   }, []);
 
   return {
