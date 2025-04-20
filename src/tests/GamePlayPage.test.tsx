@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { GamePlayPage } from '../pages/GamePlayPage';
+import { GamePlayPage } from '../components/GamePlayPage';
 import { GameProvider } from '../context/GameContext';
 import * as GameContext from '../context/GameContext';
 

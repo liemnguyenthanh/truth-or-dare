@@ -1,9 +1,9 @@
 import React from "react";
 import { motion } from "framer-motion";
-import { TruthOrDare } from "../components/TruthOrDare";
-import { QuestionDisplay } from "../components/QuestionDisplay";
-import { GameControls } from "../components/GameControls";
-import { ParticipantQueue } from "../components/ParticipantQueue";
+import { TruthOrDare } from "./TruthOrDare";
+import { QuestionDisplay } from "./QuestionDisplay";
+import { GameControls } from "./GameControls";
+import { ParticipantQueue } from "./ParticipantQueue";
 import { useGame } from "../context/GameContext";
 
 export function GamePlayPage() {

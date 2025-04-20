@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ParticipantManager } from '../components/ParticipantManager';
-import { CustomQuestionForm } from '../components/CustomQuestionForm';
+import { ParticipantManager } from './ParticipantManager';
+import { CustomQuestionForm } from './CustomQuestionForm';
 import { useGame } from '../context/GameContext';
 
 interface GameSetupPageProps {

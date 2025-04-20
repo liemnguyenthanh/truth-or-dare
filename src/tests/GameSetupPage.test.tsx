@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { GameSetupPage } from '../pages/GameSetupPage';
+import { GameSetupPage } from '../components/GameSetupPage';
 import { GameProvider } from '../context/GameContext';
 
 // Mock uuid

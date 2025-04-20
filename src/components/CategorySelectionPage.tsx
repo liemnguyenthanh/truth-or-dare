@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { CategorySelector } from '../components/CategorySelector';
+import { CategorySelector } from './CategorySelector';
 import { useGame } from '../context/GameContext';
 
 interface CategorySelectionPageProps {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { CategorySelectionPage } from '../pages/CategorySelectionPage';
+import { CategorySelectionPage } from '../components/CategorySelectionPage';
 import { GameProvider } from '../context/GameContext';
 import * as GameContext from '../context/GameContext';
 

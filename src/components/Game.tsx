@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import { useGame } from '../context/GameContext';
-import { GameSetupPage } from '../pages/GameSetupPage';
-import { CategorySelectionPage } from '../pages/CategorySelectionPage';
-import { GamePlayPage } from '../pages/GamePlayPage';
+import { GameSetupPage } from './GameSetupPage';
+import { CategorySelectionPage } from './CategorySelectionPage';
+import { GamePlayPage } from './GamePlayPage';
 
 // Define game flow stages
 enum GameStage {
