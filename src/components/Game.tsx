@@ -4,12 +4,14 @@ import { useGame } from '../context/GameContext';
 import { GameSetupPage } from './GameSetupPage';
 import { CategorySelectionPage } from './CategorySelectionPage';
 import { GamePlayPage } from './GamePlayPage';
+import { QuestionListPage } from './QuestionListPage';
 
 // Define game flow stages
 enum GameStage {
   SETUP = 'SETUP',
   CATEGORY_SELECTION = 'CATEGORY_SELECTION',
-  GAME_PLAY = 'GAME_PLAY'
+  GAME_PLAY = 'GAME_PLAY',
+  QUESTION_LIST = 'QUESTION_LIST'
 }
 
 export function Game() {
@@ -35,7 +37,8 @@ export function Game() {
         {stage === GameStage.SETUP && (
           <GameSetupPage 
             key="setup"
-            onContinue={() => setCurrentStage(GameStage.CATEGORY_SELECTION)} 
+            onContinue={() => setCurrentStage(GameStage.CATEGORY_SELECTION)}
+            onViewQuestions={() => setCurrentStage(GameStage.QUESTION_LIST)}
           />
         )}
         
@@ -48,6 +51,13 @@ export function Game() {
         
         {stage === GameStage.GAME_PLAY && (
           <GamePlayPage key="gameplay" />
+        )}
+
+        {stage === GameStage.QUESTION_LIST && (
+          <QuestionListPage
+            key="questions"
+            onBack={() => setCurrentStage(GameStage.SETUP)}
+          />
         )}
       </AnimatePresence>
     </div>

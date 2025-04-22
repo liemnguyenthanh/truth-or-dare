@@ -7,7 +7,6 @@ export function QuestionDisplay() {
 
   if (!gameState.currentQuestion) return null;
 
-  const typeColor = gameState.selectedType === "truth" ? "blue" : "red";
 
   return (
     <motion.div
@@ -17,12 +16,12 @@ export function QuestionDisplay() {
       transition={{ duration: 0.4 }}
     >
       <motion.div
-        className={`p-8 rounded-xl shadow-lg mb-6 bg-gradient-to-br from-${typeColor}-50 to-${typeColor}-100 border border-${typeColor}-200`}
+        className={`p-8 rounded-xl shadow-lg mb-6 bg-gradient-to-br border border-white`}
         initial={{ y: 20 }}
         animate={{ y: 0 }}
         transition={{ delay: 0.2, type: "spring" }}
       >
-        <p className={`text-xl font-medium text-${typeColor}-800`}>
+        <p className={`text-xl font-medium text-white`}>
           {gameState.currentQuestion.text}
         </p>
       </motion.div>
