@@ -4,16 +4,16 @@ import React, {
   ReactNode,
   useState,
   useEffect,
-} from "react";
-import { v4 as uuidv4 } from "uuid";
+} from 'react';
+import { v4 as uuidv4 } from 'uuid';
 import {
   GameState,
   Participant,
   Question,
   QuestionType,
   Category,
-} from "../types";
-import { defaultCategories, defaultQuestions } from "../data/defaultData";
+} from '../types';
+import { defaultCategories, defaultQuestions } from '../data/defaultData';
 
 interface GameContextType {
   gameState: GameState;
@@ -27,16 +27,20 @@ interface GameContextType {
   nextParticipant: () => void;
   resetGame: () => void;
   quitGame: () => void;
-  addCustomQuestion: (question: Omit<Question, "id" | "isCustom">) => void;
+  addCustomQuestion: (question: Omit<Question, 'id' | 'isCustom'>) => void;
 }
 
 // Default players
 const defaultPlayers: string[] = [
-  "Mợ Linh",
-  "A2 Tiến",
-  "Quang Tèo",
-  "Mợ Hân",
-  "Van Pe",
+  'Mợ Linh',
+  'Cậu Công',
+  'Mợ Yao',
+  'A2 Tiến',
+  'Mợ Hân',
+  'Cậu Nô',
+  'Cậu Qin',
+  'Quang Tèo',
+  'Mợ Mi',
 ];
 
 const initialGameState: GameState = {
@@ -53,7 +57,7 @@ const GameContext = createContext<GameContextType | undefined>(undefined);
 export const useGame = () => {
   const context = useContext(GameContext);
   if (!context) {
-    throw new Error("useGame must be used within a GameProvider");
+    throw new Error('useGame must be used within a GameProvider');
   }
   return context;
 };
@@ -65,7 +69,6 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   const [categories] = useState<Category[]>(defaultCategories);
   const [questions, setQuestions] = useState<Question[]>(defaultQuestions);
   const [shouldRemoveQueue, setShouldRemoveQueue] = useState<boolean>(false);
-
 
   // Initialize with default players and load custom questions on component mount
   useEffect(() => {
@@ -81,13 +84,13 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     }));
 
     // Load custom questions from localStorage
-    const storedQuestions = localStorage.getItem("customQuestions");
+    const storedQuestions = localStorage.getItem('customQuestions');
     if (storedQuestions) {
       try {
         const parsedQuestions = JSON.parse(storedQuestions) as Question[];
         setQuestions([...defaultQuestions, ...parsedQuestions]);
       } catch (error) {
-        console.error("Error parsing custom questions:", error);
+        console.error('Error parsing custom questions:', error);
       }
     }
   }, []);
@@ -95,7 +98,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   // Save custom questions to localStorage when they change
   const saveCustomQuestions = (allQuestions: Question[]) => {
     const customQuestions = allQuestions.filter((q) => q.isCustom);
-    localStorage.setItem("customQuestions", JSON.stringify(customQuestions));
+    localStorage.setItem('customQuestions', JSON.stringify(customQuestions));
   };
 
   const addParticipant = (name: string) => {
@@ -185,7 +188,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     });
   };
 
-  const addCustomQuestion = (question: Omit<Question, "id" | "isCustom">) => {
+  const addCustomQuestion = (question: Omit<Question, 'id' | 'isCustom'>) => {
     const newQuestion: Question = {
       ...question,
       id: uuidv4(),
