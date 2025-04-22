@@ -1,10 +1,12 @@
 'use client';
 
-import React from 'react';
-import { QuestionListPage } from '@/components/QuestionListPage';
-import { useRouter } from 'next/navigation';
-import { ThemeProvider } from '@/context/ThemeContext';
 import Head from 'next/head';
+import { useRouter } from 'next/navigation';
+import React from 'react';
+
+import { QuestionListPage } from '@/components/QuestionListPage';
+
+import { ThemeProvider } from '@/context/ThemeContext';
 
 export default function QuestionsPage() {
   const router = useRouter();

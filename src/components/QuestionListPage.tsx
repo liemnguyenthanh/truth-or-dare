@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
+import React, { useEffect,useState } from 'react';
+
 import { defaultQuestions } from '../data/defaultData';
 import { Question } from '../types';
-import Head from 'next/head';
 
 interface QuestionListPageProps {
   onBack: () => void;

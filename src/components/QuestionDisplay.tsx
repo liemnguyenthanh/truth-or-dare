@@ -1,5 +1,6 @@
-import React from "react";
 import { motion } from "framer-motion";
+import React from "react";
+
 import { useGame } from "../context/GameContext";
 
 export function QuestionDisplay() {
@@ -16,12 +17,12 @@ export function QuestionDisplay() {
       transition={{ duration: 0.4 }}
     >
       <motion.div
-        className={`p-8 rounded-xl shadow-lg mb-6 bg-gradient-to-br border border-white`}
+        className="p-8 rounded-xl shadow-lg mb-6 bg-gradient-to-br border border-white"
         initial={{ y: 20 }}
         animate={{ y: 0 }}
         transition={{ delay: 0.2, type: "spring" }}
       >
-        <p className={`text-xl font-medium text-white`}>
+        <p className="text-xl font-medium text-white">
           {gameState.currentQuestion.text}
         </p>
       </motion.div>
