@@ -9,9 +9,7 @@ interface GameSetupPageProps {
   onContinue: () => void;
 }
 
-export function GameSetupPage({
-  onContinue,
-}: GameSetupPageProps) {
+export function GameSetupPage({ onContinue }: GameSetupPageProps) {
   const { gameState } = useGame();
 
   return (
@@ -40,7 +38,7 @@ export function GameSetupPage({
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              Tiếp Tục Đến Chủ Đề
+              Chơi Ngay
             </motion.button>
           </div>
         )}
