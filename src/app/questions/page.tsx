@@ -4,9 +4,7 @@ import Head from 'next/head';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
-import { QuestionListPage } from '@/components/QuestionListPage';
-
-import { ThemeProvider } from '@/context/ThemeContext';
+import { QuestionListPage } from '@/modules/questions/components/QuestionListPage';
 
 export default function QuestionsPage() {
   const router = useRouter();
@@ -21,9 +19,7 @@ export default function QuestionsPage() {
         <title>Danh Sách Câu Hỏi | Thật Hay Thách</title>
         <meta name="description" content="Xem danh sách tất cả các câu hỏi trong trò chơi Thật Hay Thách." />
       </Head>
-      <ThemeProvider>
-        <QuestionListPage onBack={handleBack} />
-      </ThemeProvider>
+      <QuestionListPage onBack={handleBack} />
     </main>
   );
 } 

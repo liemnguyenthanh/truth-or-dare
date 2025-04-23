@@ -16,6 +16,13 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
+      "@core/*": ["./src/core/*"],
+      "@shared/*": ["./src/shared/*"],
+      "@modules/*": ["./src/modules/*"],
+      "@game/*": ["./src/modules/game/*"],
+      "@participants/*": ["./src/modules/participants/*"],
+      "@questions/*": ["./src/modules/questions/*"],
+      "@theme/*": ["./src/modules/theme/*"],
       "~/*": ["./public/*"]
     },
     "incremental": true,

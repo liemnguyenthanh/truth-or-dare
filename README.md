@@ -1,5 +1,28 @@
 # Next.js + Tailwind CSS + TypeScript Starter and Boilerplate
 
+# Project Structure
+
+This project follows a modular, shared structure:
+
+```
+└── src/
+    ├── core/           # Core application code (config, constants, types)
+    ├── modules/        # Feature-based modules
+    │   └── [module]/   # Each module contains its own components, hooks, utils
+    │       ├── components/
+    │       ├── hooks/
+    │       ├── services/
+    │       ├── utils/
+    │       └── index.ts    # Public API exports
+    ├── shared/         # Shared code used across multiple modules
+    │   ├── components/ # Reusable UI components
+    │   ├── hooks/      # Shared custom hooks
+    │   ├── services/   # Shared services and API calls
+    │   ├── types/      # Shared TypeScript types
+    │   └── utils/      # Utility functions
+    └── app/            # Next.js App Router pages
+```
+
 <div align="center">
   <h2>🔋 ts-nextjs-tailwind-starter</h2>
   <p>Next.js + Tailwind CSS + TypeScript starter packed with useful development features.</p>

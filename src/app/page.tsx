@@ -3,10 +3,8 @@
 import Head from 'next/head';
 import * as React from 'react';
 
-import { Game } from '@/components/Game';
-
-import { GameProvider } from '@/context/GameContext';
-import { ThemeProvider } from '@/context/ThemeContext';
+import { Game } from '@game/components/Game';
+import { GameProvider } from '@game/hooks/useGameContext';
 
 export default function HomePage() {
   return (
@@ -14,11 +12,9 @@ export default function HomePage() {
       <Head>
         <title>Hi</title>
       </Head>
-      <ThemeProvider>
-        <GameProvider>
-          <Game />
-        </GameProvider>
-      </ThemeProvider>
+      <GameProvider>
+        <Game />
+      </GameProvider>
     </main>
   );
 }

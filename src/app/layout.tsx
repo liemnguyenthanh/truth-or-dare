@@ -1,6 +1,10 @@
+'use client';
+
 import * as React from 'react';
 
 import '@/styles/globals.css';
+import { ThemeToggle } from '@theme/components/ThemeToggle';
+import { ThemeProvider } from '@theme/hooks/useTheme';
 
 export default function RootLayout({
   children,
@@ -9,7 +13,12 @@ export default function RootLayout({
 }) {
   return (
     <html>
-      <body>{children}</body>
+      <body>
+        <ThemeProvider>
+          <ThemeToggle />
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }
