@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Thật Hay Thách | Trò Chơi Vui Nhộn',
+  title: 'Thật Hay Thách | Tiệc Tùng',
   description:
     'Chơi trò chơi Thật Hay Thách cùng bạn bè! Trò chơi vui nhộn với những câu hỏi thú vị và thử thách táo bạo.',
   keywords: [
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: 'Truth or Dare Game' }],
   openGraph: {
-    title: 'Thật Hay Thách | Trò Chơi Vui Nhộn',
+    title: 'Thật Hay Thách | Tiệc Tùng',
     description:
       'Chơi trò chơi Thật Hay Thách cùng bạn bè! Trò chơi vui nhộn với những câu hỏi thú vị và thử thách táo bạo.',
     url: 'https://www.truthordaregame.xyz',
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Thật Hay Thách | Trò Chơi Vui Nhộn',
+    title: 'Thật Hay Thách | Tiệc Tùng',
     description:
       'Chơi trò chơi Thật Hay Thách cùng bạn bè! Trò chơi vui nhộn với những câu hỏi thú vị và thử thách táo bạo.',
     images: ['/images/og.jpg'],
@@ -50,9 +50,9 @@ export const metadata: Metadata = {
     },
   },
   icons: {
-    icon: '/favicon/favicon.ico',
-    shortcut: '/favicon/favicon-16x16.png',
-    apple: '/favicon/apple-touch-icon.png',
+    icon: '/icon.png',
+    shortcut: '/icon.png',
+    apple: '/icon.png',
   },
   manifest: '/favicon/site.webmanifest',
   themeColor: '#9b59b6',
