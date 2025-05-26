@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     siteName: 'Truth or Dare Game',
     images: [
       {
-        url: '/images/og.jpg',
+        url: '/images/og.png',
         width: 1200,
         height: 630,
         alt: 'Truth or Dare Game Preview',
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
     title: 'Thật Hay Thách | Tiệc Tùng',
     description:
       'Chơi trò chơi Thật Hay Thách cùng bạn bè! Trò chơi vui nhộn với những câu hỏi thú vị và thử thách táo bạo.',
-    images: ['/images/og.jpg'],
+    images: ['/images/og.png'],
   },
   robots: {
     index: true,
