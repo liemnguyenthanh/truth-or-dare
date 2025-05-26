@@ -1,4 +1,5 @@
 #!/bin/sh
 . "$(dirname "$0")/_/husky.sh"
 
+echo "Running commitlint hook..."
 npx --no-install commitlint --edit "$1"
