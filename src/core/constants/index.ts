@@ -2,4 +2,4 @@
 export const coreConstants = {};
 
 // Export game data
-export * from './gameData'; 
+export * from './gameData';

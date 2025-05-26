@@ -1,8 +1,8 @@
+import { ParticipantManager } from '@participants/components/ParticipantManager';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import React from 'react';
 
-import { ParticipantManager } from '@participants/components/ParticipantManager';
 import { useGame } from '../hooks/useGameContext';
 
 interface GameSetupPageProps {
@@ -58,4 +58,4 @@ export function GameSetupPage({ onContinue }: GameSetupPageProps) {
       </div>
     </motion.div>
   );
-} 
+}

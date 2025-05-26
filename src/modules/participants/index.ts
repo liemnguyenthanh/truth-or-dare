@@ -8,4 +8,4 @@ export * from './hooks';
 export * from './services';
 
 // Export participants utils
-export * from './utils'; 
+export * from './utils';

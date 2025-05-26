@@ -2,4 +2,4 @@
 export * from './game';
 export * from './participants';
 export * from './questions';
-export * from './theme'; 
+export * from './theme';

@@ -2,4 +2,4 @@
 export const themeComponents = {};
 
 // Export theme components
-export * from './ThemeToggle'; 
+export * from './ThemeToggle';

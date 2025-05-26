@@ -27,4 +27,4 @@ export interface GameState {
   selectedType: QuestionType | null;
   currentQuestion: Question | null;
   gameStarted: boolean;
-} 
+}

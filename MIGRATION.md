@@ -39,6 +39,7 @@ We've identified the following modules:
 ### 1. Identify Component's Module
 
 First, identify which module a component belongs to. For components that:
+
 - Are used only in one feature → Move to that feature's module
 - Are used across multiple features → Move to the shared directory
 
@@ -84,6 +85,7 @@ Example for moving the `GameContext.tsx` to the game module:
 ## Testing
 
 After migration, ensure that:
+
 1. All imports are resolved correctly
 2. The application builds without errors
-3. All features work as expected 
+3. All features work as expected

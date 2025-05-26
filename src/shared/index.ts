@@ -11,4 +11,4 @@ export * from './services';
 export * from './types';
 
 // Export shared utils
-export * from './utils'; 
+export * from './utils';

@@ -2,4 +2,4 @@
 export const themeHooks = {};
 
 // Export theme hooks
-export * from './useTheme'; 
+export * from './useTheme';

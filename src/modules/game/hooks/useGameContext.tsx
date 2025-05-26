@@ -1,20 +1,24 @@
+'use client';
+import {
+  defaultCategories,
+  defaultPlayers,
+  defaultQuestions,
+} from '@core/constants/gameData';
+import {
+  Category,
+  GameState,
+  Participant,
+  Question,
+  QuestionType,
+} from '@core/types/game';
 import React, {
   createContext,
-  useContext,
   ReactNode,
-  useState,
+  useContext,
   useEffect,
+  useState,
 } from 'react';
 import { v4 as uuidv4 } from 'uuid';
-
-import { 
-  GameState, 
-  Participant, 
-  Question, 
-  QuestionType, 
-  Category 
-} from '@core/types/game';
-import { defaultCategories, defaultQuestions, defaultPlayers } from '@core/constants/gameData';
 
 interface GameContextType {
   gameState: GameState;
@@ -78,7 +82,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
         const parsedQuestions = JSON.parse(storedQuestions) as Question[];
         setQuestions([...defaultQuestions, ...parsedQuestions]);
       } catch (error) {
-        console.error('Error parsing custom questions:', error);
+        throw new Error(`Error parsing custom questions: ${error}`);
       }
     }
   }, []);
@@ -156,7 +160,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       setShouldRemoveQueue(false);
     }, 100);
   };
-  
+
   const resetGame = () => {
     setGameState((prev) => ({
       ...prev,
@@ -208,4 +212,4 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;
-}; 
+};

@@ -8,4 +8,4 @@ export * from './shared';
 export * from './modules/game';
 export * from './modules/participants';
 export * from './modules/questions';
-export * from './modules/theme'; 
+export * from './modules/theme';

@@ -2,4 +2,4 @@
 export const gameHooks = {};
 
 // Export game hooks
-export * from './useGameContext'; 
+export * from './useGameContext';

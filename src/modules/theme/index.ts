@@ -8,4 +8,4 @@ export * from './hooks';
 export * from './services';
 
 // Export theme utils
-export * from './utils'; 
+export * from './utils';

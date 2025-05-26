@@ -2,5 +2,5 @@
 export const participantsComponents = {};
 
 // Export participants components
+export * from './ParticipantManager';
 export * from './ParticipantQueue';
-export * from './ParticipantManager'; 

@@ -2,4 +2,4 @@
 export const sharedComponents = {};
 
 // Export icons
-export * from './icons'; 
+export * from './icons';

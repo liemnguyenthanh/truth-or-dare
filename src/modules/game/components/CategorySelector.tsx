@@ -105,4 +105,4 @@ const OverWriteCategoriesModal = ({
       )}
     </AnimatePresence>
   );
-}; 
+};

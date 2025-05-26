@@ -1,2 +1,2 @@
 // This file will re-export all shared services
-export const sharedServices = {}; 
+export const sharedServices = {};

@@ -1,2 +1,2 @@
+export * from './DareIcon';
 export * from './TruthIcon';
-export * from './DareIcon'; 

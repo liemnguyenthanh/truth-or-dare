@@ -2,4 +2,4 @@
 export const questionsComponents = {};
 
 // Export questions components
-export * from './QuestionListPage'; 
+export * from './QuestionListPage';

@@ -1,12 +1,13 @@
 import { AnimatePresence } from 'framer-motion';
 import React, { useState } from 'react';
 
+import { QuestionListPage } from '@/modules/questions/components/QuestionListPage';
+
+import { CategorySelectionPage } from './CategorySelectionPage';
+import { GamePlayPage } from './GamePlayPage';
+import { GameSetupPage } from './GameSetupPage';
 // Import from our new module structure
 import { useGame } from '../hooks/useGameContext';
-import { GamePlayPage } from './GamePlayPage';
-import { CategorySelectionPage } from './CategorySelectionPage';
-import { GameSetupPage } from './GameSetupPage';
-import { QuestionListPage } from '@/modules/questions/components/QuestionListPage';
 
 // Define game flow stages
 enum GameStage {
@@ -61,4 +62,4 @@ export function Game() {
       </AnimatePresence>
     </div>
   );
-} 
+}

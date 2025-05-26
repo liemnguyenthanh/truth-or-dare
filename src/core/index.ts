@@ -5,4 +5,4 @@ export * from './types';
 export * from './constants';
 
 // Export core config
-export * from './config'; 
+export * from './config';
