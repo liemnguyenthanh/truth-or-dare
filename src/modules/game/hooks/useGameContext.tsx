@@ -6,6 +6,7 @@ import {
 } from '@core/constants/gameData';
 import {
   Category,
+  GameMode,
   GameState,
   Participant,
   Question,
@@ -33,6 +34,7 @@ interface GameContextType {
   resetGame: () => void;
   quitGame: () => void;
   addCustomQuestion: (question: Omit<Question, 'id' | 'isCustom'>) => void;
+  setGameMode: (mode: GameMode) => void;
 }
 
 const initialGameState: GameState = {
@@ -42,6 +44,7 @@ const initialGameState: GameState = {
   selectedType: null,
   currentQuestion: null,
   gameStarted: false,
+  gameMode: null,
 };
 
 const GameContext = createContext<GameContextType | undefined>(undefined);
@@ -115,12 +118,21 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
   };
 
   const startGame = (categoryId: string) => {
-    setGameState((prev) => ({
-      ...prev,
-      selectedCategory: categoryId,
-      currentParticipantIndex: 0,
-      gameStarted: true,
-    }));
+    setGameState((prev) => {
+      // For quick mode, we don't need participants
+      let participants = prev.participants;
+      if (prev.gameMode === 'quick') {
+        participants = [{ id: 'quick-player', name: 'Player' }];
+      }
+
+      return {
+        ...prev,
+        participants,
+        selectedCategory: categoryId,
+        currentParticipantIndex: 0,
+        gameStarted: true,
+      };
+    });
     setQuestions(defaultQuestions);
   };
 
@@ -169,6 +181,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       selectedType: null,
       currentQuestion: null,
       gameStarted: false,
+      gameMode: null,
     }));
   };
 
@@ -196,6 +209,13 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     saveCustomQuestions(updatedQuestions);
   };
 
+  const setGameMode = (mode: GameMode) => {
+    setGameState((prev) => ({
+      ...prev,
+      gameMode: mode,
+    }));
+  };
+
   const value: GameContextType = {
     gameState,
     categories,
@@ -209,6 +229,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     resetGame,
     quitGame,
     addCustomQuestion,
+    setGameMode,
   };
 
   return <GameContext.Provider value={value}>{children}</GameContext.Provider>;

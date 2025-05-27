@@ -5,8 +5,19 @@ import { useGame } from '../hooks/useGameContext';
 
 export function QuestionDisplay() {
   const { gameState, nextParticipant } = useGame();
+  const isQuickMode = gameState.gameMode === 'quick';
 
   if (!gameState.currentQuestion) return null;
+
+  const handleNext = () => {
+    if (isQuickMode) {
+      // In quick mode, just reset to show truth/dare selection again
+      nextParticipant();
+    } else {
+      // In group mode, move to next participant
+      nextParticipant();
+    }
+  };
 
   return (
     <motion.div
@@ -28,12 +39,12 @@ export function QuestionDisplay() {
 
       <div className='flex gap-4 justify-center'>
         <motion.button
-          onClick={nextParticipant}
+          onClick={handleNext}
           className='px-4 py-2 rounded-lg text-white shadow-md bg-purple-500 hover:bg-purple-600'
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          Người Chơi Tiếp
+          {isQuickMode ? 'Câu Hỏi Tiếp' : 'Người Chơi Tiếp'}
         </motion.button>
       </div>
     </motion.div>

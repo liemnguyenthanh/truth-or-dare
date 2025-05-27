@@ -5,6 +5,7 @@ import { QuestionListPage } from '@/modules/questions/components/QuestionListPag
 import { gtmEvents } from '@/shared/lib/gtm';
 
 import { CategorySelectionPage } from './CategorySelectionPage';
+import { GameModeSelectionPage } from './GameModeSelectionPage';
 import { GamePlayPage } from './GamePlayPage';
 import { GameSetupPage } from './GameSetupPage';
 // Import from our new module structure
@@ -12,6 +13,7 @@ import { useGame } from '../hooks/useGameContext';
 
 // Define game flow stages
 enum GameStage {
+  GAME_MODE_SELECTION = 'GAME_MODE_SELECTION',
   SETUP = 'SETUP',
   CATEGORY_SELECTION = 'CATEGORY_SELECTION',
   GAME_PLAY = 'GAME_PLAY',
@@ -20,7 +22,9 @@ enum GameStage {
 
 export function Game() {
   const { gameState } = useGame();
-  const [currentStage, setCurrentStage] = useState<GameStage>(GameStage.SETUP);
+  const [currentStage, setCurrentStage] = useState<GameStage>(
+    GameStage.GAME_MODE_SELECTION
+  );
 
   // Track page view on component mount
   useEffect(() => {
@@ -41,6 +45,11 @@ export function Game() {
       return GameStage.GAME_PLAY;
     }
 
+    // If no game mode is selected, show game mode selection
+    if (!gameState.gameMode) {
+      return GameStage.GAME_MODE_SELECTION;
+    }
+
     // Otherwise, show the current stage chosen by the user
     return currentStage;
   };
@@ -50,6 +59,19 @@ export function Game() {
   return (
     <div className='min-h-screen py-12 px-4 transition-colors duration-200'>
       <AnimatePresence mode='wait'>
+        {stage === GameStage.GAME_MODE_SELECTION && (
+          <GameModeSelectionPage
+            key='mode-selection'
+            onModeSelected={(mode) => {
+              if (mode === 'quick') {
+                setCurrentStage(GameStage.CATEGORY_SELECTION);
+              } else {
+                setCurrentStage(GameStage.SETUP);
+              }
+            }}
+          />
+        )}
+
         {stage === GameStage.SETUP && (
           <GameSetupPage
             key='setup'
@@ -60,7 +82,13 @@ export function Game() {
         {stage === GameStage.CATEGORY_SELECTION && (
           <CategorySelectionPage
             key='category'
-            onBack={() => setCurrentStage(GameStage.SETUP)}
+            onBack={() => {
+              if (gameState.gameMode === 'quick') {
+                setCurrentStage(GameStage.GAME_MODE_SELECTION);
+              } else {
+                setCurrentStage(GameStage.SETUP);
+              }
+            }}
           />
         )}
 
@@ -69,7 +97,7 @@ export function Game() {
         {stage === GameStage.QUESTION_LIST && (
           <QuestionListPage
             key='questions'
-            onBack={() => setCurrentStage(GameStage.SETUP)}
+            onBack={() => setCurrentStage(GameStage.GAME_MODE_SELECTION)}
           />
         )}
       </AnimatePresence>

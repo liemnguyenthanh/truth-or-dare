@@ -12,6 +12,7 @@ export function GamePlayPage() {
   const { gameState } = useGame();
   const currentParticipant =
     gameState.participants[gameState.currentParticipantIndex];
+  const isQuickMode = gameState.gameMode === 'quick';
 
   return (
     <motion.div
@@ -26,9 +27,16 @@ export function GamePlayPage() {
           <h1 className='text-4xl font-bold text-purple-800 dark:text-purple-300 mb-2'>
             Thật Hay Thách
           </h1>
-          <h2 className='text-2xl font-bold mb-2 text-purple-600 dark:text-purple-400'>
-            Lượt của {currentParticipant?.name}
-          </h2>
+          {!isQuickMode && (
+            <h2 className='text-2xl font-bold mb-2 text-purple-600 dark:text-purple-400'>
+              Lượt của {currentParticipant?.name}
+            </h2>
+          )}
+          {isQuickMode && (
+            <p className='text-lg text-purple-600 dark:text-purple-400'>
+              Chế độ nhanh - Chọn thật hay thách!
+            </p>
+          )}
         </div>
 
         {/* Show truth or dare selection */}
@@ -48,10 +56,12 @@ export function GamePlayPage() {
         <GameControls />
       </div>
 
-      {/* Move participant queue to bottom */}
-      <div className='mt-auto pt-6'>
-        <ParticipantQueue queueLength={50} />
-      </div>
+      {/* Show participant queue only for group mode */}
+      {!isQuickMode && (
+        <div className='mt-auto pt-6'>
+          <ParticipantQueue queueLength={50} />
+        </div>
+      )}
     </motion.div>
   );
 }

@@ -1,5 +1,7 @@
 export type QuestionType = 'truth' | 'dare';
 
+export type GameMode = 'quick' | 'group';
+
 export interface Question {
   id: string;
   type: QuestionType;
@@ -20,6 +22,13 @@ export interface Category {
   color: string;
 }
 
+export interface GameModeOption {
+  id: GameMode;
+  name: string;
+  description: string;
+  icon: string;
+}
+
 export interface GameState {
   participants: Participant[];
   currentParticipantIndex: number;
@@ -27,4 +36,5 @@ export interface GameState {
   selectedType: QuestionType | null;
   currentQuestion: Question | null;
   gameStarted: boolean;
+  gameMode: GameMode | null;
 }
