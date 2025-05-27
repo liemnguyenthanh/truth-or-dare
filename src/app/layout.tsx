@@ -4,8 +4,9 @@ import * as React from 'react';
 import '@/styles/globals.css';
 
 import { metadata } from './metadata';
+import { viewport } from './viewport';
 
-export { metadata };
+export { metadata, viewport };
 
 export default function RootLayout({
   children,

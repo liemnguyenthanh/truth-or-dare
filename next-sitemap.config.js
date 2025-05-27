@@ -26,4 +26,7 @@ module.exports = {
     additionalSitemaps: ['https://www.truthordaregame.xyz/sitemap.xml'],
   },
   generateIndexSitemap: true,
+  // Cấu hình cho static export
+  trailingSlash: true,
+  outDir: './out',
 };

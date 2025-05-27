@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://www.truthordaregame.xyz'),
   title: 'Thật Hay Thách | Tiệc Tùng',
   description:
     'Chơi trò chơi Thật Hay Thách cùng bạn bè! Trò chơi vui nhộn với những câu hỏi thú vị và thử thách táo bạo.',
@@ -55,5 +56,4 @@ export const metadata: Metadata = {
     apple: '/icon.png',
   },
   manifest: '/favicon/site.webmanifest',
-  themeColor: '#9b59b6',
 };
