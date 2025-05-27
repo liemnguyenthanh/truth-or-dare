@@ -216,6 +216,21 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     }));
   };
 
+  const isGameStarted = gameState.gameStarted;
+  //on mount, set if game started, navigation opacity to 0
+  useEffect(() => {
+    const navigation = document.getElementById('navigation');
+    if (navigation) {
+      navigation.style.opacity = isGameStarted ? '0' : '1';
+    }
+
+    return () => {
+      if (navigation) {
+        navigation.style.opacity = '1';
+      }
+    };
+  }, [isGameStarted]);
+
   const value: GameContextType = {
     gameState,
     categories,

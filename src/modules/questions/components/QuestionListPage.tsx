@@ -44,33 +44,7 @@ export function QuestionListPage({ onBack }: QuestionListPageProps) {
       transition={{ duration: 0.5 }}
       className='container mx-auto px-4 pb-5'
     >
-      <div className='mb-10 flex gap-2 items-center sticky top-0 bg-black py-2'>
-        {/* show back icon */}
-        <button
-          onClick={onBack}
-          className='text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-600'
-        >
-          <svg
-            xmlns='URL_ADDRESS.w3.org/2000/svg'
-            className='h-6 w-6'
-            fill='none'
-            viewBox='0 0 24 24'
-            stroke='currentColor'
-          >
-            <path
-              strokeLinecap='round'
-              strokeLinejoin='round'
-              strokeWidth='2'
-              d='M10 19l-7-7m0 0l7-7m-7 7h18'
-            />
-          </svg>
-        </button>
-        <h1 className='text-4xl font-bold text-purple-800 dark:text-purple-300 '>
-          Danh Sách Câu Hỏi
-        </h1>
-      </div>
-
-      <div className='mb-6 flex flex-wrap gap-3 justify-center'>
+      <div className='mb-6 flex flex-wrap gap-3 justify-center pt-4'>
         <button
           onClick={() => setSelectedCategory(null)}
           className={`px-4 py-2 rounded-full ${

@@ -2,14 +2,22 @@
 
 import { Game } from '@game/components/Game';
 import { GameProvider } from '@game/hooks/useGameContext';
-import * as React from 'react';
+
+// Component to handle navigation visibility based on game state
+function GameNavigationWrapper() {
+  return (
+    <>
+      <Game />
+    </>
+  );
+}
 
 export default function HomePage() {
   return (
-    <main className='container mx-auto px-4'>
-      <GameProvider>
-        <Game />
-      </GameProvider>
-    </main>
+    <GameProvider>
+      <main className='container mx-auto px-4'>
+        <GameNavigationWrapper />
+      </main>
+    </GameProvider>
   );
 }
