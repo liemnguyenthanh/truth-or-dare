@@ -38,6 +38,21 @@ export default function RootLayout({
         </ThemeProvider>
         <GoogleTagManager gtmId='GTM-5FP2P39P' />
       </body>
+      {/* Google tag (gtag.js) */}
+      <script
+        async
+        src='https://www.googletagmanager.com/gtag/js?id=G-MF1JWJH7TJ'
+      />
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-MF1JWJH7TJ');
+          `,
+        }}
+      />
     </html>
   );
 }
