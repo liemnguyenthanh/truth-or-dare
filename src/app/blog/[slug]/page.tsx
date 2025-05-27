@@ -1,14 +1,13 @@
-import { Metadata } from 'next';
-import Link from 'next/link';
-import { notFound } from 'next/navigation';
-import React from 'react';
-
 import {
   BlogPost,
   getAllPosts,
   getPostBySlug,
   getRelatedPosts,
-} from '@/core/constants/blogs/blogPosts';
+} from '@data/blogs/blogPosts';
+import { Metadata } from 'next';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
+import React from 'react';
 
 import SocialShareButtons from './components/SocialShareButtons';
 

@@ -1,7 +1,7 @@
 'use client';
 
 import { Game } from '@game/components/Game';
-import { GameProvider } from '@game/hooks/useGameContext';
+import { GameProvider } from '@game/context/GameProvider';
 
 // Component to handle navigation visibility based on game state
 function GameNavigationWrapper() {

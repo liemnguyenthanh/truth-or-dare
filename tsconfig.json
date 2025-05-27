@@ -18,12 +18,14 @@
       "@/*": ["./src/*"],
       "@core/*": ["./src/core/*"],
       "@shared/*": ["./src/shared/*"],
-      "@modules/*": ["./src/modules/*"],
-      "@game/*": ["./src/modules/game/*"],
-      "@participants/*": ["./src/modules/participants/*"],
-      "@questions/*": ["./src/modules/questions/*"],
-      "@theme/*": ["./src/modules/theme/*"],
-      "~/*": ["./public/*"]
+      "@modules/*": ["./src/features/*"],
+      "@game/*": ["./src/features/game/*"],
+      "@participants/*": ["./src/features/participants/*"],
+      "@questions/*": ["./src/features/questions/*"],
+      "@theme/*": ["./src/features/theme/*"],
+      "@data/*": ["./src/data/*"],
+      "~/*": ["./public/*"],
+      "@features/*": ["./src/features/*"]
     },
     "incremental": true,
     "plugins": [
