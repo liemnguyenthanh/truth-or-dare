@@ -1,7 +1,8 @@
 import { AnimatePresence } from 'framer-motion';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { QuestionListPage } from '@/modules/questions/components/QuestionListPage';
+import { gtmEvents } from '@/shared/lib/gtm';
 
 import { CategorySelectionPage } from './CategorySelectionPage';
 import { GamePlayPage } from './GamePlayPage';
@@ -20,6 +21,18 @@ enum GameStage {
 export function Game() {
   const { gameState } = useGame();
   const [currentStage, setCurrentStage] = useState<GameStage>(GameStage.SETUP);
+
+  // Track page view on component mount
+  useEffect(() => {
+    gtmEvents.pageView('home');
+  }, []);
+
+  // Track game start
+  useEffect(() => {
+    if (gameState.gameStarted) {
+      gtmEvents.gameStart();
+    }
+  }, [gameState.gameStarted]);
 
   // Determine the current stage based on game state and current stage
   const determineStage = () => {

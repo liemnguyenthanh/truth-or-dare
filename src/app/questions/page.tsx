@@ -2,14 +2,21 @@
 
 import Head from 'next/head';
 import { useRouter } from 'next/navigation';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { QuestionListPage } from '@/modules/questions/components/QuestionListPage';
+import { gtmEvents } from '@/shared/lib/gtm';
 
 export default function QuestionsPage() {
   const router = useRouter();
 
+  // Track page view
+  useEffect(() => {
+    gtmEvents.pageView('questions');
+  }, []);
+
   const handleBack = () => {
+    gtmEvents.buttonClick('back_to_home', 'questions_page');
     router.push('/');
   };
 
