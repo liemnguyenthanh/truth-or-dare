@@ -8,7 +8,7 @@ import {
   getAllPosts,
   getPostBySlug,
   getRelatedPosts,
-} from '@/constants/blogPosts';
+} from '@/core/constants/blogs/blogPosts';
 
 import SocialShareButtons from './components/SocialShareButtons';
 

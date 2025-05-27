@@ -1,33 +1,4 @@
-import { Category, Question } from '../types/game';
-
-export const defaultCategories: Category[] = [
-  {
-    id: 'friend',
-    name: 'Bạn Bè',
-    description: 'Những câu hỏi dành cho bạn bè thân thiết',
-    color: '#2ecc71',
-  },
-  {
-    id: '18+',
-    name: '18+',
-    description: 'Những câu hỏi dành cho người trên 18 tuổi',
-    color: '#9b59b6',
-  },
-];
-
-// Default players
-export const defaultPlayers: string[] = [
-  'Mợ Linh',
-  'Pé Nâu',
-  'A2 Tiến',
-  'Mợ Hân',
-  'Cậu Nô',
-  'Cậu Qin',
-  'Quang Tèo',
-  'Mợ Mi',
-  'Lim',
-  'Vanpe',
-];
+import { Question } from '@/core/types';
 
 export const EighteenQuestions: Question[] = [
   {

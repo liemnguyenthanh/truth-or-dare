@@ -6,10 +6,6 @@ import { useGame } from '../hooks/useGameContext';
 export function CategorySelector() {
   const { categories, startGame } = useGame();
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const overWriteCategoriesHandler = () => {
-    //open modal
-    setIsModalOpen(true);
-  };
 
   return (
     <div className='w-full max-w-2xl mx-auto'>
@@ -21,11 +17,7 @@ export function CategorySelector() {
         {categories.map((category) => (
           <motion.button
             key={category.id}
-            onClick={() => {
-              category.id === '18+'
-                ? startGame(category.id)
-                : overWriteCategoriesHandler();
-            }}
+            onClick={() => startGame(category.id)}
             className='p-6 rounded-xl shadow-lg hover:shadow-xl transition-all bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200'
             style={
               {

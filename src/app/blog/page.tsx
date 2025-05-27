@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import React from 'react';
 
-import { getAllPosts } from '@/constants/blogPosts';
+import { getAllPosts } from '@/core/constants/blogs/blogPosts';
 
 export const metadata: Metadata = {
   title: 'Blog - Mẹo Chơi Game và Trò Chơi Nhóm Hay',
