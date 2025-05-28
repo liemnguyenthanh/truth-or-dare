@@ -19,9 +19,11 @@
     "blog:auto-post": "node tools/auto-post-drafts.mjs"
   },
   "dependencies": {
+    "@neondatabase/serverless": "^1.0.0",
     "@next/third-parties": "15.4.0-canary.51",
     "@tailwindcss/typography": "^0.5.16",
     "clsx": "^2.0.0",
+    "dotenv": "^16.5.0",
     "framer-motion": "^12.7.4",
     "graphql-request": "^7.2.0",
     "lucide-react": "^0.438.0",
