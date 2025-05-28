@@ -1,0 +1,21 @@
+<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <defs>
+    <linearGradient id="purplePink" x1="0" y1="0" x2="120" y2="120" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EC38BC"/>
+      <stop offset="1" stop-color="#7303C0"/>
+    </linearGradient>
+  </defs>
+  <circle cx="60" cy="60" r="56" stroke="url(#purplePink)" stroke-width="4" fill="white" />
+  
+  <!-- Heart for Truth -->
+  <path d="M40 48C40 42 44 38 48 38C52 38 54 42 54 42C54 42 56 38 60 38C64 38 68 42 68 48C68 58 54 66 54 66C54 66 40 58 40 48Z" 
+    fill="url(#purplePink)" />
+  
+  <!-- Lightning bolt for Dare -->
+  <path d="M70 38 L82 38 L74 58 H84 L66 82 L72 58 H62 L70 38 Z" fill="url(#purplePink)" />
+  
+  <!-- Label Text -->
+  <text x="60" y="100" text-anchor="middle" font-size="12" fill="#7303C0" font-family="Verdana" font-weight="bold">
+    TRUTH or DARE
+  </text>
+</svg>

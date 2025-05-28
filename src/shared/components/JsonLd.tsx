@@ -70,7 +70,7 @@ export const organizationSchema = {
   '@type': 'Organization',
   name: 'Truth or Dare Game Vietnam',
   url: 'https://www.truthordaregame.xyz',
-  logo: 'https://www.truthordaregame.xyz/icon.png',
+  logo: 'https://www.truthordaregame.xyz/favicon.svg',
   description:
     'Nhà phát triển trò chơi Thật Hay Thách online hàng đầu Việt Nam',
   foundingDate: '2024',
