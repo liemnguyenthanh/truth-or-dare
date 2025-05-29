@@ -8,6 +8,7 @@ import { CategorySelectionPage } from './CategorySelectionPage';
 import { GameModeSelectionPage } from './GameModeSelectionPage';
 import { GamePlayPage } from './GamePlayPage';
 import { GameSetupPage } from './GameSetupPage';
+import { SpinWheelGamePage } from './SpinWheelGamePage';
 // Import from our new module structure
 import { useGame } from '../hooks';
 
@@ -17,6 +18,7 @@ enum GameStage {
   SETUP = 'SETUP',
   CATEGORY_SELECTION = 'CATEGORY_SELECTION',
   GAME_PLAY = 'GAME_PLAY',
+  SPIN_WHEEL = 'SPIN_WHEEL',
   QUESTION_LIST = 'QUESTION_LIST',
 }
 
@@ -40,9 +42,11 @@ export function Game() {
 
   // Determine the current stage based on game state and current stage
   const determineStage = () => {
-    // If the game has started, show the game play screen
+    // If the game has started, show the appropriate game screen
     if (gameState.gameStarted) {
-      return GameStage.GAME_PLAY;
+      return gameState.gameMode === 'spin_wheel'
+        ? GameStage.SPIN_WHEEL
+        : GameStage.GAME_PLAY;
     }
 
     // If no game mode is selected, show game mode selection
@@ -57,13 +61,15 @@ export function Game() {
   const stage = determineStage();
 
   return (
-    <div className='min-h-screen py-12 px-4 transition-colors duration-200'>
+    <div className='min-h-screen p-2 transition-colors duration-200'>
       <AnimatePresence mode='wait'>
         {stage === GameStage.GAME_MODE_SELECTION && (
           <GameModeSelectionPage
             key='mode-selection'
             onModeSelected={(mode) => {
-              if (mode === 'quick') {
+              if (mode === 'spin_wheel') {
+                setCurrentStage(GameStage.CATEGORY_SELECTION);
+              } else if (mode === 'quick') {
                 setCurrentStage(GameStage.CATEGORY_SELECTION);
               } else {
                 setCurrentStage(GameStage.SETUP);
@@ -83,7 +89,10 @@ export function Game() {
           <CategorySelectionPage
             key='category'
             onBack={() => {
-              if (gameState.gameMode === 'quick') {
+              if (
+                gameState.gameMode === 'quick' ||
+                gameState.gameMode === 'spin_wheel'
+              ) {
                 setCurrentStage(GameStage.GAME_MODE_SELECTION);
               } else {
                 setCurrentStage(GameStage.SETUP);
@@ -93,6 +102,10 @@ export function Game() {
         )}
 
         {stage === GameStage.GAME_PLAY && <GamePlayPage key='gameplay' />}
+
+        {stage === GameStage.SPIN_WHEEL && (
+          <SpinWheelGamePage key='spin-wheel' />
+        )}
 
         {stage === GameStage.QUESTION_LIST && (
           <QuestionListPage

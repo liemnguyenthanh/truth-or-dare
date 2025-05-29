@@ -24,6 +24,12 @@ const gameModeOptions: GameModeOption[] = [
     description: 'Thêm tên người chơi và chơi theo lượt',
     icon: '👥',
   },
+  {
+    id: 'spin_wheel',
+    name: 'Vòng Quay May Mắn',
+    description: 'Quay vòng may mắn để nhận câu hỏi ngẫu nhiên',
+    icon: '🎡',
+  },
 ];
 
 export function GameModeSelectionPage({
@@ -83,7 +89,7 @@ export function GameModeSelectionPage({
         </p>
       </div>
 
-      <div className='grid md:grid-cols-2 gap-6'>
+      <div className='grid md:grid-cols-3 gap-6'>
         {gameModeOptions.map((option) => (
           <motion.div
             key={option.id}

@@ -1,6 +1,6 @@
 export type QuestionType = 'truth' | 'dare';
 
-export type GameMode = 'quick' | 'group';
+export type GameMode = 'quick' | 'group' | 'spin_wheel';
 
 export interface Question {
   id: string;

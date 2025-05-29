@@ -12,7 +12,13 @@ import {
   defaultPlayers,
   defaultQuestions,
 } from '@data/gameData';
-import React, { createContext, ReactNode, useEffect, useState } from 'react';
+import React, {
+  createContext,
+  ReactNode,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { initialGameState } from '../store/gameState';
@@ -70,7 +76,18 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     localStorage.setItem('customQuestions', JSON.stringify(customQuestions));
   };
 
-  const addParticipant = (name: string) => {
+  const setGameMode = useCallback((mode: GameMode) => {
+    setGameState((prev) => ({
+      ...prev,
+      gameMode: mode,
+      participants:
+        mode === 'spin_wheel'
+          ? [{ id: 'spin-wheel-player', name: 'Player' }]
+          : prev.participants,
+    }));
+  }, []);
+
+  const addParticipant = useCallback((name: string) => {
     if (!name.trim()) return;
     const newParticipant: Participant = {
       id: uuidv4(),
@@ -80,20 +97,22 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       ...prev,
       participants: [...prev.participants, newParticipant],
     }));
-  };
+  }, []);
 
-  const removeParticipant = (id: string) => {
+  const removeParticipant = useCallback((id: string) => {
     setGameState((prev) => ({
       ...prev,
       participants: prev.participants.filter((p) => p.id !== id),
     }));
-  };
+  }, []);
 
-  const startGame = (categoryId: string) => {
+  const startGame = useCallback((categoryId: string) => {
     setGameState((prev) => {
       let participants = prev.participants;
       if (prev.gameMode === 'quick') {
         participants = [{ id: 'quick-player', name: 'Player' }];
+      } else if (prev.gameMode === 'spin_wheel') {
+        participants = [{ id: 'spin-wheel-player', name: 'Player' }];
       }
       return {
         ...prev,
@@ -104,23 +123,26 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       };
     });
     setQuestions(defaultQuestions);
-  };
+  }, []);
 
-  const selectType = (type: QuestionType) => {
-    const filteredQuestions = questions.filter(
-      (q) => q.type === type && q.category === gameState.selectedCategory
-    );
-    const randomIndex = Math.floor(Math.random() * filteredQuestions.length);
-    const randomQuestion = filteredQuestions[randomIndex];
-    setGameState((prev) => ({
-      ...prev,
-      selectedType: type,
-      currentQuestion: { ...randomQuestion },
-    }));
-    setQuestions((prev) => prev.filter((q) => q.id !== randomQuestion.id));
-  };
+  const selectType = useCallback(
+    (type: QuestionType) => {
+      const filteredQuestions = questions.filter(
+        (q) => q.type === type && q.category === gameState.selectedCategory
+      );
+      const randomIndex = Math.floor(Math.random() * filteredQuestions.length);
+      const randomQuestion = filteredQuestions[randomIndex];
+      setGameState((prev) => ({
+        ...prev,
+        selectedType: type,
+        currentQuestion: { ...randomQuestion },
+      }));
+      setQuestions((prev) => prev.filter((q) => q.id !== randomQuestion.id));
+    },
+    [gameState.selectedCategory, questions]
+  );
 
-  const nextParticipant = () => {
+  const nextParticipant = useCallback(() => {
     setShouldRemoveQueue(true);
     setGameState((prev) => {
       const nextIndex =
@@ -135,9 +157,9 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     setTimeout(() => {
       setShouldRemoveQueue(false);
     }, 100);
-  };
+  }, []);
 
-  const resetGame = () => {
+  const resetGame = useCallback(() => {
     setGameState((prev) => ({
       ...prev,
       currentParticipantIndex: 0,
@@ -147,9 +169,9 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       gameStarted: false,
       gameMode: null,
     }));
-  };
+  }, []);
 
-  const quitGame = () => {
+  const quitGame = useCallback(() => {
     const defaultParticipants = defaultPlayers.map((name) => ({
       id: uuidv4(),
       name,
@@ -158,7 +180,7 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       ...initialGameState,
       participants: defaultParticipants,
     });
-  };
+  }, []);
 
   const addCustomQuestion = (question: Omit<Question, 'id' | 'isCustom'>) => {
     const newQuestion: Question = {
@@ -169,13 +191,6 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     const updatedQuestions = [...questions, newQuestion];
     setQuestions(updatedQuestions);
     saveCustomQuestions(updatedQuestions);
-  };
-
-  const setGameMode = (mode: GameMode) => {
-    setGameState((prev) => ({
-      ...prev,
-      gameMode: mode,
-    }));
   };
 
   const isGameStarted = gameState.gameStarted;
