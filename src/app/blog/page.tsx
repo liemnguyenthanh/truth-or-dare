@@ -78,84 +78,86 @@ export default async function BlogPage() {
       {blogPosts.length > 0 ? (
         <div className='grid md:grid-cols-2 lg:grid-cols-3 gap-8'>
           {blogPosts.map((post) => (
-            <article
+            <Link
               key={post.id}
-              className='bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow'
+              href={`/blog/${post.slug}`}
+              className='block hover:no-underline'
             >
-              {/* Thumbnail Image */}
-              {post.image ? (
-                <div className='aspect-video overflow-hidden'>
-                  <img
-                    src={post.image}
-                    alt={post.title}
-                    className='w-full h-full object-cover hover:scale-105 transition-transform duration-300'
-                  />
-                </div>
-              ) : (
-                <div className='aspect-video bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center'>
-                  <div className='text-center text-white'>
-                    <svg
-                      className='w-12 h-12 mx-auto mb-2 opacity-80'
-                      fill='none'
-                      stroke='currentColor'
-                      viewBox='0 0 24 24'
-                    >
-                      <path
-                        strokeLinecap='round'
-                        strokeLinejoin='round'
-                        strokeWidth={1.5}
-                        d='M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253'
-                      />
-                    </svg>
-                    <p className='text-sm font-medium opacity-90'>Blog Post</p>
+              <article className='bg-white dark:bg-gray-800 rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow h-full'>
+                {/* Thumbnail Image */}
+                {post.image ? (
+                  <div className='aspect-video overflow-hidden'>
+                    <img
+                      src={post.image}
+                      alt={post.title}
+                      className='w-full h-full object-cover hover:scale-105 transition-transform duration-300'
+                    />
+                  </div>
+                ) : (
+                  <div className='aspect-video bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center'>
+                    <div className='text-center text-white'>
+                      <svg
+                        className='w-12 h-12 mx-auto mb-2 opacity-80'
+                        fill='none'
+                        stroke='currentColor'
+                        viewBox='0 0 24 24'
+                      >
+                        <path
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                          strokeWidth={1.5}
+                          d='M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253'
+                        />
+                      </svg>
+                      <p className='text-sm font-medium opacity-90'>
+                        Blog Post
+                      </p>
+                    </div>
+                  </div>
+                )}
+
+                <div className='p-6'>
+                  <div className='flex items-center justify-between mb-3'>
+                    <span className='bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs font-semibold px-2.5 py-0.5 rounded'>
+                      {post.category}
+                    </span>
+                    <time className='text-sm text-gray-500 dark:text-gray-400'>
+                      {new Date(post.date).toLocaleDateString('vi-VN')}
+                    </time>
+                  </div>
+
+                  <h2 className='text-xl font-bold mb-3 text-gray-900 dark:text-white line-clamp-2'>
+                    {post.title}
+                  </h2>
+
+                  <p className='text-gray-600 dark:text-gray-400 mb-4 line-clamp-3'>
+                    {post.excerpt}
+                  </p>
+
+                  <div className='flex items-center justify-between'>
+                    <span className='inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium'>
+                      Đọc thêm
+                      <svg
+                        className='w-4 h-4 ml-1'
+                        fill='none'
+                        stroke='currentColor'
+                        viewBox='0 0 24 24'
+                      >
+                        <path
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                          strokeWidth={2}
+                          d='M9 5l7 7-7 7'
+                        />
+                      </svg>
+                    </span>
+                    <span className='text-sm text-gray-500 dark:text-gray-400'>
+                      {post.readTime}
+                    </span>
                   </div>
                 </div>
-              )}
-
-              <div className='p-6'>
-                <div className='flex items-center justify-between mb-3'>
-                  <span className='bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs font-semibold px-2.5 py-0.5 rounded'>
-                    {post.category}
-                  </span>
-                  <time className='text-sm text-gray-500 dark:text-gray-400'>
-                    {new Date(post.date).toLocaleDateString('vi-VN')}
-                  </time>
-                </div>
-
-                <h2 className='text-xl font-bold mb-3 text-gray-900 dark:text-white line-clamp-2'>
-                  {post.title}
-                </h2>
-
-                <p className='text-gray-600 dark:text-gray-400 mb-4 line-clamp-3'>
-                  {post.excerpt}
-                </p>
-
-                <div className='flex items-center justify-between'>
-                  <Link
-                    href={`/blog/${post.slug}`}
-                    className='inline-flex items-center text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 font-medium'
-                  >
-                    Đọc thêm
-                    <svg
-                      className='w-4 h-4 ml-1'
-                      fill='none'
-                      stroke='currentColor'
-                      viewBox='0 0 24 24'
-                    >
-                      <path
-                        strokeLinecap='round'
-                        strokeLinejoin='round'
-                        strokeWidth={2}
-                        d='M9 5l7 7-7 7'
-                      />
-                    </svg>
-                  </Link>
-                  <span className='text-sm text-gray-500 dark:text-gray-400'>
-                    {post.readTime}
-                  </span>
-                </div>
-              </div>
-            </article>
+              </article>
+            </Link>
           ))}
         </div>
       ) : (
