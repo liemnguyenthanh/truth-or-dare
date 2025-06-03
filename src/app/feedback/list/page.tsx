@@ -12,7 +12,7 @@ import {
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-import { Feedback } from '@/types/feedback';
+import { Feedback } from '@/types';
 
 const typeConfig = {
   bug: {

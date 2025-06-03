@@ -1,9 +1,10 @@
 import { motion, useAnimation } from 'framer-motion';
 import React, { useState } from 'react';
 
-import { QuestionType } from '@/core/types';
 import { gtmEvents } from '@/shared/lib/gtm';
 import { soundManager } from '@/shared/lib/sounds';
+
+import { QuestionType } from '@/types';
 
 interface SpinWheelProps {
   onSpinEnd: (type: QuestionType) => void;

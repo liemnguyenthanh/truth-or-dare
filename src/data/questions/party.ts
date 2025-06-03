@@ -1,4 +1,4 @@
-import { Question } from '@/core/types';
+import { Question } from '@/types';
 
 export const PartyQuestions: Question[] = [
   // Truth Questions - PHẦN 1: 50 câu hỏi "Truth"

@@ -1,7 +1,8 @@
-import { Participant } from '@core/types/game';
 import { useGame } from '@game/hooks';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+
+import { Participant } from '@/types';
 
 interface ParticipantQueueProps {
   queueLength?: number;

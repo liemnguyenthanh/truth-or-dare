@@ -1,7 +1,7 @@
-import { Category, Question } from '@core/types/game';
-
 import { EighteenQuestions } from './questions/18';
 import { PartyQuestions } from './questions/party';
+
+import { Category, Question } from '@/types';
 
 export const defaultCategories: Category[] = [
   {

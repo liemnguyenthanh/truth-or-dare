@@ -1,13 +1,5 @@
 'use client';
 import {
-  Category,
-  GameMode,
-  GameState,
-  Participant,
-  Question,
-  QuestionType,
-} from '@core/types/game';
-import {
   defaultCategories,
   defaultPlayers,
   defaultQuestions,
@@ -22,6 +14,15 @@ import React, {
 import { v4 as uuidv4 } from 'uuid';
 
 import { initialGameState } from '../store/gameState';
+
+import {
+  Category,
+  GameMode,
+  GameState,
+  Participant,
+  Question,
+  QuestionType,
+} from '@/types';
 
 interface GameContextType {
   gameState: GameState;

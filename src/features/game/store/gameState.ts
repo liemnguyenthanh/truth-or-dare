@@ -1,4 +1,4 @@
-import { GameState } from '@core/types/game';
+import { GameState } from '@/types';
 
 export const initialGameState: GameState = {
   participants: [],

@@ -1,7 +1,8 @@
-import { Question } from '@core/types/game';
 import { defaultQuestions } from '@data/gameData';
 import { motion } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
+
+import { Question } from '@/types';
 
 interface QuestionListPageProps {
   onBack: () => void;

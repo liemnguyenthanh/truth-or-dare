@@ -1,4 +1,3 @@
-import { GameMode, GameModeOption } from '@core/types/game';
 import { motion } from 'framer-motion';
 import { Heart, Star } from 'lucide-react';
 import React, { useState } from 'react';
@@ -6,6 +5,8 @@ import React, { useState } from 'react';
 import RatingModal from '@/shared/components/RatingModal';
 
 import { useGame } from '../hooks';
+
+import { GameMode, GameModeOption } from '@/types';
 
 interface GameModeSelectionPageProps {
   onModeSelected: (mode: GameMode) => void;
