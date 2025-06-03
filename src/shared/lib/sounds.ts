@@ -7,18 +7,40 @@ const SOUND_URLS = {
 class SoundManager {
   private sounds: { [key: string]: HTMLAudioElement } = {};
   private initialized = false;
+  private loading = false;
 
   constructor() {
-    if (typeof window !== 'undefined') {
-      Object.entries(SOUND_URLS).forEach(([key, url]) => {
-        this.sounds[key] = new Audio(url);
-      });
+    // Không khởi tạo ngay lập tức
+  }
+
+  // Lazy load sounds khi cần
+  async initialize() {
+    if (this.initialized || this.loading || typeof window === 'undefined')
+      return;
+
+    this.loading = true;
+
+    try {
+      await Promise.all(
+        Object.entries(SOUND_URLS).map(async ([key, url]) => {
+          this.sounds[key] = new Audio(url);
+          // Preload audio
+          this.sounds[key].preload = 'none'; // Chỉ load khi cần
+        })
+      );
+
       this.initialized = true;
+    } catch (error) {
+      console.error('Failed to initialize sounds:', error);
+    } finally {
+      this.loading = false;
     }
   }
 
-  play(soundName: keyof typeof SOUND_URLS) {
-    if (!this.initialized) return;
+  async play(soundName: keyof typeof SOUND_URLS) {
+    if (!this.initialized) {
+      await this.initialize();
+    }
 
     const sound = this.sounds[soundName];
     if (sound) {

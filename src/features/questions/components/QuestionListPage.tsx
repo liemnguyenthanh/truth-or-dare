@@ -1,6 +1,6 @@
 import { defaultQuestions } from '@data/gameData';
 import { motion } from 'framer-motion';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { Question } from '@/types';
 
@@ -25,17 +25,20 @@ export function QuestionListPage({ onBack }: QuestionListPageProps) {
   }, []);
 
   // Filter questions based on selected category and type
-  const filteredQuestions = defaultQuestions.filter((question) => {
-    if (selectedCategory && question.category !== selectedCategory)
-      return false;
-    if (selectedType && question.type !== selectedType) return false;
-    return true;
-  });
+  // Sử dụng useMemo để tránh tính toán lại khi không cần thiết
+  const filteredQuestions = useMemo(() => {
+    return defaultQuestions.filter((question) => {
+      if (selectedCategory && question.category !== selectedCategory)
+        return false;
+      if (selectedType && question.type !== selectedType) return false;
+      return true;
+    });
+  }, [selectedCategory, selectedType]);
 
-  // Get unique categories from questions
-  const categories = Array.from(
-    new Set(defaultQuestions.map((q) => q.category))
-  );
+  // Sử dụng useMemo cho categories và types
+  const categories = useMemo(() => {
+    return Array.from(new Set(defaultQuestions.map((q) => q.category)));
+  }, []);
 
   return (
     <motion.div
