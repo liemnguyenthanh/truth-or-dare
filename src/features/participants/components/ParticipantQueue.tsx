@@ -1,6 +1,8 @@
-import { useGame } from '@game/hooks';
+'use client';
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
+
+import { useGame } from '../../game/hooks';
 
 import { Participant } from '@/types';
 

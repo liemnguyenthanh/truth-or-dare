@@ -1,10 +1,11 @@
+'use client';
 import { motion, useAnimation } from 'framer-motion';
 import { useState } from 'react';
 
 import { gtmEvents } from '@/shared/lib/gtm';
 import { soundManager } from '@/shared/lib/sounds';
 
-import { GameControls } from './GameControls';
+import { GameControls } from '../components/GameControls';
 import { useGame } from '../hooks';
 
 const WHEEL_COLORS = [

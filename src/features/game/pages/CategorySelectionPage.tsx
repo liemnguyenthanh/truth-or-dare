@@ -1,7 +1,7 @@
 import { motion } from 'framer-motion';
 import React from 'react';
 
-import { CategorySelector } from './CategorySelector';
+import { CategorySelector } from '../components/CategorySelector';
 import { useGame } from '../hooks';
 
 interface CategorySelectionPageProps {

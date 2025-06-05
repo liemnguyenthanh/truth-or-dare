@@ -1,12 +1,12 @@
-import { ParticipantQueue } from '@participants/components/ParticipantQueue';
 import { motion } from 'framer-motion';
 import React from 'react';
 
-import { GameControls } from './GameControls';
-import { QuestionDisplay } from './QuestionDisplay';
-import { TruthOrDare } from './TruthOrDare';
+import { GameControls } from '../components/GameControls';
+import { QuestionDisplay } from '../components/QuestionDisplay';
+import { TruthOrDare } from '../components/TruthOrDare';
 // Import from our new module structure
 import { useGame } from '../hooks';
+import { ParticipantQueue } from '../../participants/components/ParticipantQueue';
 
 export function GamePlayPage() {
   const { gameState } = useGame();

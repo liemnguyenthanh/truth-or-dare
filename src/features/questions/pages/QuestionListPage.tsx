@@ -1,6 +1,7 @@
-import { defaultQuestions } from '@data/gameData';
 import { motion } from 'framer-motion';
 import React, { useEffect, useMemo, useState } from 'react';
+
+import { defaultQuestions } from '../../../data/gameData';
 
 import { Question } from '@/types';
 

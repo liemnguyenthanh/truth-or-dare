@@ -2,12 +2,9 @@
 export const gameComponents = {};
 
 // Export game components
-export * from './CategorySelectionPage';
 export * from './CategorySelector';
 export * from './Game';
 export * from './GameControls';
-export * from './GameModeSelectionPage';
-export * from './GamePlayPage';
-export * from './GameSetupPage';
 export * from './QuestionDisplay';
+export * from './SpinWheel';
 export * from './TruthOrDare';

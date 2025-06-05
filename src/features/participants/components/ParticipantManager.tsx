@@ -1,6 +1,8 @@
-import { useGame } from '@game/hooks';
+'use client';
 import { motion } from 'framer-motion';
 import React, { useState } from 'react';
+
+import { useGame } from '../../game/hooks';
 
 export function ParticipantManager() {
   const { gameState, addParticipant, removeParticipant } = useGame();

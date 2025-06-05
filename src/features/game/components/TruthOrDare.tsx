@@ -1,9 +1,9 @@
-import { DareIcon, TruthIcon } from '@shared/components/icons';
 import { motion } from 'framer-motion';
 
 import { gtmEvents } from '@/shared/lib/gtm';
 
 import { useGame } from '../hooks';
+import { DareIcon, TruthIcon } from '../../../shared/components/icons';
 
 export function TruthOrDare() {
   const { selectType } = useGame();

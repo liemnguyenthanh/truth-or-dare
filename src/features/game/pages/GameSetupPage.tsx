@@ -1,9 +1,9 @@
-import { ParticipantManager } from '@participants/components/ParticipantManager';
 import { motion } from 'framer-motion';
 import Link from 'next/link';
 import React from 'react';
 
 import { useGame } from '../hooks';
+import { ParticipantManager } from '../../participants/components/ParticipantManager';
 
 interface GameSetupPageProps {
   onContinue: () => void;

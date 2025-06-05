@@ -1,16 +1,17 @@
+'use client';
 import { AnimatePresence } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 
-import { QuestionListPage } from '@/features/questions/components/QuestionListPage';
+import { QuestionListPage } from '@/features/questions/pages/QuestionListPage';
 import { gtmEvents } from '@/shared/lib/gtm';
 
-import { CategorySelectionPage } from './CategorySelectionPage';
-import { GameModeSelectionPage } from './GameModeSelectionPage';
-import { GamePlayPage } from './GamePlayPage';
-import { GameSetupPage } from './GameSetupPage';
-import { SpinWheelGamePage } from './SpinWheelGamePage';
 // Import from our new module structure
 import { useGame } from '../hooks';
+import { CategorySelectionPage } from '../pages/CategorySelectionPage';
+import { GameModeSelectionPage } from '../pages/GameModeSelectionPage';
+import { GamePlayPage } from '../pages/GamePlayPage';
+import { GameSetupPage } from '../pages/GameSetupPage';
+import { SpinWheelGamePage } from '../pages/SpinWheelGamePage';
 
 // Define game flow stages
 enum GameStage {

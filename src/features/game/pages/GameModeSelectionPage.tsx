@@ -1,15 +1,15 @@
+'use client';
 import { motion } from 'framer-motion';
 import { Heart, Star } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
 import RatingModal from '@/shared/components/RatingModal';
 
-import { useGame } from '../hooks';
-
 import { GameMode, GameModeOption } from '@/types';
 
 interface GameModeSelectionPageProps {
-  onModeSelected: (mode: GameMode) => void;
+  onModeSelected?: (mode: GameMode) => void;
 }
 
 const gameModeOptions: GameModeOption[] = [
@@ -36,12 +36,26 @@ const gameModeOptions: GameModeOption[] = [
 export function GameModeSelectionPage({
   onModeSelected,
 }: GameModeSelectionPageProps) {
-  const { setGameMode } = useGame();
+  const router = useRouter();
   const [showRatingModal, setShowRatingModal] = useState(false);
 
   const handleModeSelect = (mode: GameMode) => {
-    setGameMode(mode);
-    onModeSelected(mode);
+    if (onModeSelected) {
+      onModeSelected(mode);
+    } else {
+      // Navigate to the appropriate page
+      switch (mode) {
+        case 'quick':
+          router.push('/quick');
+          break;
+        case 'group':
+          router.push('/group');
+          break;
+        case 'spin_wheel':
+          router.push('/spin-wheel');
+          break;
+      }
+    }
   };
 
   const handleRatingSubmit = async (data: {

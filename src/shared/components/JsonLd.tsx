@@ -74,8 +74,5 @@ export const organizationSchema = {
   description:
     'Nhà phát triển trò chơi Thật Hay Thách online hàng đầu Việt Nam',
   foundingDate: '2024',
-  sameAs: [
-    'https://www.facebook.com/truthordarevn',
-    'https://www.instagram.com/truthordarevn',
-  ],
+  sameAs: ['https://www.instagram.com/truthordaregame.xyz'],
 };
