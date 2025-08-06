@@ -3,10 +3,13 @@
 ## 🚀 Quick Start
 
 ### 1. Test Connection First
+
 ```bash
 pnpm run blog:test
 ```
+
 **Expected Output:**
+
 ```
 🧪 Testing Hashnode connection...
 📊 Publication: Truth or dare
@@ -14,17 +17,20 @@ pnpm run blog:test
 ```
 
 ### 2. See Available Posts
+
 ```bash
 pnpm run blog:list
 ```
 
 ### 3. Post Your First Article
+
 ```bash
 # Post the first article about "10 Fun Truth or Dare Questions"
 pnpm run blog:post 0
 ```
 
 ### 4. Post All Articles (BE CAREFUL!)
+
 ```bash
 # This will post all 3 articles with 5-second delays
 pnpm run blog:post-all
@@ -36,7 +42,7 @@ pnpm run blog:post-all
 # Post "10 Câu Hỏi Thật Hay Thách Hài Hước Nhất"
 pnpm run blog:post 0
 
-# Post "Cách Tổ Chức Tiệc Sinh Nhật với Thật Hay Thách"  
+# Post "Cách Tổ Chức Tiệc Sinh Nhật với Thật Hay Thách"
 pnpm run blog:post 1
 
 # Post "5 Trò Chơi Nhóm Vui Nhộn Tương Tự Thật Hay Thách"
@@ -46,6 +52,7 @@ pnpm run blog:post 2
 ## ✅ Success Indicators
 
 After posting, you should see:
+
 ```
 📝 Publishing post 0: "10 Câu Hỏi Thật Hay Thách Hài Hước Nhất"
 📊 Publication: Truth or dare
@@ -73,11 +80,13 @@ After posting, you should see:
 ## 🛠️ Troubleshooting
 
 ### If posting fails:
+
 1. Check internet connection
 2. Verify API key is still valid
 3. Check Hashnode service status
 
 ### If posts don't appear on your website:
+
 1. Wait 2-3 minutes for API sync
 2. Refresh your local dev server
 3. Check browser console for errors
@@ -85,6 +94,6 @@ After posting, you should see:
 ## 🎉 Next Steps After Posting
 
 1. **Share on social media** - posts have proper OG tags
-2. **Monitor performance** on Hashnode analytics  
+2. **Monitor performance** on Hashnode analytics
 3. **Add more content** by editing `BLOG_POSTS` array
-4. **Customize** further based on your needs 
+4. **Customize** further based on your needs

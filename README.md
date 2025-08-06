@@ -1,7 +1,9 @@
 # ruth or Dare Game - Next.js Application
+
 A modern Truth or Dare game built with Next.js, Tailwind CSS, and TypeScript.
 
 ## Project Structure
+
 This project follows a feature-based modular architecture:
 
 ```
@@ -33,7 +35,9 @@ This project follows a feature-based modular architecture:
     ├── styles/         # Global styles
     └── types/          # Global TypeScript types
 ```
+
 ## Features
+
 This Truth or Dare game includes:
 
 - ⚡️ Next.js 14 with App Router
@@ -47,30 +51,42 @@ This Truth or Dare game includes:
 - 📱 Responsive design for all devices
 - 🧪 Jest for testing
 - 📏 ESLint and Prettier for code quality
+
 ## Getting Started
+
 ### 1. Clone this repository
+
 ```
 git clone <repository-url>
 cd truth-or-dare
 ```
+
 ### 2. Install dependencies
+
 It is recommended to use pnpm for dependency management:
 
 ```
 pnpm install
 ```
+
 ### 3. Run the development server
+
 ```
 pnpm dev
 ```
+
 Open http://localhost:3000 with your browser to see the application.
 
 ### 4. Build for production
+
 ```
 pnpm build
 ```
+
 ## Commit Message Convention
+
 This project uses conventional commits for standardized commit messages.
 
 ## License
+
 MIT

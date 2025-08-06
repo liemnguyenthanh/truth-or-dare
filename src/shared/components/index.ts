@@ -2,7 +2,9 @@
 export const sharedComponents = {};
 
 // Export icons
+export { default as AgeVerificationModal } from './AgeVerificationModal';
 export * from './Footer';
 export * from './icons';
 export * from './JsonLd';
 export * from './Navigation';
+export { default as RatingModal } from './RatingModal';

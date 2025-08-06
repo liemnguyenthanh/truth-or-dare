@@ -6,7 +6,7 @@ import path from 'path';
 
 // Hashnode configuration
 const HASHNODE_HOST = 'truth-or-dare-game.hashnode.dev';
-const HASHNODE_TOKEN = process.env.NEXT_PUBLIC_HASHNODE_TOKEN
+const HASHNODE_TOKEN = process.env.NEXT_PUBLIC_HASHNODE_TOKEN;
 
 const client = new GraphQLClient('https://gql.hashnode.com', {
   headers: {
@@ -44,19 +44,22 @@ const PUBLISH_POST = `
 // Scan content-drafts folder for all .md files
 function scanDraftsFolder() {
   const draftsPath = 'content-drafts';
-  
+
   if (!fs.existsSync(draftsPath)) {
     console.log(`❌ Folder ${draftsPath} không tồn tại!`);
     return [];
   }
 
-  const files = fs.readdirSync(draftsPath)
-    .filter(file => file.endsWith('.md'))
-    .map(file => path.join(draftsPath, file));
+  const files = fs
+    .readdirSync(draftsPath)
+    .filter((file) => file.endsWith('.md'))
+    .map((file) => path.join(draftsPath, file));
 
-  console.log(`📁 Tìm thấy ${files.length} file markdown trong content-drafts:`);
-  files.forEach(file => console.log(`   📄 ${file}`));
-  
+  console.log(
+    `📁 Tìm thấy ${files.length} file markdown trong content-drafts:`
+  );
+  files.forEach((file) => console.log(`   📄 ${file}`));
+
   return files;
 }
 
@@ -78,20 +81,20 @@ function extractTagsFromContent(content, filename) {
   if (tagMatches) {
     const tags = tagMatches[1]
       .split(',')
-      .map(tag => tag.trim())
-      .filter(tag => tag.length > 0)
-      .map(tag => {
+      .map((tag) => tag.trim())
+      .filter((tag) => tag.length > 0)
+      .map((tag) => {
         // Clean up tag: remove special characters, limit length
         return tag
           .toLowerCase()
           .replace(/[^\w\s-]/g, '') // Remove special chars except word chars, spaces, hyphens
-          .replace(/\s+/g, '-')     // Replace spaces with hyphens
-          .substring(0, 30)         // Limit to 30 characters
-          .replace(/-+$/, '');      // Remove trailing hyphens
+          .replace(/\s+/g, '-') // Replace spaces with hyphens
+          .substring(0, 30) // Limit to 30 characters
+          .replace(/-+$/, ''); // Remove trailing hyphens
       })
-      .filter(tag => tag.length > 2) // Only keep tags with at least 3 characters
+      .filter((tag) => tag.length > 2) // Only keep tags with at least 3 characters
       .slice(0, 5); // Limit to 5 tags max
-    
+
     if (tags.length > 0) {
       return tags;
     }
@@ -100,20 +103,22 @@ function extractTagsFromContent(content, filename) {
   // Generate tags from filename
   const baseName = path.basename(filename, '.md');
   const defaultTags = ['blog', 'vietnamese-content'];
-  
+
   if (baseName.includes('tet')) defaultTags.push('tet', 'traditional-games');
   if (baseName.includes('game')) defaultTags.push('games', 'entertainment');
-  if (baseName.includes('party')) defaultTags.push('party', 'social-activities');
-  if (baseName.includes('truth') || baseName.includes('dare')) defaultTags.push('truth-or-dare', 'party-games');
+  if (baseName.includes('party'))
+    defaultTags.push('party', 'social-activities');
+  if (baseName.includes('truth') || baseName.includes('dare'))
+    defaultTags.push('truth-or-dare', 'party-games');
   if (baseName.includes('18')) defaultTags.push('adult-games');
-  
+
   return defaultTags.slice(0, 5); // Limit to 5 tags
 }
 
 // Generate subtitle from content
 function generateSubtitle(content) {
   const lines = content.split('\n');
-  
+
   // Look for first paragraph after title
   let foundTitle = false;
   for (const line of lines) {
@@ -121,12 +126,17 @@ function generateSubtitle(content) {
       foundTitle = true;
       continue;
     }
-    
-    if (foundTitle && line.trim() && !line.startsWith('#') && !line.startsWith('**')) {
+
+    if (
+      foundTitle &&
+      line.trim() &&
+      !line.startsWith('#') &&
+      !line.startsWith('**')
+    ) {
       return line.trim().substring(0, 150) + (line.length > 150 ? '...' : '');
     }
   }
-  
+
   return 'Bài viết thú vị và bổ ích cho bạn đọc';
 }
 
@@ -137,13 +147,13 @@ function processMarkdownFile(filePath) {
     const title = extractTitleFromMarkdown(content);
     const subtitle = generateSubtitle(content);
     const tags = extractTagsFromContent(content, filePath);
-    
+
     return {
       file: filePath,
       title,
       subtitle,
       tags,
-      content
+      content,
     };
   } catch (error) {
     console.error(`❌ Error reading ${filePath}:`, error.message);
@@ -173,12 +183,12 @@ async function publishArticle(article, publicationId) {
       title: article.title,
       subtitle: article.subtitle,
       contentMarkdown: article.content,
-      tags: article.tags.map(tag => ({ slug: tag, name: tag })),
-      publicationId: publicationId
+      tags: article.tags.map((tag) => ({ slug: tag, name: tag })),
+      publicationId: publicationId,
     };
 
     const result = await client.request(PUBLISH_POST, { input });
-    
+
     if (result.publishPost.post) {
       const post = result.publishPost.post;
       console.log(`✅ Published successfully!`);
@@ -189,17 +199,19 @@ async function publishArticle(article, publicationId) {
     console.error(`❌ Error publishing "${article.title}":`, error.message);
     return false;
   }
-  
+
   return false;
 }
 
 // Main function - auto post all drafts
 async function autoPostDrafts() {
-  console.log('🚀 Auto-posting all markdown files from content-drafts folder...\n');
-  
+  console.log(
+    '🚀 Auto-posting all markdown files from content-drafts folder...\n'
+  );
+
   // Scan for markdown files
   const markdownFiles = scanDraftsFolder();
-  
+
   if (markdownFiles.length === 0) {
     console.log('📭 Không có file markdown nào trong content-drafts folder.');
     return;
@@ -218,7 +230,7 @@ async function autoPostDrafts() {
   // Process and post each file
   for (let i = 0; i < markdownFiles.length; i++) {
     const filePath = markdownFiles[i];
-    
+
     // Process markdown file
     const article = processMarkdownFile(filePath);
     if (!article) {
@@ -229,7 +241,7 @@ async function autoPostDrafts() {
     // Add delay between posts (except first one)
     if (i > 0) {
       console.log(`⏳ Waiting 5 seconds before next post...`);
-      await new Promise(resolve => setTimeout(resolve, 5000));
+      await new Promise((resolve) => setTimeout(resolve, 5000));
     }
 
     const success = await publishArticle(article, publicationId);
@@ -245,11 +257,13 @@ async function autoPostDrafts() {
   console.log(`✅ Successfully posted: ${successCount} articles`);
   console.log(`❌ Failed: ${failCount} articles`);
   console.log(`📊 Total processed: ${markdownFiles.length} files`);
-  
+
   if (successCount > 0) {
-    console.log('\n💡 Tip: Bạn có thể xóa các file đã post thành công và thêm bài mới vào content-drafts/');
+    console.log(
+      '\n💡 Tip: Bạn có thể xóa các file đã post thành công và thêm bài mới vào content-drafts/'
+    );
   }
 }
 
 // Run the auto-poster
-autoPostDrafts().catch(console.error); 
+autoPostDrafts().catch(console.error);

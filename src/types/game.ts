@@ -1,6 +1,6 @@
 export type QuestionType = 'truth' | 'dare';
 
-export type GameMode = 'quick' | 'group' | 'spin_wheel';
+export type GameMode = 'quick' | 'group' | 'spin_wheel' | 'couples';
 
 export interface Question {
   id: string;
@@ -27,6 +27,7 @@ export interface GameModeOption {
   name: string;
   description: string;
   icon: string;
+  isNew?: boolean;
 }
 
 export interface GameState {
@@ -37,4 +38,20 @@ export interface GameState {
   currentQuestion: Question | null;
   gameStarted: boolean;
   gameMode: GameMode | null;
+}
+
+export interface CouplePosition {
+  id: string;
+  name: string;
+  image: string;
+  category: string;
+  difficulty: number; // 1-5
+}
+
+export interface CoupleCategory {
+  id: string;
+  name: string;
+  description: string;
+  color: string;
+  requiresAdult: boolean;
 }

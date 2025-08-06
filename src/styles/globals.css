@@ -51,7 +51,7 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
   }
-  
+
   .line-clamp-3 {
     overflow: hidden;
     display: -webkit-box;
@@ -64,7 +64,7 @@
     max-width: none;
     color: inherit;
   }
-  
+
   .prose-custom h1,
   .prose-custom h2,
   .prose-custom h3,
@@ -76,37 +76,50 @@
     font-weight: 600;
     line-height: 1.25;
   }
-  
+
   .prose-custom h2 {
     font-size: 1.5rem;
     margin-top: 2.5rem;
   }
-  
+
   .prose-custom h3 {
     font-size: 1.25rem;
     margin-top: 2rem;
   }
-  
+
   .prose-custom p {
     margin-bottom: 1.5rem;
     line-height: 1.75;
   }
-  
+
   .prose-custom ul,
   .prose-custom ol {
     margin-bottom: 1.5rem;
     padding-left: 1.5rem;
   }
-  
+
   .prose-custom li {
     margin-bottom: 0.5rem;
   }
-  
+
   .prose-custom ul li {
     list-style-type: disc;
   }
-  
+
   .prose-custom ol li {
     list-style-type: decimal;
   }
+}
+
+/* Card flip animation styles */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
 }

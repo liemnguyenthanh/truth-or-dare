@@ -5,11 +5,13 @@ Tool đơn giản để tự động post **TẤT CẢ** file `.md` trong folder
 ## 📋 Cách Sử dụng
 
 ### Chạy Auto Post
+
 ```bash
 pnpm run blog:auto-post
 ```
 
 Tool sẽ tự động:
+
 - 🔍 **Scan folder `content-drafts/`** tìm tất cả file `.md`
 - 📖 **Đọc nội dung** và tự động extract title, subtitle, tags
 - 📤 **Post lên Hashnode** với metadata được tạo tự động
@@ -28,7 +30,7 @@ Tool sẽ tự động:
 ```
 content-drafts/
 ├── bai-moi-1.md          ← Tool sẽ tự động post
-├── bai-moi-2.md          ← Tool sẽ tự động post  
+├── bai-moi-2.md          ← Tool sẽ tự động post
 └── bai-moi-3.md          ← Tool sẽ tự động post
 ```
 
@@ -37,12 +39,15 @@ content-drafts/
 Tool tự động phát hiện:
 
 ### Title
+
 - Lấy từ dòng đầu tiên bắt đầu bằng `# `
 
-### Subtitle  
+### Subtitle
+
 - Lấy từ đoạn văn đầu tiên sau title (150 ký tự)
 
 ### Tags
+
 - **Ưu tiên**: Tìm trong content `**Từ khóa:** tag1, tag2, tag3`
 - **Fallback**: Tạo từ tên file + default tags
 
@@ -57,4 +62,4 @@ Tool tự động phát hiện:
 - ✅ Không cần config metadata cho từng bài
 - ✅ Chỉ cần drop file `.md` vào folder
 - ✅ Tool tự động xử lý tất cả
-- ✅ Post xong → xóa file → thêm bài mới 
+- ✅ Post xong → xóa file → thêm bài mới

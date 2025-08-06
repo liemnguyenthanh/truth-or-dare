@@ -14,6 +14,13 @@ interface GameModeSelectionPageProps {
 
 const gameModeOptions: GameModeOption[] = [
   {
+    id: 'couples',
+    name: 'Thẻ Bài Cặp Đôi',
+    description: 'Lật bài chọn tư thế dành cho cặp đôi (18+) - Cập nhật mới!',
+    icon: '❤️',
+    isNew: true,
+  },
+  {
     id: 'quick',
     name: 'Chế Độ Nhanh',
     description: 'Chơi ngay không cần nhập tên. Chọn category và bắt đầu!',
@@ -53,6 +60,9 @@ export function GameModeSelectionPage({
           break;
         case 'spin_wheel':
           router.push('/spin-wheel');
+          break;
+        case 'couples':
+          router.push('/couples');
           break;
       }
     }
@@ -104,28 +114,80 @@ export function GameModeSelectionPage({
         </p>
       </div>
 
-      <div className='grid md:grid-cols-3 gap-6'>
+      <div className='grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6'>
         {gameModeOptions.map((option) => (
           <motion.div
             key={option.id}
-            className='bg-white dark:bg-gray-800 rounded-xl shadow-lg p-8 cursor-pointer border-2 border-transparent hover:border-purple-500 transition-all duration-200'
+            className={`bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 sm:p-8 cursor-pointer border-2 border-transparent hover:border-purple-500 transition-all duration-200 relative ${
+              option.isNew ? 'ring-2 ring-pink-400 ring-opacity-50' : ''
+            }`}
             whileHover={{ scale: 1.02, y: -5 }}
             whileTap={{ scale: 0.98 }}
             onClick={() => handleModeSelect(option.id)}
+            animate={
+              option.isNew
+                ? {
+                    boxShadow: [
+                      '0 0 0 0 rgba(236, 72, 153, 0.4)',
+                      '0 0 0 10px rgba(236, 72, 153, 0)',
+                      '0 0 0 0 rgba(236, 72, 153, 0)',
+                    ],
+                  }
+                : {}
+            }
+            transition={
+              option.isNew
+                ? {
+                    boxShadow: {
+                      duration: 2,
+                      repeat: Infinity,
+                      ease: 'easeInOut',
+                    },
+                  }
+                : {}
+            }
           >
+            {/* NEW Badge */}
+            {option.isNew && (
+              <motion.div
+                initial={{ scale: 0, rotate: -12 }}
+                animate={{ scale: 1, rotate: -12 }}
+                transition={{
+                  delay: 0.2,
+                  type: 'spring',
+                  stiffness: 500,
+                  damping: 15,
+                }}
+                className='absolute -top-3 -right-3 bg-gradient-to-r from-pink-500 to-red-500 text-white text-sm sm:text-xs font-bold px-4 py-2 sm:px-3 sm:py-1 rounded-full shadow-lg z-10'
+              >
+                <motion.span
+                  animate={{ scale: [1, 1.1, 1] }}
+                  transition={{
+                    duration: 1.5,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                  }}
+                >
+                  MỚI ✨
+                </motion.span>
+              </motion.div>
+            )}
+
             <div className='text-center'>
-              <div className='text-6xl mb-4'>{option.icon}</div>
-              <h3 className='text-2xl font-bold text-purple-800 dark:text-purple-300 mb-3'>
+              <div className='text-5xl sm:text-6xl mb-3 sm:mb-4'>
+                {option.icon}
+              </div>
+              <h3 className='text-xl sm:text-2xl font-bold text-purple-800 dark:text-purple-300 mb-2 sm:mb-3'>
                 {option.name}
               </h3>
-              <p className='text-gray-600 dark:text-gray-300 text-lg leading-relaxed'>
+              <p className='text-gray-600 dark:text-gray-300 text-base sm:text-lg leading-relaxed'>
                 {option.description}
               </p>
             </div>
 
-            <div className='mt-6 flex justify-center'>
+            <div className='mt-4 sm:mt-6 flex justify-center'>
               <motion.button
-                className='px-6 py-3 bg-purple-600 hover:bg-purple-700 dark:bg-purple-700 dark:hover:bg-purple-600 text-white rounded-lg shadow-md transition-colors duration-200 font-medium'
+                className='px-5 py-2.5 sm:px-6 sm:py-3 bg-purple-600 hover:bg-purple-700 dark:bg-purple-700 dark:hover:bg-purple-600 text-white rounded-lg shadow-md transition-colors duration-200 font-medium text-sm sm:text-base'
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
