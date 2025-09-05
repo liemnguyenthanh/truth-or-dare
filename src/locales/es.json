@@ -1,0 +1,234 @@
+{
+  "metadata": {
+    "title": "Verdad o Reto Online - Juego Divertido con Amigos | Truth or Dare",
+    "description": "¡Juega Verdad o Reto online gratis! Más de 500+ preguntas divertidas y desafíos atrevidos. Juego grupal perfecto para fiestas, cumpleaños y reuniones de amigos.",
+    "keywords": [
+      "verdad o reto",
+      "verdad o reto online",
+      "juego verdad o reto",
+      "truth or dare",
+      "juego de fiesta",
+      "juego divertido",
+      "juego grupal",
+      "juego de amigos",
+      "juegos de fiesta",
+      "juegos divertidos",
+      "juego de cumpleaños",
+      "preguntas verdad o reto",
+      "desafíos atrevidos",
+      "juego interactivo",
+      "juego online gratis",
+      "juego de entretenimiento",
+      "actividad grupal",
+      "juego rompehielos",
+      "juego para conocerse"
+    ],
+    "ogTitle": "Verdad o Reto Online - Juego Divertido con Amigos",
+    "ogDescription": "¡Juega Verdad o Reto online gratis! Más de 500+ preguntas divertidas y desafíos atrevidos. Juego grupal perfecto para fiestas y reuniones de amigos.",
+    "twitterTitle": "Verdad o Reto Online - Juego Divertido con Amigos",
+    "twitterDescription": "¡Juega Verdad o Reto online gratis! Más de 500+ preguntas divertidas y desafíos atrevidos."
+  },
+  "navigation": {
+    "home": "Inicio",
+    "quick": "Rápido",
+    "group": "Grupo",
+    "couples": "Parejas",
+    "questions": "Preguntas",
+    "blog": "Blog",
+    "feedback": "Comentarios",
+    "guide": "Guía"
+  },
+  "gameModes": {
+    "title": "Elige Modo de Juego",
+    "subtitle": "Selecciona la forma que más te convenga",
+    "couples": {
+      "name": "Tarjetas de Parejas",
+      "description": "Voltea tarjetas para elegir posiciones para parejas (18+) - ¡Actualización nueva!",
+      "icon": "❤️"
+    },
+    "quick": {
+      "name": "Modo Rápido",
+      "description": "Juega inmediatamente sin ingresar nombres. ¡Elige categoría y comienza!",
+      "icon": "⚡"
+    },
+    "group": {
+      "name": "Modo Grupo",
+      "description": "Agrega nombres de jugadores y juega por turnos",
+      "icon": "👥"
+    },
+    "spinWheel": {
+      "name": "Ruleta de la Suerte",
+      "description": "Gira la ruleta de la fortuna para obtener preguntas aleatorias",
+      "icon": "🎡"
+    },
+    "newBadge": "Nuevo",
+    "startGame": "Comenzar Juego"
+  },
+  "questions": {
+    "title": "Lista de Preguntas",
+    "subtitle": "Ver todas las preguntas disponibles",
+    "categories": {
+      "all": "Todas",
+      "party": "Fiesta",
+      "adult": "18+",
+      "friends": "Amigos",
+      "couples": "Parejas"
+    },
+    "filters": {
+      "category": "Categoría",
+      "type": "Tipo",
+      "difficulty": "Dificultad"
+    },
+    "types": {
+      "truth": "Verdad",
+      "dare": "Reto"
+    },
+    "difficulty": {
+      "easy": "Fácil",
+      "medium": "Medio",
+      "hard": "Difícil"
+    },
+    "noQuestions": "No se encontraron preguntas",
+    "tryDifferentFilter": "Prueba un filtro diferente"
+  },
+  "gamePages": {
+    "title": "Verdad o Reto",
+    "categorySelection": {
+      "title": "Seleccionar Categoría",
+      "playersReady": "¡jugadores listos!",
+      "backToPlayers": "Volver a Selección de Jugadores",
+      "only18Plus": "Solo elegir categoría 18+",
+      "selectCategory": "Seleccionar Categoría"
+    },
+    "participantManager": {
+      "title": "Jugadores",
+      "placeholder": "Ingresa nombre del jugador",
+      "add": "Agregar",
+      "removePlayer": "Eliminar jugador",
+      "addPlayersToStart": "Agrega jugadores para comenzar el juego",
+      "playersReady": "jugadores listos!"
+    },
+    "categories": {
+      "adult": "Preguntas para personas mayores de 18 años",
+      "party": "Preguntas para grupos"
+    },
+    "gameSetup": {
+      "title": "Configuración del Juego",
+      "addPlayers": "Agrega al menos 2 jugadores para comenzar el juego",
+      "playNow": "Jugar Ahora",
+      "questionsList": "Lista de Preguntas"
+    },
+    "gamePlay": {
+      "title": "Verdad o Reto",
+      "playerTurn": "Turno de {name}",
+      "quickMode": "Modo rápido - ¡Elige verdad o reto!",
+      "selectType": "¡Elige verdad o reto!",
+      "nextQuestion": "Siguiente Pregunta",
+      "nextPlayer": "Siguiente Jugador"
+    },
+    "spinWheel": {
+      "title": "Ruleta de la Suerte",
+      "spinToStart": "GIRAR",
+      "spinning": "GIRANDO...",
+      "selectQuestion": "Seleccionar pregunta",
+      "noQuestions": "No hay preguntas disponibles en esta categoría"
+    },
+    "gameControls": {
+      "quitGame": "Salir del Juego"
+    },
+    "participantQueue": {
+      "nextPlayers": "Próximos jugadores"
+    },
+    "couples": {
+      "cardTitle": "Tarjeta de Posición",
+      "cardDescription": "Toca para voltear la tarjeta y descubrir una nueva posición",
+      "categoryFilter": {
+        "title": "Seleccionar categoría",
+        "all": "Todas",
+        "allDescription": "Mostrar todas las posiciones"
+      }
+    }
+  },
+  "ageVerification": {
+    "title": "Verificación de Edad",
+    "subtitle": "Contenido solo para personas mayores de 18 años",
+    "warning": "Este modo contiene contenido para adultos (18+)",
+    "confirmation": "Debes confirmar que tienes 18 años o más para continuar.",
+    "checkboxLabel": "Confirmo que tengo 18 años o más y entiendo que el contenido siguiente puede contener imágenes sugerentes para adultos.",
+    "cancel": "Cancelar",
+    "continue": "Continuar"
+  },
+  "guide": {
+    "title": "Guía del Juego Verdad o Reto - Reglas Completas",
+    "description": "Guía detallada sobre cómo jugar Verdad o Reto. Reglas del juego, consejos y trucos para crear un ambiente divertido para tu grupo.",
+    "whatIs": "¿Qué es Verdad o Reto?",
+    "whatIsDescription": "Verdad o Reto es un juego grupal popular en todo el mundo, especialmente querido en fiestas, cumpleaños y reuniones de amigos. El juego ayuda a las personas a conocerse mejor y crea momentos divertidos y memorables.",
+    "basicRules": "Reglas Básicas",
+    "tips": "Consejos de Juego",
+    "benefits": "Beneficios del Juego",
+    "social": "Social",
+    "personal": "Personal",
+    "readyToPlay": "¿Listo para Jugar?",
+    "readyToPlayDescription": "¡Comienza a jugar Verdad o Reto ahora con más de 500+ preguntas divertidas y desafíos!",
+    "playNow": "Jugar Ahora"
+  },
+  "game": {
+    "truth": "Verdad",
+    "dare": "Reto",
+    "spin": "Girar",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "shuffle": "Mezclar",
+    "addPlayer": "Añadir Jugador",
+    "removePlayer": "Eliminar Jugador",
+    "startGame": "Comenzar",
+    "endGame": "Terminar",
+    "resetGame": "Jugar de Nuevo"
+  },
+  "categories": {
+    "18+": "18+",
+    "party": "Fiesta",
+    "18+Description": "Preguntas para personas mayores de 18 años",
+    "partyDescription": "Preguntas para grupos"
+  },
+  "common": {
+    "loading": "Cargando...",
+    "error": "Ocurrió un error",
+    "retry": "Reintentar",
+    "close": "Cerrar",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar"
+  },
+  "ratingModal": {
+    "title": "Califica tu experiencia",
+    "description": "Comparte tu opinión sobre el juego",
+    "yourEmotion": "Tu emoción",
+    "emojiLabels": {
+      "love": "Excelente",
+      "happy": "Satisfecho",
+      "neutral": "Regular",
+      "disappointed": "No está bien",
+      "angry": "Terrible"
+    },
+    "starRating": "Calificación con estrellas (obligatorio)",
+    "stars": "estrellas",
+    "commentLabel": "Comentario (opcional)",
+    "commentPlaceholder": "Comparte más sobre tu experiencia...",
+    "characters": "caracteres",
+    "cancel": "Cancelar",
+    "submit": "Enviar calificación",
+    "submitting": "Enviando...",
+    "defaultComments": {
+      "love": "¡Excelente! ¡Me encanta este juego!",
+      "happy": "Bastante bueno, estoy satisfecho con la experiencia de juego",
+      "neutral": "Normal, podría mejorarse un poco",
+      "disappointed": "No como esperaba, necesita mejoras",
+      "angry": "Muy malo, necesita mejoras inmediatas",
+      "thankYou": "¡Gracias por tu comentario sobre el juego!",
+      "excellent": "¡La experiencia de juego es excelente!",
+      "okay": "La experiencia de juego está bien, podría mejorarse",
+      "needsImprovement": "El juego necesita mucha más mejora"
+    }
+  }
+}

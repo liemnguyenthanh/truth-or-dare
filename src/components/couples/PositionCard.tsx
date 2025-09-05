@@ -3,6 +3,8 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 
+import { useTranslations } from '@/hooks/useTranslations';
+
 import { CouplePosition } from '@/types';
 
 interface PositionCardProps {
@@ -16,6 +18,7 @@ export default function PositionCard({
   onCardClick,
   isFlipped: externalIsFlipped,
 }: PositionCardProps) {
+  const t = useTranslations();
   const [internalIsFlipped, setInternalIsFlipped] = useState(false);
 
   const isFlipped =
@@ -73,9 +76,11 @@ export default function PositionCard({
           <div className='w-24 h-24 bg-white/20 rounded-full flex items-center justify-center mb-4'>
             <span className='text-5xl'>❤️</span>
           </div>
-          <h2 className='text-2xl font-bold text-white mb-2'>Thẻ Bài Tư Thế</h2>
+          <h2 className='text-2xl font-bold text-white mb-2'>
+            {t.gamePages.couples.cardTitle}
+          </h2>
           <p className='text-white/80 text-center'>
-            Nhấn để lật thẻ và khám phá tư thế mới
+            {t.gamePages.couples.cardDescription}
           </p>
         </motion.div>
 

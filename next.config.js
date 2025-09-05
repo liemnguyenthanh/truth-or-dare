@@ -8,6 +8,8 @@ const nextConfig = {
   swcMinify: true,
   // output: 'export', // Temporarily disabled for Hashnode testing
 
+  // Note: i18n configuration removed - using App Router with manual locale handling
+
   // SEO optimizations
   compress: true,
 

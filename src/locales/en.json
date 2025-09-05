@@ -1,0 +1,233 @@
+{
+  "metadata": {
+    "title": "Truth or Dare Online - Fun Game with Friends | Truth or Dare",
+    "description": "Play Truth or Dare online for free! Over 500+ fun questions and daring challenges. Perfect group game for parties, birthdays, and friend gatherings.",
+    "keywords": [
+      "truth or dare",
+      "truth or dare online",
+      "truth or dare game",
+      "party game",
+      "fun game",
+      "group game",
+      "friends game",
+      "party games",
+      "fun games",
+      "birthday game",
+      "truth or dare questions",
+      "dare challenges",
+      "interactive game",
+      "free online game",
+      "entertainment game",
+      "group activity",
+      "ice breaker game",
+      "get to know you game"
+    ],
+    "ogTitle": "Truth or Dare Online - Fun Game with Friends",
+    "ogDescription": "Play Truth or Dare online for free! Over 500+ fun questions and daring challenges. Perfect group game for parties and friend gatherings.",
+    "twitterTitle": "Truth or Dare Online - Fun Game with Friends",
+    "twitterDescription": "Play Truth or Dare online for free! Over 500+ fun questions and daring challenges."
+  },
+  "navigation": {
+    "home": "Home",
+    "quick": "Quick",
+    "group": "Group",
+    "couples": "Couples",
+    "questions": "Questions",
+    "blog": "Blog",
+    "feedback": "Feedback",
+    "guide": "Guide"
+  },
+  "gameModes": {
+    "title": "Choose Game Mode",
+    "subtitle": "Select the way that suits you best",
+    "couples": {
+      "name": "Couples Cards",
+      "description": "Flip cards to choose positions for couples (18+) - New update!",
+      "icon": "❤️"
+    },
+    "quick": {
+      "name": "Quick Mode",
+      "description": "Play immediately without entering names. Choose category and start!",
+      "icon": "⚡"
+    },
+    "group": {
+      "name": "Group Mode",
+      "description": "Add player names and play in turns",
+      "icon": "👥"
+    },
+    "spinWheel": {
+      "name": "Spin Wheel",
+      "description": "Spin the wheel of fortune to get random questions",
+      "icon": "🎡"
+    },
+    "newBadge": "New",
+    "startGame": "Start Game"
+  },
+  "questions": {
+    "title": "Questions List",
+    "subtitle": "View all available questions",
+    "categories": {
+      "all": "All",
+      "party": "Party",
+      "adult": "18+",
+      "friends": "Friends",
+      "couples": "Couples"
+    },
+    "filters": {
+      "category": "Category",
+      "type": "Type",
+      "difficulty": "Difficulty"
+    },
+    "types": {
+      "truth": "Truth",
+      "dare": "Dare"
+    },
+    "difficulty": {
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard"
+    },
+    "noQuestions": "No questions found",
+    "tryDifferentFilter": "Try a different filter"
+  },
+  "gamePages": {
+    "title": "Truth or Dare",
+    "categorySelection": {
+      "title": "Select Category",
+      "playersReady": "players ready!",
+      "backToPlayers": "Back to Player Selection",
+      "only18Plus": "Only choose 18+ category",
+      "selectCategory": "Select Category"
+    },
+    "participantManager": {
+      "title": "Players",
+      "placeholder": "Enter player name",
+      "add": "Add",
+      "removePlayer": "Remove player",
+      "addPlayersToStart": "Add players to start the game",
+      "playersReady": "players ready!"
+    },
+    "categories": {
+      "adult": "Questions for people over 18",
+      "party": "Questions for groups"
+    },
+    "gameSetup": {
+      "title": "Game Setup",
+      "addPlayers": "Add at least 2 players to start the game",
+      "playNow": "Play Now",
+      "questionsList": "Questions List"
+    },
+    "gamePlay": {
+      "title": "Truth or Dare",
+      "playerTurn": "{name}'s turn",
+      "quickMode": "Quick mode - Choose truth or dare!",
+      "selectType": "Choose truth or dare!",
+      "nextQuestion": "Next Question",
+      "nextPlayer": "Next Player"
+    },
+    "spinWheel": {
+      "title": "Spin Wheel",
+      "spinToStart": "SPIN",
+      "spinning": "SPINNING...",
+      "selectQuestion": "Select question",
+      "noQuestions": "No questions available in this category"
+    },
+    "gameControls": {
+      "quitGame": "Quit Game"
+    },
+    "participantQueue": {
+      "nextPlayers": "Next players"
+    },
+    "couples": {
+      "cardTitle": "Position Card",
+      "cardDescription": "Tap to flip the card and discover a new position",
+      "categoryFilter": {
+        "title": "Select category",
+        "all": "All",
+        "allDescription": "Show all positions"
+      }
+    }
+  },
+  "ageVerification": {
+    "title": "Age Verification",
+    "subtitle": "Content for people over 18 only",
+    "warning": "This mode contains adult content (18+)",
+    "confirmation": "You must confirm that you are 18 or older to continue.",
+    "checkboxLabel": "I confirm that I am 18 or older and understand that the content ahead may contain suggestive images for adults.",
+    "cancel": "Cancel",
+    "continue": "Continue"
+  },
+  "guide": {
+    "title": "Truth or Dare Game Guide - Complete Rules",
+    "description": "Detailed guide on how to play Truth or Dare. Game rules, tips and tricks to create a fun atmosphere for your group.",
+    "whatIs": "What is Truth or Dare?",
+    "whatIsDescription": "Truth or Dare is a popular group game worldwide, especially loved at parties, birthdays, and friend gatherings. The game helps people get to know each other better and creates fun, memorable moments.",
+    "basicRules": "Basic Rules",
+    "tips": "Playing Tips",
+    "benefits": "Game Benefits",
+    "social": "Social",
+    "personal": "Personal",
+    "readyToPlay": "Ready to Play?",
+    "readyToPlayDescription": "Start playing Truth or Dare now with over 500+ fun questions and challenges!",
+    "playNow": "Play Now"
+  },
+  "game": {
+    "truth": "Truth",
+    "dare": "Dare",
+    "spin": "Spin",
+    "next": "Next",
+    "previous": "Previous",
+    "shuffle": "Shuffle",
+    "addPlayer": "Add Player",
+    "removePlayer": "Remove Player",
+    "startGame": "Start Game",
+    "endGame": "End Game",
+    "resetGame": "Play Again"
+  },
+  "categories": {
+    "18+": "18+",
+    "party": "Party",
+    "18+Description": "Questions for people over 18",
+    "partyDescription": "Questions for groups"
+  },
+  "common": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "retry": "Retry",
+    "close": "Close",
+    "save": "Save",
+    "cancel": "Cancel",
+    "confirm": "Confirm"
+  },
+  "ratingModal": {
+    "title": "Rate your experience",
+    "description": "Share your thoughts about the game",
+    "yourEmotion": "Your emotion",
+    "emojiLabels": {
+      "love": "Excellent",
+      "happy": "Satisfied",
+      "neutral": "Okay",
+      "disappointed": "Not good",
+      "angry": "Terrible"
+    },
+    "starRating": "Star rating (required)",
+    "stars": "stars",
+    "commentLabel": "Comment (optional)",
+    "commentPlaceholder": "Share more about your experience...",
+    "characters": "characters",
+    "cancel": "Cancel",
+    "submit": "Submit rating",
+    "submitting": "Submitting...",
+    "defaultComments": {
+      "love": "Excellent! I really love this game!",
+      "happy": "Pretty good, I'm satisfied with the gaming experience",
+      "neutral": "Normal, could be improved a bit",
+      "disappointed": "Not as expected, needs improvement",
+      "angry": "Very bad, needs immediate improvement",
+      "thankYou": "Thank you for your feedback about the game!",
+      "excellent": "The gaming experience is excellent!",
+      "okay": "The gaming experience is okay, could be improved",
+      "needsImprovement": "The game needs much more improvement"
+    }
+  }
+}

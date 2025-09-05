@@ -3,29 +3,55 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
-const navigationItems = [
-  { href: '/', label: 'Chơi Game', icon: '🎮' },
-  { href: '/questions', label: 'Câu Hỏi', icon: '❓' },
-  {
-    href: '/feedback',
-    label: 'Góp Ý',
-    icon: '💬',
-    subItems: [
-      { href: '/feedback', label: 'Gửi Góp Ý', icon: '✍️' },
-      { href: '/feedback/list', label: 'Xem Góp Ý', icon: '👁️' },
-    ],
-  },
-  { href: '/blog', label: 'Blog', icon: '📝' },
-];
+import { useLocale, useTranslations } from '@/hooks';
+
+import { LanguageSwitcher } from './LanguageSwitcher';
 
 export function Navigation() {
   const pathname = usePathname();
+  const router = useRouter();
+  const t = useTranslations();
+  const currentLocale = useLocale(); // Use common locale hook
   const [isOpen, setIsOpen] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [expandedMobile, setExpandedMobile] = useState<string | null>(null);
+
+  // Create localized navigation items
+  const getNavigationItems = () => {
+    const basePath = currentLocale === 'vi' ? '' : `/${currentLocale}`;
+
+    return [
+      { href: `${basePath}`, label: t.navigation.home, icon: '🎮' },
+      {
+        href: `${basePath}/questions`,
+        label: t.navigation.questions,
+        icon: '❓',
+      },
+      {
+        href: `${basePath}/feedback`,
+        label: t.navigation.feedback,
+        icon: '💬',
+        subItems: [
+          {
+            href: `${basePath}/feedback`,
+            label: t.navigation.feedback,
+            icon: '✍️',
+          },
+          {
+            href: `${basePath}/feedback/list`,
+            label: t.navigation.feedback,
+            icon: '👁️',
+          },
+        ],
+      },
+      { href: `${basePath}/blog`, label: t.navigation.blog, icon: '📝' },
+    ];
+  };
+
+  const navigationItems = getNavigationItems();
 
   useEffect(() => {
     // Close drawer when route changes
@@ -72,15 +98,18 @@ export function Navigation() {
         <div className='container mx-auto px-4'>
           <div className='flex justify-between items-center h-16'>
             {/* Logo */}
-            <Link href='/' className='flex items-center space-x-2 z-50'>
+            <Link
+              href={currentLocale === 'vi' ? '/' : `/${currentLocale}`}
+              className='flex items-center space-x-2 z-50'
+            >
               <span className='text-2xl'>🎯</span>
               <span className='text-xl font-bold text-gray-900 dark:text-white'>
-                Thật Hay Thách
+                {currentLocale === 'vi' ? 'Thật Hay Thách' : 'Truth or Dare'}
               </span>
             </Link>
 
             {/* Desktop Navigation */}
-            <div className='hidden md:flex space-x-2'>
+            <div className='hidden md:flex items-center space-x-2'>
               {navigationItems.map((item) => (
                 <div key={item.label} className='relative'>
                   {item.subItems ? (
@@ -147,6 +176,9 @@ export function Navigation() {
                   )}
                 </div>
               ))}
+
+              {/* Language Switcher */}
+              <LanguageSwitcher currentLocale={currentLocale} />
             </div>
 
             {/* Mobile menu button */}
@@ -214,10 +246,14 @@ export function Navigation() {
                     <span className='text-3xl'>🎯</span>
                     <div>
                       <h2 className='text-xl font-bold text-gray-900 dark:text-white'>
-                        Thật Hay Thách
+                        {currentLocale === 'vi'
+                          ? 'Thật Hay Thách'
+                          : 'Truth or Dare'}
                       </h2>
                       <p className='text-sm text-gray-500 dark:text-gray-400'>
-                        Trò chơi vui nhộn cùng bạn bè
+                        {currentLocale === 'vi'
+                          ? 'Trò chơi vui nhộn cùng bạn bè'
+                          : 'Fun game with friends'}
                       </p>
                     </div>
                   </div>
@@ -225,6 +261,11 @@ export function Navigation() {
 
                 {/* Navigation Items */}
                 <div className='flex-1 p-6 overflow-y-auto'>
+                  {/* Language Switcher for Mobile */}
+                  <div className='mb-6'>
+                    <LanguageSwitcher currentLocale={currentLocale} />
+                  </div>
+
                   <nav className='space-y-2'>
                     {navigationItems.map((item, index) => (
                       <motion.div

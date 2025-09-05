@@ -1,5 +1,5 @@
-import { SpinWheelModePage } from '@/features/game/pages/SpinWheelModePage';
+import { redirect } from 'next/navigation';
 
-export default function SpinWheelPage() {
-  return <SpinWheelModePage />;
+export default function SpinWheelRedirect() {
+  redirect('/vi/spin-wheel');
 }

@@ -4,6 +4,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { AlertTriangle, X } from 'lucide-react';
 import { useState } from 'react';
 
+import { useTranslations } from '@/hooks/useTranslations';
+
 interface AgeVerificationModalProps {
   isOpen: boolean;
   onConfirm: () => void;
@@ -16,6 +18,7 @@ export default function AgeVerificationModal({
   onCancel,
 }: AgeVerificationModalProps) {
   const [isChecked, setIsChecked] = useState(false);
+  const t = useTranslations();
 
   if (!isOpen) return null;
 
@@ -44,10 +47,10 @@ export default function AgeVerificationModal({
               </div>
               <div>
                 <h3 className='text-xl font-bold text-gray-900 dark:text-white'>
-                  Xác nhận độ tuổi
+                  {t.ageVerification.title}
                 </h3>
                 <p className='text-sm text-gray-600 dark:text-gray-400'>
-                  Nội dung chỉ dành cho người trên 18 tuổi
+                  {t.ageVerification.subtitle}
                 </p>
               </div>
             </div>
@@ -62,10 +65,10 @@ export default function AgeVerificationModal({
           <div className='space-y-6'>
             <div className='bg-red-50 dark:bg-red-900/20 p-4 rounded-lg border border-red-200 dark:border-red-800'>
               <p className='text-red-700 dark:text-red-300 font-medium'>
-                Chế độ này chứa nội dung dành cho người lớn (18+)
+                {t.ageVerification.warning}
               </p>
               <p className='text-red-600 dark:text-red-400 mt-1 text-sm'>
-                Bạn phải xác nhận rằng bạn đã đủ 18 tuổi để tiếp tục.
+                {t.ageVerification.confirmation}
               </p>
             </div>
 
@@ -82,9 +85,7 @@ export default function AgeVerificationModal({
                 htmlFor='age-confirmation'
                 className='text-sm text-gray-700 dark:text-gray-300'
               >
-                Tôi xác nhận rằng tôi đã đủ 18 tuổi và hiểu rằng nội dung phía
-                trước có thể chứa các hình ảnh gợi cảm dành cho người trưởng
-                thành.
+                {t.ageVerification.checkboxLabel}
               </label>
             </div>
 
@@ -94,7 +95,7 @@ export default function AgeVerificationModal({
                 onClick={onCancel}
                 className='flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors font-medium'
               >
-                Hủy bỏ
+                {t.ageVerification.cancel}
               </button>
               <motion.button
                 onClick={onConfirm}
@@ -107,7 +108,7 @@ export default function AgeVerificationModal({
                     : 'from-gray-400 to-gray-500'
                 } text-white font-medium py-2 px-4 rounded-lg transition-all shadow-lg`}
               >
-                Tiếp tục
+                {t.ageVerification.continue}
               </motion.button>
             </div>
           </div>

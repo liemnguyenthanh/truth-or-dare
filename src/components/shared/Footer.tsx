@@ -42,7 +42,7 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href='/huong-dan'
+                  href='/guide'
                   className='text-gray-400 hover:text-white transition-colors'
                 >
                   Hướng Dẫn Chơi

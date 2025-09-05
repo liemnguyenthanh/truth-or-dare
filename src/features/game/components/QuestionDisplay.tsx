@@ -1,10 +1,13 @@
 import { motion } from 'framer-motion';
 import React from 'react';
 
+import { useTranslations } from '@/hooks/useTranslations';
+
 import { useGame } from '../hooks';
 
 export function QuestionDisplay() {
   const { gameState, nextParticipant } = useGame();
+  const t = useTranslations();
   const isQuickMode = gameState.gameMode === 'quick';
 
   if (!gameState.currentQuestion) return null;
@@ -44,7 +47,9 @@ export function QuestionDisplay() {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
-          {isQuickMode ? 'Câu Hỏi Tiếp' : 'Người Chơi Tiếp'}
+          {isQuickMode
+            ? t.gamePages.gamePlay.nextQuestion
+            : t.gamePages.gamePlay.nextPlayer}
         </motion.button>
       </div>
     </motion.div>

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
 import { useGame } from '@/hooks/useGame';
+import { useTranslations } from '@/hooks/useTranslations';
 
 import { Participant } from '@/types';
 
@@ -12,6 +13,7 @@ interface ParticipantQueueProps {
 
 export function ParticipantQueue({ queueLength = 7 }: ParticipantQueueProps) {
   const { gameState, shouldRemoveQueue } = useGame();
+  const t = useTranslations();
   const { participants } = gameState;
   const [queue, setQueue] = useState<Participant[]>(() => {
     const removedFirstItem = participants.slice(1);
@@ -37,7 +39,7 @@ export function ParticipantQueue({ queueLength = 7 }: ParticipantQueueProps) {
   return (
     <div className='w-full max-w-md mx-auto my-4'>
       <div className='text-sm text-center mb-2 text-gray-600 dark:text-gray-400'>
-        Người chơi tiếp theo:
+        {t.gamePages.participantQueue.nextPlayers}:
       </div>
       <div className='flex items-center justify-center py-2 px-1 relative'>
         <div className='flex items-center space-x-3 overflow-hidden max-w-full'>

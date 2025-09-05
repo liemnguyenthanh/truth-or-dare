@@ -4,6 +4,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Heart, Send, Star, X } from 'lucide-react';
 import { useState } from 'react';
 
+import { useTranslations } from '@/hooks/useTranslations';
+
 interface RatingModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -18,21 +20,22 @@ interface RatingModalProps {
 }
 
 const emojiOptions = [
-  { emoji: '😍', label: 'Tuyệt vời', value: 'love' },
-  { emoji: '😊', label: 'Hài lòng', value: 'happy' },
-  { emoji: '😐', label: 'Tạm được', value: 'neutral' },
-  { emoji: '😕', label: 'Không ổn', value: 'disappointed' },
-  { emoji: '😠', label: 'Tệ', value: 'angry' },
+  { emoji: '😍', value: 'love' },
+  { emoji: '😊', value: 'happy' },
+  { emoji: '😐', value: 'neutral' },
+  { emoji: '😕', value: 'disappointed' },
+  { emoji: '😠', value: 'angry' },
 ];
 
 export default function RatingModal({
   isOpen,
   onClose,
   onSubmit,
-  title = 'Đánh giá trải nghiệm',
-  description = 'Chia sẻ cảm nhận của bạn về trò chơi',
+  title,
+  description,
   showEmoji = true,
 }: RatingModalProps) {
+  const t = useTranslations();
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [comment, setComment] = useState('');
@@ -70,19 +73,19 @@ export default function RatingModal({
   const getDefaultComment = () => {
     if (selectedEmoji) {
       const comments: Record<string, string> = {
-        love: 'Tuyệt vời! Tôi rất yêu thích trò chơi này!',
-        happy: 'Khá tốt, tôi hài lòng với trải nghiệm chơi game',
-        neutral: 'Bình thường, có thể cải thiện thêm một chút',
-        disappointed: 'Không như mong đợi, cần cải thiện',
-        angry: 'Rất tệ, cần cải thiện ngay lập tức',
+        love: t.ratingModal.defaultComments.love,
+        happy: t.ratingModal.defaultComments.happy,
+        neutral: t.ratingModal.defaultComments.neutral,
+        disappointed: t.ratingModal.defaultComments.disappointed,
+        angry: t.ratingModal.defaultComments.angry,
       };
-      return comments[selectedEmoji] || 'Cảm ơn bạn đã phản hồi về trò chơi!';
+      return comments[selectedEmoji] || t.ratingModal.defaultComments.thankYou;
     }
 
-    if (rating >= 4) return 'Trải nghiệm chơi game rất tuyệt vời!';
-    if (rating === 3) return 'Trải nghiệm chơi game tạm ổn, có thể cải thiện';
-    if (rating >= 1) return 'Trò chơi cần cải thiện thêm nhiều';
-    return 'Cảm ơn bạn đã đánh giá trò chơi của chúng tôi!';
+    if (rating >= 4) return t.ratingModal.defaultComments.excellent;
+    if (rating === 3) return t.ratingModal.defaultComments.okay;
+    if (rating >= 1) return t.ratingModal.defaultComments.needsImprovement;
+    return t.ratingModal.defaultComments.thankYou;
   };
 
   const handleClose = () => {
@@ -120,10 +123,10 @@ export default function RatingModal({
               </div>
               <div>
                 <h3 className='text-xl font-bold text-gray-900 dark:text-white'>
-                  {title}
+                  {title || t.ratingModal.title}
                 </h3>
                 <p className='text-sm text-gray-600 dark:text-gray-400'>
-                  {description}
+                  {description || t.ratingModal.description}
                 </p>
               </div>
             </div>
@@ -140,7 +143,7 @@ export default function RatingModal({
             {showEmoji && (
               <div>
                 <p className='text-sm font-medium text-gray-700 dark:text-gray-300 mb-3'>
-                  Cảm xúc của bạn
+                  {t.ratingModal.yourEmotion}
                 </p>
                 <div className='flex justify-center space-x-2'>
                   {emojiOptions.map((option) => (
@@ -159,7 +162,11 @@ export default function RatingModal({
                           ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/30 scale-110'
                           : 'border-gray-300 dark:border-gray-600 hover:border-gray-400'
                       }`}
-                      title={option.label}
+                      title={
+                        t.ratingModal.emojiLabels[
+                          option.value as keyof typeof t.ratingModal.emojiLabels
+                        ]
+                      }
                     >
                       <span className='text-2xl'>{option.emoji}</span>
                     </motion.button>
@@ -171,7 +178,7 @@ export default function RatingModal({
             {/* Star Rating */}
             <div>
               <p className='text-sm font-medium text-gray-700 dark:text-gray-300 mb-3'>
-                Đánh giá sao (bắt buộc)
+                {t.ratingModal.starRating}
               </p>
               <div className='flex justify-center items-center space-x-1'>
                 {[1, 2, 3, 4, 5].map((star) => (
@@ -195,7 +202,7 @@ export default function RatingModal({
               </div>
               {rating > 0 && (
                 <p className='text-center text-sm text-gray-600 dark:text-gray-400 mt-2'>
-                  {rating} / 5 sao
+                  {rating} / 5 {t.ratingModal.stars}
                 </p>
               )}
             </div>
@@ -203,18 +210,18 @@ export default function RatingModal({
             {/* Comment */}
             <div>
               <label className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2'>
-                Nhận xét (tùy chọn)
+                {t.ratingModal.commentLabel}
               </label>
               <textarea
                 value={comment}
                 onChange={(e) => setComment(e.target.value)}
-                placeholder='Chia sẻ thêm về trải nghiệm của bạn...'
+                placeholder={t.ratingModal.commentPlaceholder}
                 rows={3}
                 maxLength={500}
                 className='w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white text-sm resize-none'
               />
               <p className='text-xs text-gray-500 dark:text-gray-400 mt-1'>
-                {comment.length}/500 ký tự
+                {comment.length}/500 {t.ratingModal.characters}
               </p>
             </div>
 
@@ -225,7 +232,7 @@ export default function RatingModal({
                 onClick={handleClose}
                 className='flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors'
               >
-                Hủy
+                {t.ratingModal.cancel}
               </button>
               <motion.button
                 type='submit'
@@ -237,12 +244,12 @@ export default function RatingModal({
                 {isSubmitting ? (
                   <>
                     <div className='w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin' />
-                    <span>Gửi...</span>
+                    <span>{t.ratingModal.submitting}</span>
                   </>
                 ) : (
                   <>
                     <Send className='w-4 h-4' />
-                    <span>Gửi đánh giá</span>
+                    <span>{t.ratingModal.submit}</span>
                   </>
                 )}
               </motion.button>

@@ -1,0 +1,235 @@
+{
+  "metadata": {
+    "title": "Thật Hay Thách Online - Trò Chơi Vui Nhộn Cùng Bạn Bè | Truth or Dare",
+    "description": "Chơi trò chơi Thật Hay Thách online miễn phí! Hơn 500+ câu hỏi thú vị và thử thách táo bạo. Trò chơi nhóm hoàn hảo cho tiệc tùng, sinh nhật, và các buổi gặp mặt bạn bè.",
+    "keywords": [
+      "thật hay thách",
+      "thật hay thách online",
+      "trò chơi thật hay thách",
+      "truth or dare",
+      "truth or dare tiếng việt",
+      "trò chơi vui",
+      "trò chơi nhóm",
+      "trò chơi bạn bè",
+      "trò chơi tiệc tùng",
+      "party game",
+      "game vui nhộn",
+      "trò chơi sinh nhật",
+      "câu hỏi thật hay thách",
+      "thử thách vui",
+      "trò chơi tương tác",
+      "game online miễn phí",
+      "trò chơi giải trí",
+      "hoạt động nhóm",
+      "ice breaker game",
+      "trò chơi làm quen"
+    ],
+    "ogTitle": "Thật Hay Thách Online - Trò Chơi Vui Nhộn Cùng Bạn Bè",
+    "ogDescription": "Chơi trò chơi Thật Hay Thách online miễn phí! Hơn 500+ câu hỏi thú vị và thử thách táo bạo. Trò chơi nhóm hoàn hảo cho tiệc tùng và gặp mặt bạn bè.",
+    "twitterTitle": "Thật Hay Thách Online - Trò Chơi Vui Nhộn Cùng Bạn Bè",
+    "twitterDescription": "Chơi trò chơi Thật Hay Thách online miễn phí! Hơn 500+ câu hỏi thú vị và thử thách táo bạo."
+  },
+  "navigation": {
+    "home": "Trang chủ",
+    "quick": "Nhanh",
+    "group": "Nhóm",
+    "couples": "Cặp đôi",
+    "questions": "Câu hỏi",
+    "blog": "Blog",
+    "feedback": "Phản hồi",
+    "guide": "Hướng dẫn"
+  },
+  "gameModes": {
+    "title": "Chọn Chế Độ Chơi",
+    "subtitle": "Chọn cách chơi phù hợp với bạn",
+    "couples": {
+      "name": "Thẻ Bài Cặp Đôi",
+      "description": "Lật bài chọn tư thế dành cho cặp đôi (18+) - Cập nhật mới!",
+      "icon": "❤️"
+    },
+    "quick": {
+      "name": "Chế Độ Nhanh",
+      "description": "Chơi ngay không cần nhập tên. Chọn category và bắt đầu!",
+      "icon": "⚡"
+    },
+    "group": {
+      "name": "Chế Độ Nhóm",
+      "description": "Thêm tên người chơi và chơi theo lượt",
+      "icon": "👥"
+    },
+    "spinWheel": {
+      "name": "Vòng Quay May Mắn",
+      "description": "Quay vòng may mắn để nhận câu hỏi ngẫu nhiên",
+      "icon": "🎡"
+    },
+    "newBadge": "Mới",
+    "startGame": "Bắt Đầu Chơi"
+  },
+  "questions": {
+    "title": "Danh Sách Câu Hỏi",
+    "subtitle": "Xem tất cả câu hỏi có sẵn",
+    "categories": {
+      "all": "Tất Cả",
+      "party": "Tiệc Tùng",
+      "adult": "18+",
+      "friends": "Bạn Bè",
+      "couples": "Cặp Đôi"
+    },
+    "filters": {
+      "category": "Danh Mục",
+      "type": "Loại",
+      "difficulty": "Độ Khó"
+    },
+    "types": {
+      "truth": "Thật",
+      "dare": "Thách"
+    },
+    "difficulty": {
+      "easy": "Dễ",
+      "medium": "Trung Bình",
+      "hard": "Khó"
+    },
+    "noQuestions": "Không tìm thấy câu hỏi nào",
+    "tryDifferentFilter": "Thử chọn bộ lọc khác"
+  },
+  "gamePages": {
+    "title": "Thật Hay Thách",
+    "categorySelection": {
+      "title": "Chọn Chủ Đề",
+      "playersReady": "người chơi sẵn sàng!",
+      "backToPlayers": "Quay Lại Chọn Người Chơi",
+      "only18Plus": "Chỉ chọn chủ đề 18+",
+      "selectCategory": "Chọn Chủ Đề"
+    },
+    "participantManager": {
+      "title": "Người Chơi",
+      "placeholder": "Nhập tên người chơi",
+      "add": "Thêm",
+      "removePlayer": "Xóa người chơi",
+      "addPlayersToStart": "Thêm người chơi để bắt đầu trò chơi",
+      "playersReady": "người chơi sẵn sàng!"
+    },
+    "categories": {
+      "adult": "Những câu hỏi dành cho người trên 18 tuổi",
+      "party": "Những câu hỏi dành cho nhóm"
+    },
+    "gameSetup": {
+      "title": "Thiết Lập Trò Chơi",
+      "addPlayers": "Thêm ít nhất 2 người chơi để bắt đầu trò chơi",
+      "playNow": "Chơi Ngay",
+      "questionsList": "Danh Sách Câu Hỏi"
+    },
+    "gamePlay": {
+      "title": "Thật Hay Thách",
+      "playerTurn": "Lượt của {name}",
+      "quickMode": "Chế độ nhanh - Chọn thật hay thách!",
+      "selectType": "Chọn thật hay thách!",
+      "nextQuestion": "Câu Hỏi Tiếp",
+      "nextPlayer": "Người Chơi Tiếp"
+    },
+    "spinWheel": {
+      "title": "Vòng Quay May Mắn",
+      "spinToStart": "QUAY",
+      "spinning": "QUAY...",
+      "selectQuestion": "Chọn câu hỏi",
+      "noQuestions": "Không có câu hỏi nào trong danh mục này"
+    },
+    "gameControls": {
+      "quitGame": "Thoát Trò Chơi"
+    },
+    "participantQueue": {
+      "nextPlayers": "Người chơi tiếp theo"
+    },
+    "couples": {
+      "cardTitle": "Thẻ Bài Tư Thế",
+      "cardDescription": "Nhấn để lật thẻ và khám phá tư thế mới",
+      "categoryFilter": {
+        "title": "Chọn danh mục",
+        "all": "Tất cả",
+        "allDescription": "Hiển thị tất cả tư thế"
+      }
+    }
+  },
+  "ageVerification": {
+    "title": "Xác nhận độ tuổi",
+    "subtitle": "Nội dung chỉ dành cho người trên 18 tuổi",
+    "warning": "Chế độ này chứa nội dung dành cho người lớn (18+)",
+    "confirmation": "Bạn phải xác nhận rằng bạn đã đủ 18 tuổi để tiếp tục.",
+    "checkboxLabel": "Tôi xác nhận rằng tôi đã đủ 18 tuổi và hiểu rằng nội dung phía trước có thể chứa các hình ảnh gợi cảm dành cho người trưởng thành.",
+    "cancel": "Hủy bỏ",
+    "continue": "Tiếp tục"
+  },
+  "guide": {
+    "title": "Hướng Dẫn Chơi Thật Hay Thách - Luật Chơi Chi Tiết",
+    "description": "Hướng dẫn chi tiết cách chơi trò chơi Thật Hay Thách. Luật chơi, mẹo hay và cách tạo không khí vui vẻ cho nhóm bạn.",
+    "whatIs": "Thật Hay Thách là gì?",
+    "whatIsDescription": "Thật Hay Thách (Truth or Dare) là một trò chơi nhóm phổ biến trên toàn thế giới, đặc biệt được yêu thích trong các buổi tiệc tùng, sinh nhật hay gặp mặt bạn bè. Trò chơi giúp mọi người hiểu nhau hơn và tạo ra những khoảnh khắc vui vẻ, đáng nhớ.",
+    "basicRules": "Luật Chơi Cơ Bản",
+    "tips": "Mẹo Chơi Hay",
+    "benefits": "Lợi Ích Của Trò Chơi",
+    "social": "Xã Hội",
+    "personal": "Cá Nhân",
+    "readyToPlay": "Sẵn Sàng Chơi?",
+    "readyToPlayDescription": "Bắt đầu trò chơi Thật Hay Thách ngay bây giờ với hơn 500+ câu hỏi và thử thách thú vị!",
+    "playNow": "Chơi Ngay"
+  },
+  "game": {
+    "truth": "Thật",
+    "dare": "Thách",
+    "spin": "Quay",
+    "next": "Tiếp theo",
+    "previous": "Trước",
+    "shuffle": "Xáo trộn",
+    "addPlayer": "Thêm người chơi",
+    "removePlayer": "Xóa người chơi",
+    "startGame": "Bắt đầu",
+    "endGame": "Kết thúc",
+    "resetGame": "Chơi lại"
+  },
+  "categories": {
+    "18+": "18+",
+    "party": "Party",
+    "18+Description": "Những câu hỏi dành cho người trên 18 tuổi",
+    "partyDescription": "Những câu hỏi dành cho nhóm"
+  },
+  "common": {
+    "loading": "Đang tải...",
+    "error": "Có lỗi xảy ra",
+    "retry": "Thử lại",
+    "close": "Đóng",
+    "save": "Lưu",
+    "cancel": "Hủy",
+    "confirm": "Xác nhận"
+  },
+  "ratingModal": {
+    "title": "Đánh giá trải nghiệm",
+    "description": "Chia sẻ cảm nhận của bạn về trò chơi",
+    "yourEmotion": "Cảm xúc của bạn",
+    "emojiLabels": {
+      "love": "Tuyệt vời",
+      "happy": "Hài lòng",
+      "neutral": "Tạm được",
+      "disappointed": "Không ổn",
+      "angry": "Tệ"
+    },
+    "starRating": "Đánh giá sao (bắt buộc)",
+    "stars": "sao",
+    "commentLabel": "Nhận xét (tùy chọn)",
+    "commentPlaceholder": "Chia sẻ thêm về trải nghiệm của bạn...",
+    "characters": "ký tự",
+    "cancel": "Hủy",
+    "submit": "Gửi đánh giá",
+    "submitting": "Gửi...",
+    "defaultComments": {
+      "love": "Tuyệt vời! Tôi rất yêu thích trò chơi này!",
+      "happy": "Khá tốt, tôi hài lòng với trải nghiệm chơi game",
+      "neutral": "Bình thường, có thể cải thiện thêm một chút",
+      "disappointed": "Không như mong đợi, cần cải thiện",
+      "angry": "Rất tệ, cần cải thiện ngay lập tức",
+      "thankYou": "Cảm ơn bạn đã phản hồi về trò chơi!",
+      "excellent": "Trải nghiệm chơi game rất tuyệt vời!",
+      "okay": "Trải nghiệm chơi game tạm ổn, có thể cải thiện",
+      "needsImprovement": "Trò chơi cần cải thiện thêm nhiều"
+    }
+  }
+}

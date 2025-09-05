@@ -19,6 +19,7 @@
     "blog:auto-post": "node tools/auto-post-drafts.mjs"
   },
   "dependencies": {
+    "@heroicons/react": "^2.2.0",
     "@neondatabase/serverless": "^1.0.0",
     "@next/third-parties": "15.4.0-canary.51",
     "@tailwindcss/typography": "^0.5.16",

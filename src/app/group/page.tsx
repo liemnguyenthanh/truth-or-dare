@@ -1,5 +1,5 @@
-import { GroupModePage } from '@/features/game/pages/GroupModePage';
+import { redirect } from 'next/navigation';
 
-export default function GroupPage() {
-  return <GroupModePage />;
+export default function GroupRedirect() {
+  redirect('/vi/group');
 }

@@ -5,6 +5,8 @@ import { useCallback, useMemo, useState } from 'react';
 
 import '@/styles/performance.css';
 
+import { useTranslations } from '@/hooks/useTranslations';
+
 import { CouplePosition } from '@/types';
 
 interface SwipeCardProps {
@@ -28,6 +30,7 @@ export default function SwipeCard({
   isActive = true,
   zIndex = 1,
 }: SwipeCardProps) {
+  const t = useTranslations();
   const [isFlipped, setIsFlipped] = useState(false);
   const [exitDirection, setExitDirection] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
@@ -188,10 +191,10 @@ export default function SwipeCard({
               <span className='text-6xl'>❤️</span>
             </div>
             <h2 className='text-3xl font-bold text-white mb-4 text-center'>
-              Thẻ Bài Tư Thế
+              {t.gamePages.couples.cardTitle}
             </h2>
             <p className='text-white/80 text-center text-lg leading-relaxed'>
-              Nhấn để lật thẻ và khám phá tư thế mới
+              {t.gamePages.couples.cardDescription}
             </p>
           </motion.div>
 

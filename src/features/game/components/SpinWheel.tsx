@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 
 import { gtmEvents } from '@/lib/gtm';
 import { soundManager } from '@/lib/sounds';
+import { useTranslations } from '@/hooks/useTranslations';
 
 import { QuestionType } from '@/types';
 
@@ -13,6 +14,7 @@ interface SpinWheelProps {
 export function SpinWheel({ onSpinEnd }: SpinWheelProps) {
   const [isSpinning, setIsSpinning] = useState(false);
   const controls = useAnimation();
+  const t = useTranslations();
 
   const handleSpin = async () => {
     if (isSpinning) return;
@@ -54,7 +56,9 @@ export function SpinWheel({ onSpinEnd }: SpinWheelProps) {
         disabled={isSpinning}
         className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-10 w-16 h-16 rounded-full bg-purple-600 text-white shadow-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors'
       >
-        {isSpinning ? 'QUAY...' : 'QUAY'}
+        {isSpinning
+          ? t.gamePages.spinWheel.spinning
+          : t.gamePages.spinWheel.spinToStart}
       </button>
 
       {/* Wheel */}
@@ -65,11 +69,11 @@ export function SpinWheel({ onSpinEnd }: SpinWheelProps) {
       >
         {/* Truth Section */}
         <div className='absolute top-0 left-0 w-full h-1/2 bg-blue-500 flex items-center justify-center text-white text-2xl font-bold transform -rotate-90 origin-bottom'>
-          THẬT
+          {t.questions.types.truth.toUpperCase()}
         </div>
         {/* Dare Section */}
         <div className='absolute bottom-0 left-0 w-full h-1/2 bg-gray-900 flex items-center justify-center text-white text-2xl font-bold transform rotate-90 origin-top'>
-          THÁCH
+          {t.questions.types.dare.toUpperCase()}
         </div>
 
         {/* Center Point */}

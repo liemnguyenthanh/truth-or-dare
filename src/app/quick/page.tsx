@@ -1,5 +1,5 @@
-import { QuickModePage } from '@/features/game/pages/QuickModePage';
+import { redirect } from 'next/navigation';
 
-export default function QuickPage() {
-  return <QuickModePage />;
+export default function QuickRedirect() {
+  redirect('/vi/quick');
 }

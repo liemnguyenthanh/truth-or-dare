@@ -1,6 +1,8 @@
 import { motion } from 'framer-motion';
 import React from 'react';
 
+import { useTranslations } from '@/hooks/useTranslations';
+
 import { CategorySelector } from '../components/CategorySelector';
 import { useGame } from '../hooks';
 
@@ -10,6 +12,7 @@ interface CategorySelectionPageProps {
 
 export function CategorySelectionPage({ onBack }: CategorySelectionPageProps) {
   const { gameState } = useGame();
+  const t = useTranslations();
 
   return (
     <motion.div
@@ -20,10 +23,11 @@ export function CategorySelectionPage({ onBack }: CategorySelectionPageProps) {
     >
       <div className='mb-10 text-center'>
         <h1 className='text-4xl font-bold text-purple-800 dark:text-purple-300 mb-4'>
-          Thật Hay Thách
+          {t.gamePages.title}
         </h1>
         <p className='text-lg text-purple-600 dark:text-purple-300 mb-6'>
-          {gameState.participants.length} người chơi sẵn sàng!
+          {gameState.participants.length}{' '}
+          {t.gamePages.categorySelection.playersReady}
         </p>
       </div>
 
@@ -36,7 +40,7 @@ export function CategorySelectionPage({ onBack }: CategorySelectionPageProps) {
           onClick={onBack}
           className='block mx-auto text-purple-600 dark:text-purple-300 hover:text-purple-800 dark:hover:text-purple-200'
         >
-          Quay Lại Chọn Người Chơi
+          {t.gamePages.categorySelection.backToPlayers}
         </button>
       </div>
     </motion.div>

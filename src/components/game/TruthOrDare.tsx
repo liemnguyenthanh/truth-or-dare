@@ -2,11 +2,13 @@ import { motion } from 'framer-motion';
 
 import { gtmEvents } from '@/lib/gtm';
 import { useGame } from '@/hooks/useGame';
+import { useTranslations } from '@/hooks/useTranslations';
 
 import { DareIcon, TruthIcon } from '@/components/shared/icons';
 
 export function TruthOrDare() {
   const { selectType } = useGame();
+  const t = useTranslations();
 
   const handleSelectType = (type: 'truth' | 'dare') => {
     gtmEvents.questionViewed(type);
@@ -28,7 +30,7 @@ export function TruthOrDare() {
           <div className='relative w-24 h-24 mb-2 flex items-center justify-center [&>svg]:w-full [&>svg]:h-full'>
             <TruthIcon />
           </div>
-          THẬT
+          {t.questions.types.truth.toUpperCase()}
         </motion.button>
 
         <motion.button
@@ -43,7 +45,7 @@ export function TruthOrDare() {
           <div className='relative w-24 h-24 mb-2 flex items-center justify-center [&>svg]:w-full [&>svg]:h-full'>
             <DareIcon />
           </div>
-          THÁCH
+          {t.questions.types.dare.toUpperCase()}
         </motion.button>
       </div>
     </div>

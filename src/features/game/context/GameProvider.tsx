@@ -3,6 +3,7 @@ import {
   defaultCategories,
   defaultPlayers,
   defaultQuestions,
+  getQuestionsForLanguage,
 } from '@data/gameData';
 import React, {
   createContext,
@@ -12,6 +13,8 @@ import React, {
   useState,
 } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+
+import { useLocale } from '@/hooks/useLocale';
 
 import { initialGameState } from '../store/gameState';
 
@@ -47,6 +50,7 @@ export const GameContext = createContext<GameContextType | undefined>(
 export const GameProvider: React.FC<{ children: ReactNode }> = ({
   children,
 }) => {
+  const currentLocale = useLocale();
   const [gameState, setGameState] = useState<GameState>(initialGameState);
   const [categories] = useState<Category[]>(defaultCategories);
   const [questions, setQuestions] = useState<Question[]>(defaultQuestions);
@@ -61,16 +65,21 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
       ...prev,
       participants: initialPlayers,
     }));
+
+    // Load localized questions
+    const localizedQuestions = getQuestionsForLanguage(currentLocale as any);
+    setQuestions(localizedQuestions);
+
     const storedQuestions = localStorage.getItem('customQuestions');
     if (storedQuestions) {
       try {
         const parsedQuestions = JSON.parse(storedQuestions) as Question[];
-        setQuestions([...defaultQuestions, ...parsedQuestions]);
+        setQuestions([...localizedQuestions, ...parsedQuestions]);
       } catch (error) {
         throw new Error(`Error parsing custom questions: ${error}`);
       }
     }
-  }, []);
+  }, [currentLocale]);
 
   const saveCustomQuestions = (allQuestions: Question[]) => {
     const customQuestions = allQuestions.filter((q) => q.isCustom);
@@ -107,24 +116,29 @@ export const GameProvider: React.FC<{ children: ReactNode }> = ({
     }));
   }, []);
 
-  const startGame = useCallback((categoryId: string) => {
-    setGameState((prev) => {
-      let participants = prev.participants;
-      if (prev.gameMode === 'quick') {
-        participants = [{ id: 'quick-player', name: 'Player' }];
-      } else if (prev.gameMode === 'spin_wheel') {
-        participants = [{ id: 'spin-wheel-player', name: 'Player' }];
-      }
-      return {
-        ...prev,
-        participants,
-        selectedCategory: categoryId,
-        currentParticipantIndex: 0,
-        gameStarted: true,
-      };
-    });
-    setQuestions(defaultQuestions);
-  }, []);
+  const startGame = useCallback(
+    (categoryId: string) => {
+      setGameState((prev) => {
+        let participants = prev.participants;
+        if (prev.gameMode === 'quick') {
+          participants = [{ id: 'quick-player', name: 'Player' }];
+        } else if (prev.gameMode === 'spin_wheel') {
+          participants = [{ id: 'spin-wheel-player', name: 'Player' }];
+        }
+        return {
+          ...prev,
+          participants,
+          selectedCategory: categoryId,
+          currentParticipantIndex: 0,
+          gameStarted: true,
+        };
+      });
+      // Use localized questions instead of defaultQuestions
+      const localizedQuestions = getQuestionsForLanguage(currentLocale as any);
+      setQuestions(localizedQuestions);
+    },
+    [currentLocale]
+  );
 
   const selectType = useCallback(
     (type: QuestionType) => {

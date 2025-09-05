@@ -13,10 +13,9 @@ import {
 } from '@/components/shared';
 import { Footer } from '@/components/shared/Footer';
 
-import { metadata } from './metadata';
 import { viewport } from './viewport';
 
-export { metadata, viewport };
+export { viewport };
 
 export default function RootLayout({
   children,

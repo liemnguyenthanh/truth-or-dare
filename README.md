@@ -13,7 +13,7 @@ This project follows a feature-based modular architecture:
     │   ├── blog/       # Blog pages
     │   ├── feedback/   # Feedback pages
     │   ├── questions/  # Questions pages
-    │   └── huong-dan/  # Guide pages
+    │   └── guide/  # Guide pages
     ├── assets/         # Static assets (icons, images)
     ├── data/           # Game data and questions
     │   └── questions/  # Question sets by category

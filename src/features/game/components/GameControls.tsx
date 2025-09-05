@@ -1,10 +1,13 @@
 import { motion } from 'framer-motion';
 import React from 'react';
 
+import { useTranslations } from '@/hooks/useTranslations';
+
 import { useGame } from '../hooks';
 
 export function GameControls() {
   const { quitGame } = useGame();
+  const t = useTranslations();
 
   return (
     <div className='fixed bottom-4 right-4 flex gap-2'>
@@ -13,7 +16,7 @@ export function GameControls() {
         className='p-2 rounded-full bg-red-500 text-white shadow-md hover:bg-red-600'
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.9 }}
-        title='Thoát Trò Chơi'
+        title={t.gamePages.gameControls.quitGame}
       >
         <svg
           xmlns='http://www.w3.org/2000/svg'

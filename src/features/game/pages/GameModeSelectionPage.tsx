@@ -4,6 +4,8 @@ import { Heart, Star } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
+import { useLocale, useTranslations } from '@/hooks';
+
 import RatingModal from '@/components/shared/RatingModal';
 
 import { GameMode, GameModeOption } from '@/types';
@@ -12,57 +14,62 @@ interface GameModeSelectionPageProps {
   onModeSelected?: (mode: GameMode) => void;
 }
 
-const gameModeOptions: GameModeOption[] = [
-  {
-    id: 'couples',
-    name: 'Thẻ Bài Cặp Đôi',
-    description: 'Lật bài chọn tư thế dành cho cặp đôi (18+) - Cập nhật mới!',
-    icon: '❤️',
-    isNew: true,
-  },
-  {
-    id: 'quick',
-    name: 'Chế Độ Nhanh',
-    description: 'Chơi ngay không cần nhập tên. Chọn category và bắt đầu!',
-    icon: '⚡',
-  },
-  {
-    id: 'group',
-    name: 'Chế Độ Nhóm',
-    description: 'Thêm tên người chơi và chơi theo lượt',
-    icon: '👥',
-  },
-  {
-    id: 'spin_wheel',
-    name: 'Vòng Quay May Mắn',
-    description: 'Quay vòng may mắn để nhận câu hỏi ngẫu nhiên',
-    icon: '🎡',
-  },
-];
-
 export function GameModeSelectionPage({
   onModeSelected,
 }: GameModeSelectionPageProps) {
   const router = useRouter();
   const [showRatingModal, setShowRatingModal] = useState(false);
+  const t = useTranslations();
+  const currentLocale = useLocale(); // Use common locale hook
+
+  // Create game mode options using translations
+  const gameModeOptions: GameModeOption[] = [
+    {
+      id: 'couples',
+      name: t.gameModes.couples.name,
+      description: t.gameModes.couples.description,
+      icon: t.gameModes.couples.icon,
+      isNew: true,
+    },
+    {
+      id: 'quick',
+      name: t.gameModes.quick.name,
+      description: t.gameModes.quick.description,
+      icon: t.gameModes.quick.icon,
+    },
+    {
+      id: 'group',
+      name: t.gameModes.group.name,
+      description: t.gameModes.group.description,
+      icon: t.gameModes.group.icon,
+    },
+    {
+      id: 'spin_wheel',
+      name: t.gameModes.spinWheel.name,
+      description: t.gameModes.spinWheel.description,
+      icon: t.gameModes.spinWheel.icon,
+    },
+  ];
 
   const handleModeSelect = (mode: GameMode) => {
     if (onModeSelected) {
       onModeSelected(mode);
     } else {
-      // Navigate to the appropriate page
+      // Navigate to the appropriate page with locale
+      const basePath = currentLocale === 'vi' ? '' : `/${currentLocale}`;
+
       switch (mode) {
         case 'quick':
-          router.push('/quick');
+          router.push(`${basePath}/quick`);
           break;
         case 'group':
-          router.push('/group');
+          router.push(`${basePath}/group`);
           break;
         case 'spin_wheel':
-          router.push('/spin-wheel');
+          router.push(`${basePath}/spin-wheel`);
           break;
         case 'couples':
-          router.push('/couples');
+          router.push(`${basePath}/couples`);
           break;
       }
     }
@@ -107,10 +114,10 @@ export function GameModeSelectionPage({
     >
       <div className='mb-10 text-center'>
         <h1 className='text-4xl font-bold text-purple-800 dark:text-purple-300 mb-4'>
-          Thật Hay Thách
+          {t.metadata.ogTitle.split(' - ')[0]}
         </h1>
         <p className='text-purple-600 dark:text-purple-300 text-lg'>
-          Chọn chế độ chơi để bắt đầu
+          {t.gameModes.subtitle}
         </p>
       </div>
 
@@ -168,7 +175,7 @@ export function GameModeSelectionPage({
                     ease: 'easeInOut',
                   }}
                 >
-                  MỚI ✨
+                  {t.gameModes.newBadge} ✨
                 </motion.span>
               </motion.div>
             )}
@@ -191,7 +198,7 @@ export function GameModeSelectionPage({
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                Chọn chế độ này
+                {t.gameModes.startGame}
               </motion.button>
             </div>
           </motion.div>

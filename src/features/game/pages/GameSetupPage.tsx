@@ -2,6 +2,9 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import React from 'react';
 
+import { useLocale } from '@/hooks/useLocale';
+import { useTranslations } from '@/hooks/useTranslations';
+
 import { ParticipantManager } from '@/components/shared/ParticipantManager';
 
 import { useGame } from '../hooks';
@@ -11,7 +14,9 @@ interface GameSetupPageProps {
 }
 
 export function GameSetupPage({ onContinue }: GameSetupPageProps) {
+  const locale = useLocale();
   const { gameState } = useGame();
+  const t = useTranslations();
 
   return (
     <motion.div
@@ -22,10 +27,10 @@ export function GameSetupPage({ onContinue }: GameSetupPageProps) {
     >
       <div className='mb-10 text-center'>
         <h1 className='text-4xl font-bold text-purple-800 dark:text-purple-300 mb-4'>
-          Thật Hay Thách
+          {t.gamePages.title}
         </h1>
         <p className='text-purple-600 dark:text-purple-300'>
-          Thêm ít nhất 2 người chơi để bắt đầu trò chơi
+          {t.gamePages.gameSetup.addPlayers}
         </p>
       </div>
 
@@ -39,7 +44,7 @@ export function GameSetupPage({ onContinue }: GameSetupPageProps) {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              Chơi Ngay
+              {t.gamePages.gameSetup.playNow}
             </motion.button>
           </div>
         )}
@@ -51,10 +56,10 @@ export function GameSetupPage({ onContinue }: GameSetupPageProps) {
 
       <div className='mt-5 text-center'>
         <Link
-          href='/questions'
+          href={`/${locale}/questions`}
           className='inline-block px-6 py-3 bg-purple-500 hover:bg-purple-600 dark:bg-purple-600 dark:hover:bg-purple-500 text-white rounded-lg shadow-md transition-colors duration-200 mb-4'
         >
-          Danh Sách Câu Hỏi
+          {t.gamePages.gameSetup.questionsList}
         </Link>
       </div>
     </motion.div>

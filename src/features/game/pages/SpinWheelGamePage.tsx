@@ -4,6 +4,7 @@ import { useState } from 'react';
 
 import { gtmEvents } from '@/lib/gtm';
 import { soundManager } from '@/lib/sounds';
+import { useTranslations } from '@/hooks/useTranslations';
 
 import { GameControls } from '../components/GameControls';
 import { useGame } from '../hooks';
@@ -30,6 +31,7 @@ export function SpinWheelGamePage() {
   } = useGame();
   const [isSpinning, setIsSpinning] = useState(false);
   const controls = useAnimation();
+  const t = useTranslations();
 
   // Get questions based on selected category
   const availableQuestions = questions.filter(
@@ -95,7 +97,9 @@ export function SpinWheelGamePage() {
             text-base sm:text-lg md:text-xl font-bold
             flex items-center justify-center'
         >
-          {isSpinning ? 'ĐANG QUAY...' : 'BẮT ĐẦU'}
+          {isSpinning
+            ? t.gamePages.spinWheel.spinning
+            : t.gamePages.spinWheel.spinToStart}
         </button>
 
         {/* Wheel */}
@@ -129,7 +133,9 @@ export function SpinWheelGamePage() {
                     transformOrigin: 'center center',
                   }}
                 >
-                  {question.type === 'truth' ? '🤔 Thật' : '🎯 Thách'}
+                  {question.type === 'truth'
+                    ? `🤔 ${t.questions.types.truth}`
+                    : `🎯 ${t.questions.types.dare}`}
                 </div>
               </div>
             );
@@ -178,8 +184,8 @@ export function SpinWheelGamePage() {
                 text-purple-600 dark:text-purple-400'
               >
                 {gameState.currentQuestion.type === 'truth'
-                  ? 'Câu Hỏi Thật'
-                  : 'Thử Thách'}
+                  ? t.questions.types.truth
+                  : t.questions.types.dare}
               </h2>
               <p
                 className='text-lg sm:text-xl text-gray-800 dark:text-gray-200 
@@ -194,7 +200,7 @@ export function SpinWheelGamePage() {
                   hover:bg-purple-700 transition-all duration-200 
                   transform hover:scale-105'
               >
-                Câu Tiếp Theo
+                {t.gamePages.spinWheel.selectQuestion}
               </button>
             </div>
           </motion.div>
@@ -204,7 +210,7 @@ export function SpinWheelGamePage() {
       {/* Empty state message */}
       {availableQuestions.length === 0 && (
         <p className='text-center text-gray-500 dark:text-gray-400 mt-4'>
-          Đã hết câu hỏi cho category này. Vui lòng chọn category khác!
+          {t.gamePages.spinWheel.noQuestions}
         </p>
       )}
 

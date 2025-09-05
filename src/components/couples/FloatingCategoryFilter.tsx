@@ -4,6 +4,8 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Filter, X } from 'lucide-react';
 import { useState } from 'react';
 
+import { useTranslations } from '@/hooks/useTranslations';
+
 import { coupleCategories } from '@/data/couples/categories';
 
 import { CoupleCategory } from '@/types';
@@ -17,13 +19,16 @@ export default function FloatingCategoryFilter({
   selectedCategory,
   onCategoryChange,
 }: FloatingCategoryFilterProps) {
+  const t = useTranslations();
   const [isOpen, setIsOpen] = useState(false);
 
   const selectedCategoryData = coupleCategories.find(
     (cat) => cat.id === selectedCategory
   );
   const selectedCategoryName =
-    selectedCategory === 'all' ? 'Tất cả' : selectedCategoryData?.name;
+    selectedCategory === 'all'
+      ? t.gamePages.couples.categoryFilter.all
+      : selectedCategoryData?.name;
 
   const handleCategorySelect = (categoryId: string) => {
     onCategoryChange(categoryId);
@@ -88,7 +93,7 @@ export default function FloatingCategoryFilter({
               {/* Header */}
               <div className='flex items-center justify-between p-6 border-b border-gray-200 dark:border-gray-700'>
                 <h3 className='text-lg font-semibold text-gray-900 dark:text-white'>
-                  Chọn danh mục
+                  {t.gamePages.couples.categoryFilter.title}
                 </h3>
                 <button
                   onClick={() => setIsOpen(false)}
@@ -115,10 +120,10 @@ export default function FloatingCategoryFilter({
                       <div className='w-4 h-4 rounded-full bg-gradient-to-r from-purple-500 to-pink-500' />
                       <div>
                         <h4 className='font-medium text-gray-900 dark:text-white'>
-                          Tất cả
+                          {t.gamePages.couples.categoryFilter.all}
                         </h4>
                         <p className='text-sm text-gray-500 dark:text-gray-400'>
-                          Hiển thị tất cả tư thế
+                          {t.gamePages.couples.categoryFilter.allDescription}
                         </p>
                       </div>
                     </div>

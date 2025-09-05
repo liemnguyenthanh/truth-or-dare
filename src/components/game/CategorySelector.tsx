@@ -3,15 +3,17 @@ import { AnimatePresence, motion } from 'framer-motion';
 import React, { useState } from 'react';
 
 import { useGame } from '@/hooks/useGame';
+import { useTranslations } from '@/hooks/useTranslations';
 
 export function CategorySelector() {
   const { categories, startGame } = useGame();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const t = useTranslations();
 
   return (
     <div className='w-full max-w-2xl mx-auto'>
       <h2 className='text-2xl font-bold mb-6 text-center text-purple-600'>
-        Chọn Chủ Đề
+        {t.gamePages.categorySelection.title}
       </h2>
 
       <div className='grid grid-cols-1 md:grid-cols-2 gap-4'>
@@ -42,7 +44,11 @@ export function CategorySelector() {
             >
               {category.name}
             </h3>
-            <p className='text-gray-600 text-sm'>{category.description}</p>
+            <p className='text-gray-600 text-sm'>
+              {category.id === '18+'
+                ? t.gamePages.categories.adult
+                : t.gamePages.categories.party}
+            </p>
           </motion.button>
         ))}
       </div>
@@ -63,6 +69,8 @@ const OverWriteCategoriesModal = ({
   isOpen: boolean;
   onClose: () => void;
 }) => {
+  const t = useTranslations();
+
   return (
     <AnimatePresence>
       {isOpen && (
@@ -79,10 +87,14 @@ const OverWriteCategoriesModal = ({
             transition={{ duration: 0.5 }}
             className='bg-white p-8 rounded-lg shadow-lg'
           >
-            <h2 className='text-2xl font-bold mb-4'>Chọn Chủ Đề</h2>
+            <h2 className='text-2xl font-bold mb-4'>
+              {t.gamePages.categorySelection.title}
+            </h2>
 
             {/* show text: only choose 18+ category */}
-            <p className='text-gray-600 text-sm'>Chỉ chọn chủ đề 18+</p>
+            <p className='text-gray-600 text-sm'>
+              {t.gamePages.categorySelection.only18Plus}
+            </p>
             <div className='mt-4'>
               <button
                 className='bg-purple-600 text-white px-4 py-2 rounded-md'
@@ -90,7 +102,7 @@ const OverWriteCategoriesModal = ({
                   onClose();
                 }}
               >
-                Chọn Chủ Đề
+                {t.gamePages.categorySelection.selectCategory}
               </button>
             </div>
           </motion.div>
