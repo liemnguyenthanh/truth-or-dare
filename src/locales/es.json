@@ -41,6 +41,14 @@
   "gameModes": {
     "title": "Elige Modo de Juego",
     "subtitle": "Selecciona la forma que más te convenga",
+    "newBadge": "NUEVO",
+    "startGame": "Comenzar Juego",
+    "changeModeAnytime": "Puedes cambiar el modo de juego en cualquier momento",
+    "rateGame": "Calificar Juego",
+    "rateGameDescription": "Comparte tu opinión sobre el juego",
+    "rateGameTitle": "Calificar Verdad o Reto",
+    "rateGameSubtitle": "¿Cómo te sientes con el juego?",
+    "ratingSubmitted": "Calificación {rating} estrellas",
     "couples": {
       "name": "Tarjetas de Parejas",
       "description": "Voltea tarjetas para elegir posiciones para parejas (18+) - ¡Actualización nueva!",

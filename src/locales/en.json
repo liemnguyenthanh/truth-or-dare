@@ -40,6 +40,14 @@
   "gameModes": {
     "title": "Choose Game Mode",
     "subtitle": "Select the way that suits you best",
+    "newBadge": "NEW",
+    "startGame": "Start Game",
+    "changeModeAnytime": "You can change game mode anytime",
+    "rateGame": "Rate Game",
+    "rateGameDescription": "Share your thoughts about the game",
+    "rateGameTitle": "Rate Truth or Dare",
+    "rateGameSubtitle": "How do you feel about the game?",
+    "ratingSubmitted": "Rating {rating} stars",
     "couples": {
       "name": "Couples Cards",
       "description": "Flip cards to choose positions for couples (18+) - New update!",

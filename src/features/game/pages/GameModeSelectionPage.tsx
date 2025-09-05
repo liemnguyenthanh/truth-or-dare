@@ -56,7 +56,7 @@ export function GameModeSelectionPage({
       onModeSelected(mode);
     } else {
       // Navigate to the appropriate page with locale
-      const basePath = currentLocale === 'vi' ? '' : `/${currentLocale}`;
+      const basePath = `/${currentLocale}`;
 
       switch (mode) {
         case 'quick':
@@ -88,7 +88,10 @@ export function GameModeSelectionPage({
         },
         body: JSON.stringify({
           type: 'rating',
-          title: `Đánh giá ${data.rating} sao`,
+          title: t.gameModes.ratingSubmitted.replace(
+            '{rating}',
+            data.rating.toString()
+          ),
           description: data.comment,
           rating: data.rating,
           category: 'homepage',
@@ -207,7 +210,7 @@ export function GameModeSelectionPage({
 
       <div className='mt-8 text-center space-y-4'>
         <p className='text-sm text-gray-500 dark:text-gray-400'>
-          Bạn có thể thay đổi chế độ chơi bất kỳ lúc nào
+          {t.gameModes.changeModeAnytime}
         </p>
 
         {/* Rating Button */}
@@ -224,11 +227,11 @@ export function GameModeSelectionPage({
             className='inline-flex items-center space-x-2 px-6 py-3 bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white rounded-full shadow-lg transition-all duration-200 font-medium'
           >
             <Heart className='w-5 h-5' />
-            <span>Đánh giá trò chơi</span>
+            <span>{t.gameModes.rateGame}</span>
             <Star className='w-5 h-5' />
           </motion.button>
           <p className='text-xs text-gray-400 mt-2'>
-            Chia sẻ cảm nhận của bạn về trò chơi
+            {t.gameModes.rateGameDescription}
           </p>
         </motion.div>
       </div>
@@ -238,8 +241,8 @@ export function GameModeSelectionPage({
         isOpen={showRatingModal}
         onClose={() => setShowRatingModal(false)}
         onSubmit={handleRatingSubmit}
-        title='Đánh giá Thật Hay Thách'
-        description='Bạn cảm thấy trò chơi thế nào?'
+        title={t.gameModes.rateGameTitle}
+        description={t.gameModes.rateGameSubtitle}
       />
     </motion.div>
   );

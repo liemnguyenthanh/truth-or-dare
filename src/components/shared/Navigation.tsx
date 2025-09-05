@@ -21,10 +21,10 @@ export function Navigation() {
 
   // Create localized navigation items
   const getNavigationItems = () => {
-    const basePath = currentLocale === 'vi' ? '' : `/${currentLocale}`;
+    const basePath = `/${currentLocale}`;
 
     return [
-      { href: `${basePath}`, label: t.navigation.home, icon: '🎮' },
+      { href: `${basePath}/`, label: t.navigation.home, icon: '🎮' },
       {
         href: `${basePath}/questions`,
         label: t.navigation.questions,
@@ -47,7 +47,7 @@ export function Navigation() {
           },
         ],
       },
-      { href: `${basePath}/blog`, label: t.navigation.blog, icon: '📝' },
+      { href: `/blog`, label: t.navigation.blog, icon: '📝' },
     ];
   };
 

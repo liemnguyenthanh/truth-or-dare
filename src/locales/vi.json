@@ -42,6 +42,14 @@
   "gameModes": {
     "title": "Chọn Chế Độ Chơi",
     "subtitle": "Chọn cách chơi phù hợp với bạn",
+    "newBadge": "MỚI",
+    "startGame": "Bắt Đầu",
+    "changeModeAnytime": "Bạn có thể thay đổi chế độ chơi bất kỳ lúc nào",
+    "rateGame": "Đánh giá trò chơi",
+    "rateGameDescription": "Chia sẻ cảm nhận của bạn về trò chơi",
+    "rateGameTitle": "Đánh giá Thật Hay Thách",
+    "rateGameSubtitle": "Bạn cảm thấy trò chơi thế nào?",
+    "ratingSubmitted": "Đánh giá {rating} sao",
     "couples": {
       "name": "Thẻ Bài Cặp Đôi",
       "description": "Lật bài chọn tư thế dành cho cặp đôi (18+) - Cập nhật mới!",
