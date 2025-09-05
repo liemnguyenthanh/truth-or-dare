@@ -3,16 +3,15 @@ import { AnimatePresence } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 
 import { gtmEvents } from '@/lib/gtm';
-
-import { QuestionListPage } from '@/features/questions/pages/QuestionListPage';
-
 // Import from our new module structure
-import { useGame } from '../hooks';
-import { CategorySelectionPage } from '../pages/CategorySelectionPage';
-import { GameModeSelectionPage } from '../pages/GameModeSelectionPage';
-import { GamePlayPage } from '../pages/GamePlayPage';
-import { GameSetupPage } from '../pages/GameSetupPage';
-import { SpinWheelGamePage } from '../pages/SpinWheelGamePage';
+import { useGame } from '@/hooks/useGame';
+
+import { CategorySelectionPage } from '@/features/game/pages/CategorySelectionPage';
+import { GameModeSelectionPage } from '@/features/game/pages/GameModeSelectionPage';
+import { GamePlayPage } from '@/features/game/pages/GamePlayPage';
+import { GameSetupPage } from '@/features/game/pages/GameSetupPage';
+import { SpinWheelGamePage } from '@/features/game/pages/SpinWheelGamePage';
+import { QuestionListPage } from '@/features/questions/pages/QuestionListPage';
 
 // Define game flow stages
 enum GameStage {

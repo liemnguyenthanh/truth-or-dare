@@ -2,8 +2,8 @@
 import { motion, useAnimation } from 'framer-motion';
 import { useState } from 'react';
 
-import { gtmEvents } from '@/shared/lib/gtm';
-import { soundManager } from '@/shared/lib/sounds';
+import { gtmEvents } from '@/lib/gtm';
+import { soundManager } from '@/lib/sounds';
 
 import { GameControls } from '../components/GameControls';
 import { useGame } from '../hooks';
@@ -40,7 +40,7 @@ export function SpinWheelGamePage() {
     if (isSpinning || availableQuestions.length === 0) return;
 
     setIsSpinning(true);
-    gtmEvents.buttonClick('spin_wheel');
+    gtmEvents.buttonClick('spin_wheel', 'spin_wheel');
     soundManager.play('spin');
 
     // Random number of full rotations (3-5) plus random ending position

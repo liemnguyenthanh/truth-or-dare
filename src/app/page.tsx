@@ -1,6 +1,6 @@
 'use client';
 
-import { GameModeSelectionPage } from '@game/pages';
+import { GameModeSelectionPage } from '@/features/game/pages/GameModeSelectionPage';
 
 export default function HomePage() {
   return (

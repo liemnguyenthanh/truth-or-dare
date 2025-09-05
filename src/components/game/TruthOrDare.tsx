@@ -1,10 +1,9 @@
 import { motion } from 'framer-motion';
 
 import { gtmEvents } from '@/lib/gtm';
+import { useGame } from '@/hooks/useGame';
 
 import { DareIcon, TruthIcon } from '@/components/shared/icons';
-
-import { useGame } from '../hooks';
 
 export function TruthOrDare() {
   const { selectType } = useGame();

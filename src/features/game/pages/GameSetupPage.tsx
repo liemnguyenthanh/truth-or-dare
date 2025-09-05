@@ -2,8 +2,9 @@ import { motion } from 'framer-motion';
 import Link from 'next/link';
 import React from 'react';
 
+import { ParticipantManager } from '@/components/shared/ParticipantManager';
+
 import { useGame } from '../hooks';
-import { ParticipantManager } from '../../participants/components/ParticipantManager';
 
 interface GameSetupPageProps {
   onContinue: () => void;

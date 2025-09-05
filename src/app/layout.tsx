@@ -1,5 +1,5 @@
+import { ThemeProvider } from '@hooks/useTheme';
 import { GoogleTagManager } from '@next/third-parties/google';
-import { ThemeProvider } from '@theme/hooks/useTheme';
 import * as React from 'react';
 
 import '@/styles/globals.css';
@@ -10,8 +10,8 @@ import {
   Navigation,
   organizationSchema,
   websiteSchema,
-} from '@/shared/components';
-import { Footer } from '@/shared/components/Footer';
+} from '@/components/shared';
+import { Footer } from '@/components/shared/Footer';
 
 import { metadata } from './metadata';
 import { viewport } from './viewport';

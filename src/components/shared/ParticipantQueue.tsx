@@ -2,7 +2,7 @@
 import { motion } from 'framer-motion';
 import { useEffect, useState } from 'react';
 
-import { useGame } from '../../game/hooks';
+import { useGame } from '@/hooks/useGame';
 
 import { Participant } from '@/types';
 

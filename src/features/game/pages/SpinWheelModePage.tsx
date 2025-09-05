@@ -2,7 +2,7 @@
 import { AnimatePresence } from 'framer-motion';
 import React, { useEffect, useState } from 'react';
 
-import { gtmEvents } from '@/shared/lib/gtm';
+import { gtmEvents } from '@/lib/gtm';
 
 import { CategorySelectionPage } from './CategorySelectionPage';
 import { SpinWheelGamePage } from './SpinWheelGamePage';

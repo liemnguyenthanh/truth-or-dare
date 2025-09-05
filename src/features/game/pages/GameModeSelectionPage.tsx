@@ -4,7 +4,7 @@ import { Heart, Star } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useState } from 'react';
 
-import RatingModal from '@/shared/components/RatingModal';
+import RatingModal from '@/components/shared/RatingModal';
 
 import { GameMode, GameModeOption } from '@/types';
 

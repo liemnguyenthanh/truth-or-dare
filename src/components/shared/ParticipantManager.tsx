@@ -2,7 +2,7 @@
 import { motion } from 'framer-motion';
 import React, { useState } from 'react';
 
-import { useGame } from '../../game/hooks';
+import { useGame } from '@/hooks/useGame';
 
 export function ParticipantManager() {
   const { gameState, addParticipant, removeParticipant } = useGame();

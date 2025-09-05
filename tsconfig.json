@@ -16,16 +16,12 @@
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
-      "@core/*": ["./src/core/*"],
-      "@shared/*": ["./src/shared/*"],
-      "@modules/*": ["./src/features/*"],
-      "@game/*": ["./src/features/game/*"],
-      "@participants/*": ["./src/features/participants/*"],
-      "@questions/*": ["./src/features/questions/*"],
-      "@theme/*": ["./src/features/theme/*"],
+      "@components/*": ["./src/components/*"],
+      "@hooks/*": ["./src/hooks/*"],
       "@data/*": ["./src/data/*"],
-      "~/*": ["./public/*"],
-      "@features/*": ["./src/features/*"]
+      "@types/*": ["./src/types/*"],
+      "@lib/*": ["./src/lib/*"],
+      "~/*": ["./public/*"]
     },
     "incremental": true,
     "plugins": [

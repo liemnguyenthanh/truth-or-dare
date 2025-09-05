@@ -4,8 +4,9 @@ import Head from 'next/head';
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react';
 
+import { gtmEvents } from '@/lib/gtm';
+
 import { QuestionListPage } from '@/features/questions/pages/QuestionListPage';
-import { gtmEvents } from '@/shared/lib/gtm';
 
 export default function QuestionsPage() {
   const router = useRouter();

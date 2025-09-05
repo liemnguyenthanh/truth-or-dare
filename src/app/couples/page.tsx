@@ -6,11 +6,12 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { couplePositions } from '@/data/couples/positions';
 
+import AgeVerificationModal from '@/components/shared/AgeVerificationModal';
+
 import FavoritesButton from '@/features/couples/components/FavoritesButton';
 import FloatingCategoryFilter from '@/features/couples/components/FloatingCategoryFilter';
 import ShuffleButton from '@/features/couples/components/ShuffleButton';
 import SwipeCardStack from '@/features/couples/components/SwipeCardStack';
-import AgeVerificationModal from '@/shared/components/AgeVerificationModal';
 
 import { CouplePosition } from '@/types';
 
@@ -65,7 +66,7 @@ export default function CouplePositionsPage() {
   }, [positions]);
 
   const handlePositionChange = useCallback(
-    (position: CouplePosition, _index: number) => {
+    (position: CouplePosition, index: number) => {
       setCurrentPosition(position);
     },
     []
