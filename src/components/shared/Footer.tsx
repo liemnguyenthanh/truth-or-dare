@@ -48,14 +48,6 @@ export function Footer() {
                   Hướng Dẫn Chơi
                 </Link>
               </li>
-              <li>
-                <Link
-                  href='/blog'
-                  className='text-gray-400 hover:text-white transition-colors'
-                >
-                  Blog & Mẹo Hay
-                </Link>
-              </li>
             </ul>
           </div>
 

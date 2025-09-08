@@ -31,23 +31,22 @@ export function Navigation() {
         icon: '❓',
       },
       {
-        href: `${basePath}/feedback`,
+        href: '/feedback',
         label: t.navigation.feedback,
         icon: '💬',
         subItems: [
           {
-            href: `${basePath}/feedback`,
+            href: '/feedback',
             label: t.navigation.feedback,
             icon: '✍️',
           },
           {
-            href: `${basePath}/feedback/list`,
+            href: '/feedback/list',
             label: t.navigation.feedback,
             icon: '👁️',
           },
         ],
       },
-      { href: `/blog`, label: t.navigation.blog, icon: '📝' },
     ];
   };
 

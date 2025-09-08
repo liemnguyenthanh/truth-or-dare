@@ -63,7 +63,7 @@ export function generateMetadata(locale: Locale = 'vi'): Metadata {
       shortcut: '/favicon.svg',
       apple: '/favicon.svg',
     },
-    manifest: '/favicon/site.webmanifest',
+    manifest: '/manifest.json',
     alternates: {
       canonical: `https://www.truthordaregame.xyz/${locale}`,
       languages: {

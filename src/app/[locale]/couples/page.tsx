@@ -4,8 +4,6 @@ import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 
-import { useTranslations } from '@/hooks/useTranslations';
-
 import { couplePositions } from '@/data/couples/positions';
 
 import AgeVerificationModal from '@/components/shared/AgeVerificationModal';
@@ -23,7 +21,6 @@ interface CouplesPageProps {
 
 export default function CouplesPage({ params }: CouplesPageProps) {
   const router = useRouter();
-  const t = useTranslations();
   const [showAgeVerification, setShowAgeVerification] = useState(true);
   const [ageVerified, setAgeVerified] = useState(false);
   const [positions, setPositions] = useState<CouplePosition[]>([]);
@@ -73,7 +70,7 @@ export default function CouplesPage({ params }: CouplesPageProps) {
   }, [positions]);
 
   const handlePositionChange = useCallback(
-    (position: CouplePosition, index: number) => {
+    (position: CouplePosition, _index: number) => {
       setCurrentPosition(position);
     },
     []
