@@ -31,17 +31,17 @@ export function Navigation() {
         icon: '❓',
       },
       {
-        href: '/feedback',
+        href: `${basePath}/feedback`,
         label: t.navigation.feedback,
         icon: '💬',
         subItems: [
           {
-            href: '/feedback',
+            href: `${basePath}/feedback`,
             label: t.navigation.feedback,
             icon: '✍️',
           },
           {
-            href: '/feedback/list',
+            href: `${basePath}/feedback/list`,
             label: t.navigation.feedback,
             icon: '👁️',
           },
