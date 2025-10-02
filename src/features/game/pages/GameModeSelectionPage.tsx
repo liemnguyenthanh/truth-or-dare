@@ -21,6 +21,13 @@ const gameModeOptions: GameModeOption[] = [
     isNew: true,
   },
   {
+    id: 'drink',
+    name: 'Drink',
+    description: 'Rút bài và thực hiện thử thách. Ai không làm được thì uống!',
+    icon: '🍺',
+    isNew: true,
+  },
+  {
     id: 'quick',
     name: 'Chế Độ Nhanh',
     description: 'Chơi ngay không cần nhập tên. Chọn category và bắt đầu!',
@@ -63,6 +70,9 @@ export function GameModeSelectionPage({
           break;
         case 'couples':
           router.push('/couples');
+          break;
+        case 'drink':
+          router.push('/drink');
           break;
       }
     }

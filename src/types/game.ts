@@ -1,9 +1,9 @@
 export type QuestionType = 'truth' | 'dare';
 
-export type GameMode = 'quick' | 'group' | 'spin_wheel' | 'couples';
+export type GameMode = 'quick' | 'group' | 'spin_wheel' | 'couples' | 'drink';
 
 export interface Question {
-  id: string;
+  id?: string;
   type: QuestionType;
   text: string;
   category: string;
