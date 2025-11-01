@@ -1,4 +1,5 @@
 // Export all components
-export * from './couples';
 export * from './game';
+export * from './payment';
 export * from './shared';
+export * from './ui';

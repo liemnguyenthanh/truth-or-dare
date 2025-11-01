@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface JsonLdProps {
-  data: Record<string, any>;
+  data: Record<string, unknown>;
 }
 
 export function JsonLd({ data }: JsonLdProps) {
@@ -59,7 +59,7 @@ export const websiteSchema = {
   inLanguage: 'vi-VN',
   potentialAction: {
     '@type': 'SearchAction',
-    target: 'https://www.truthordaregame.xyz/questions?q={search_term_string}',
+    target: 'https://www.truthordaregame.xyz/?q={search_term_string}',
     'query-input': 'required name=search_term_string',
   },
 };

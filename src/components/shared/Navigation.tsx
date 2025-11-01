@@ -1,37 +1,22 @@
 'use client';
 
 import { AnimatePresence, motion } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 
 const navigationItems = [
-  { href: '/', label: 'Chơi Game', icon: '🎮' },
-  { href: '/questions', label: 'Câu Hỏi', icon: '❓' },
-  {
-    href: '/feedback',
-    label: 'Góp Ý',
-    icon: '💬',
-    subItems: [
-      { href: '/feedback', label: 'Gửi Góp Ý', icon: '✍️' },
-      { href: '/feedback/list', label: 'Xem Góp Ý', icon: '👁️' },
-    ],
-  },
-  { href: '/blog', label: 'Blog', icon: '📝' },
+  { href: '/', label: 'Trang Chủ', icon: '🏠' },
+  { href: '/feedback', label: 'Góp Ý', icon: '💬' },
 ];
 
 export function Navigation() {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
-  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
-  const [expandedMobile, setExpandedMobile] = useState<string | null>(null);
 
   useEffect(() => {
     // Close drawer when route changes
     setIsOpen(false);
-    setOpenDropdown(null);
-    setExpandedMobile(null);
   }, [pathname]);
 
   // Close drawer when clicking outside
@@ -39,7 +24,6 @@ export function Navigation() {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         setIsOpen(false);
-        setOpenDropdown(null);
       }
     };
 
@@ -56,96 +40,66 @@ export function Navigation() {
     };
   }, [isOpen]);
 
-  const isActiveItem = (item: any) => {
-    if (item.subItems) {
-      return item.subItems.some((subItem: any) => pathname === subItem.href);
-    }
-    return pathname === item.href;
-  };
-
   return (
     <>
       <nav
         id='navigation'
-        className='dark:bg-gray-800 bg-white shadow-lg fixed left-0 right-0 top-0 z-50 w-full transition-all duration-300'
+        className='bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-b border-gray-200/50 dark:border-gray-700/50 fixed left-0 right-0 top-0 z-50 w-full transition-all duration-300'
       >
         <div className='container mx-auto px-4'>
           <div className='flex justify-between items-center h-16'>
             {/* Logo */}
-            <Link href='/' className='flex items-center space-x-2 z-50'>
-              <span className='text-2xl'>🎯</span>
-              <span className='text-xl font-bold text-gray-900 dark:text-white'>
-                Thật Hay Thách
-              </span>
+            <Link href='/' className='flex items-center space-x-3 z-50 group'>
+              <div className='relative'>
+                <span className='text-3xl group-hover:scale-110 transition-transform duration-200'>
+                  🎯
+                </span>
+                <div className='absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full animate-pulse'></div>
+              </div>
+              <div>
+                <span className='text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent'>
+                  Thật Hay Thách
+                </span>
+                <p className='text-xs text-gray-500 dark:text-gray-400 -mt-1'>
+                  Online Game
+                </p>
+              </div>
             </Link>
 
             {/* Desktop Navigation */}
-            <div className='hidden md:flex space-x-2'>
+            <div className='hidden md:flex items-center space-x-1'>
               {navigationItems.map((item) => (
-                <div key={item.label} className='relative'>
-                  {item.subItems ? (
-                    <div
-                      className='relative'
-                      onMouseEnter={() => setOpenDropdown(item.label)}
-                      onMouseLeave={() => setOpenDropdown(null)}
-                    >
-                      <button
-                        className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105 ${
-                          isActiveItem(item)
-                            ? 'bg-blue-500 text-white shadow-lg'
-                            : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-                        }`}
-                      >
-                        <span className='text-lg'>{item.icon}</span>
-                        <span>{item.label}</span>
-                        <ChevronDown
-                          className={`w-4 h-4 transition-transform ${
-                            openDropdown === item.label ? 'rotate-180' : ''
-                          }`}
-                        />
-                      </button>
-
-                      {/* Desktop Dropdown */}
-                      <AnimatePresence>
-                        {openDropdown === item.label && (
-                          <motion.div
-                            initial={{ opacity: 0, y: -10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -10 }}
-                            className='absolute top-full left-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-xl border border-gray-200 dark:border-gray-700 py-2'
-                          >
-                            {item.subItems.map((subItem) => (
-                              <Link
-                                key={subItem.href}
-                                href={subItem.href}
-                                className={`flex items-center space-x-3 px-4 py-2 text-sm transition-colors ${
-                                  pathname === subItem.href
-                                    ? 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
-                                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700'
-                                }`}
-                              >
-                                <span>{subItem.icon}</span>
-                                <span>{subItem.label}</span>
-                              </Link>
-                            ))}
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </div>
-                  ) : (
-                    <Link
-                      href={item.href}
-                      className={`flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 hover:scale-105 ${
-                        pathname === item.href
-                          ? 'bg-blue-500 text-white shadow-lg'
-                          : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-                      }`}
-                    >
-                      <span className='text-lg'>{item.icon}</span>
-                      <span>{item.label}</span>
-                    </Link>
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className={`group relative flex items-center space-x-2 px-6 py-2.5 rounded-full text-sm font-medium transition-all duration-300 ${
+                    pathname === item.href
+                      ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/25'
+                      : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-purple-600 dark:hover:text-purple-400'
+                  }`}
+                >
+                  <span
+                    className={`text-lg transition-transform duration-200 ${
+                      pathname === item.href
+                        ? 'scale-110'
+                        : 'group-hover:scale-110'
+                    }`}
+                  >
+                    {item.icon}
+                  </span>
+                  <span>{item.label}</span>
+                  {pathname === item.href && (
+                    <motion.div
+                      layoutId='activeTab'
+                      className='absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full -z-10'
+                      transition={{
+                        type: 'spring',
+                        bounce: 0.2,
+                        duration: 0.6,
+                      }}
+                    />
                   )}
-                </div>
+                </Link>
               ))}
             </div>
 
@@ -153,7 +107,7 @@ export function Navigation() {
             <motion.button
               whileTap={{ scale: 0.95 }}
               onClick={() => setIsOpen(!isOpen)}
-              className='md:hidden relative z-50 inline-flex items-center justify-center p-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none'
+              className='md:hidden relative z-50 inline-flex items-center justify-center p-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/25 hover:shadow-xl hover:shadow-purple-500/30 transition-all duration-200'
             >
               <motion.div
                 animate={isOpen ? 'open' : 'closed'}
@@ -205,15 +159,18 @@ export function Navigation() {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className='fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white dark:bg-gray-800 shadow-2xl z-50 md:hidden'
+              className='fixed top-0 right-0 h-full w-80 max-w-[85vw] bg-white/95 dark:bg-gray-900/95 backdrop-blur-md border-l border-gray-200/50 dark:border-gray-700/50 shadow-2xl z-50 md:hidden'
             >
               <div className='flex flex-col h-full'>
                 {/* Header */}
-                <div className='p-6 border-b border-gray-200 dark:border-gray-700'>
+                <div className='p-6 border-b border-gray-200/50 dark:border-gray-700/50'>
                   <div className='flex items-center space-x-3'>
-                    <span className='text-3xl'>🎯</span>
+                    <div className='relative'>
+                      <span className='text-3xl'>🎯</span>
+                      <div className='absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full animate-pulse'></div>
+                    </div>
                     <div>
-                      <h2 className='text-xl font-bold text-gray-900 dark:text-white'>
+                      <h2 className='text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent'>
                         Thật Hay Thách
                       </h2>
                       <p className='text-sm text-gray-500 dark:text-gray-400'>
@@ -225,7 +182,7 @@ export function Navigation() {
 
                 {/* Navigation Items */}
                 <div className='flex-1 p-6 overflow-y-auto'>
-                  <nav className='space-y-2'>
+                  <nav className='space-y-3'>
                     {navigationItems.map((item, index) => (
                       <motion.div
                         key={item.label}
@@ -233,122 +190,72 @@ export function Navigation() {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.1 }}
                       >
-                        {item.subItems ? (
-                          <div>
-                            <button
-                              onClick={() =>
-                                setExpandedMobile(
-                                  expandedMobile === item.label
-                                    ? null
-                                    : item.label
-                                )
-                              }
-                              className={`w-full flex items-center justify-between space-x-4 px-4 py-3 rounded-xl text-base font-medium transition-all duration-200 group ${
-                                isActiveItem(item)
-                                  ? 'bg-blue-500 text-white shadow-lg'
-                                  : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
-                              }`}
-                            >
-                              <div className='flex items-center space-x-4'>
-                                <span className='text-2xl group-hover:scale-110 transition-transform'>
-                                  {item.icon}
-                                </span>
-                                <span>{item.label}</span>
-                              </div>
-                              <ChevronDown
-                                className={`w-4 h-4 transition-transform ${
-                                  expandedMobile === item.label
-                                    ? 'rotate-180'
-                                    : ''
-                                }`}
-                              />
-                            </button>
-
-                            {/* Mobile Submenu */}
-                            <AnimatePresence>
-                              {expandedMobile === item.label && (
-                                <motion.div
-                                  initial={{ opacity: 0, height: 0 }}
-                                  animate={{ opacity: 1, height: 'auto' }}
-                                  exit={{ opacity: 0, height: 0 }}
-                                  className='ml-4 mt-2 space-y-1'
-                                >
-                                  {item.subItems.map((subItem) => (
-                                    <Link
-                                      key={subItem.href}
-                                      href={subItem.href}
-                                      onClick={() => setIsOpen(false)}
-                                      className={`flex items-center space-x-3 px-4 py-2 rounded-lg text-sm transition-all duration-200 ${
-                                        pathname === subItem.href
-                                          ? 'bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400'
-                                          : 'text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700'
-                                      }`}
-                                    >
-                                      <span>{subItem.icon}</span>
-                                      <span>{subItem.label}</span>
-                                    </Link>
-                                  ))}
-                                </motion.div>
-                              )}
-                            </AnimatePresence>
-                          </div>
-                        ) : (
-                          <Link
-                            href={item.href}
-                            onClick={() => setIsOpen(false)}
-                            className={`flex items-center space-x-4 px-4 py-3 rounded-xl text-base font-medium transition-all duration-200 group ${
+                        <Link
+                          href={item.href}
+                          onClick={() => setIsOpen(false)}
+                          className={`group relative flex items-center space-x-4 px-6 py-4 rounded-2xl text-base font-medium transition-all duration-300 ${
+                            pathname === item.href
+                              ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/25'
+                              : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-purple-600 dark:hover:text-purple-400'
+                          }`}
+                        >
+                          <span
+                            className={`text-2xl transition-transform duration-200 ${
                               pathname === item.href
-                                ? 'bg-blue-500 text-white shadow-lg'
-                                : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                                ? 'scale-110'
+                                : 'group-hover:scale-110'
                             }`}
                           >
-                            <span className='text-2xl group-hover:scale-110 transition-transform'>
-                              {item.icon}
-                            </span>
-                            <span>{item.label}</span>
-                            {pathname === item.href && (
-                              <motion.div
-                                layoutId='activeIndicator'
-                                className='ml-auto w-2 h-2 bg-white rounded-full'
-                              />
-                            )}
-                          </Link>
-                        )}
+                            {item.icon}
+                          </span>
+                          <span>{item.label}</span>
+                          {pathname === item.href && (
+                            <motion.div
+                              layoutId='activeMobileTab'
+                              className='absolute inset-0 bg-gradient-to-r from-purple-500 to-pink-500 rounded-2xl -z-10'
+                              transition={{
+                                type: 'spring',
+                                bounce: 0.2,
+                                duration: 0.6,
+                              }}
+                            />
+                          )}
+                        </Link>
                       </motion.div>
                     ))}
                   </nav>
                 </div>
 
                 {/* Footer */}
-                <div className='p-6 border-t border-gray-200 dark:border-gray-700'>
+                <div className='p-6 border-t border-gray-200/50 dark:border-gray-700/50'>
                   <div className='text-center'>
-                    <p className='text-sm text-gray-500 dark:text-gray-400 mb-2'>
+                    <p className='text-sm text-gray-500 dark:text-gray-400 mb-4'>
                       Phiên bản 1.0.0
                     </p>
-                    <div className='flex justify-center space-x-4'>
+                    <div className='flex justify-center space-x-6'>
                       <motion.a
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}
+                        whileHover={{ scale: 1.2, rotate: 5 }}
+                        whileTap={{ scale: 0.9 }}
                         href='#'
-                        className='text-gray-400 hover:text-blue-500 transition-colors'
+                        className='text-2xl hover:text-blue-500 transition-colors duration-200'
                         title='Facebook'
                       >
                         📘
                       </motion.a>
                       <motion.a
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}
+                        whileHover={{ scale: 1.2, rotate: -5 }}
+                        whileTap={{ scale: 0.9 }}
                         href='#'
-                        className='text-gray-400 hover:text-green-500 transition-colors'
+                        className='text-2xl hover:text-green-500 transition-colors duration-200'
                         title='WhatsApp'
                       >
                         📱
                       </motion.a>
                       <motion.a
-                        whileHover={{ scale: 1.1 }}
-                        whileTap={{ scale: 0.95 }}
+                        whileHover={{ scale: 1.2, rotate: 5 }}
+                        whileTap={{ scale: 0.9 }}
                         href='#'
-                        className='text-gray-400 hover:text-purple-500 transition-colors'
+                        className='text-2xl hover:text-purple-500 transition-colors duration-200'
                         title='Share'
                       >
                         🔗

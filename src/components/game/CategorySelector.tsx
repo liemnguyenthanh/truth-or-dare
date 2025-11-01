@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { useGame } from '@/hooks/useGame';
 
 export function CategorySelector() {
-  const { categories, startGame } = useGame();
+  const { categories, startGame, gameState } = useGame();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   return (
@@ -18,7 +18,12 @@ export function CategorySelector() {
         {categories.map((category) => (
           <motion.button
             key={category.id}
-            onClick={() => startGame(category.id)}
+            onClick={() =>
+              startGame({
+                gameMode: gameState.gameMode || 'group',
+                category: category.id,
+              })
+            }
             className='p-6 rounded-xl shadow-lg hover:shadow-xl transition-all bg-gradient-to-br from-purple-50 to-purple-100 border border-purple-200'
             style={
               {

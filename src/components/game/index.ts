@@ -1,7 +1,12 @@
-// Game components
-export * from './CategorySelector';
-export * from './Game';
-export * from './GameControls';
-export * from './QuestionDisplay';
-export * from './SpinWheel';
-export * from './TruthOrDare';
+// Game components exports
+export { CategorySelector } from './CategorySelector';
+export { default as FavoritesButton } from './FavoritesButton';
+export { default as FloatingCategoryFilter } from './FloatingCategoryFilter';
+export { GameControls } from './GameControls';
+export { default as PositionCard } from './PositionCard';
+export { QuestionDisplay } from './QuestionDisplay';
+export { default as ShuffleButton } from './ShuffleButton';
+export { SpinWheel } from './SpinWheel';
+export { default as SwipeCard } from './SwipeCard';
+export { default as SwipeCardStack } from './SwipeCardStack';
+export { TruthOrDare } from './TruthOrDare';

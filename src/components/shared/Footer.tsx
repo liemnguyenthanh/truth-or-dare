@@ -34,26 +34,10 @@ export function Footer() {
               </li>
               <li>
                 <Link
-                  href='/questions'
-                  className='text-gray-400 hover:text-white transition-colors'
-                >
-                  Danh Sách Câu Hỏi
-                </Link>
-              </li>
-              <li>
-                <Link
                   href='/huong-dan'
                   className='text-gray-400 hover:text-white transition-colors'
                 >
                   Hướng Dẫn Chơi
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href='/blog'
-                  className='text-gray-400 hover:text-white transition-colors'
-                >
-                  Blog & Mẹo Hay
                 </Link>
               </li>
             </ul>

@@ -19,8 +19,8 @@
     "blog:auto-post": "node tools/auto-post-drafts.mjs"
   },
   "dependencies": {
-    "@neondatabase/serverless": "^1.0.0",
     "@next/third-parties": "15.4.0-canary.51",
+    "@supabase/supabase-js": "^2.75.0",
     "@tailwindcss/typography": "^0.5.16",
     "clsx": "^2.0.0",
     "dotenv": "^16.5.0",
@@ -42,6 +42,8 @@
     "@tailwindcss/forms": "^0.5.10",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^15.0.7",
+    "@testing-library/react-hooks": "^8.0.1",
+    "@testing-library/user-event": "^14.6.1",
     "@types/react": "^18.3.18",
     "@types/testing-library__jest-dom": "^5.14.9",
     "@typescript-eslint/eslint-plugin": "^5.62.0",

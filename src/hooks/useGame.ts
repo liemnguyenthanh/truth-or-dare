@@ -1,7 +1,7 @@
 'use client';
 import { useContext } from 'react';
 
-import { GameContext } from '@/features/game/context/GameProvider';
+import { GameContext } from './GameProvider';
 
 export const useGame = () => {
   const context = useContext(GameContext);

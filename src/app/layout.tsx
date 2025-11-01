@@ -4,6 +4,8 @@ import * as React from 'react';
 
 import '@/styles/globals.css';
 
+import { GameProvider } from '@/hooks/GameProvider';
+
 import {
   gameSchema,
   JsonLd,
@@ -32,27 +34,15 @@ export default function RootLayout({
       </head>
       <body className='min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200'>
         <ThemeProvider>
-          <Navigation />
-          <main className='min-h-screen pt-16'>{children}</main>
-          <Footer />
+          <GameProvider>
+            <Navigation />
+            <main className='min-h-screen pt-16'>{children}</main>
+            <Footer />
+          </GameProvider>
         </ThemeProvider>
         <GoogleTagManager gtmId='GTM-5FP2P39P' />
       </body>
-      {/* Google tag (gtag.js) */}
-      <script
-        async
-        src='https://www.googletagmanager.com/gtag/js?id=G-MF1JWJH7TJ'
-      />
-      <script
-        dangerouslySetInnerHTML={{
-          __html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-MF1JWJH7TJ');
-          `,
-        }}
-      />
+      {/* Google tag (gtag.js) - Using next/script instead */}
     </html>
   );
 }

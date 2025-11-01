@@ -1,0 +1,2 @@
+export const SEGMENT_COUNT = 20;
+export const DEGREES_PER_SEGMENT = 360 / SEGMENT_COUNT;

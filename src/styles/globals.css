@@ -2,6 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+/* 3D Card Effects */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+}
+
 :root {
 }
 
@@ -58,57 +71,6 @@
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
   }
-
-  /* Custom prose styles for blog content */
-  .prose-custom {
-    max-width: none;
-    color: inherit;
-  }
-
-  .prose-custom h1,
-  .prose-custom h2,
-  .prose-custom h3,
-  .prose-custom h4,
-  .prose-custom h5,
-  .prose-custom h6 {
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    font-weight: 600;
-    line-height: 1.25;
-  }
-
-  .prose-custom h2 {
-    font-size: 1.5rem;
-    margin-top: 2.5rem;
-  }
-
-  .prose-custom h3 {
-    font-size: 1.25rem;
-    margin-top: 2rem;
-  }
-
-  .prose-custom p {
-    margin-bottom: 1.5rem;
-    line-height: 1.75;
-  }
-
-  .prose-custom ul,
-  .prose-custom ol {
-    margin-bottom: 1.5rem;
-    padding-left: 1.5rem;
-  }
-
-  .prose-custom li {
-    margin-bottom: 0.5rem;
-  }
-
-  .prose-custom ul li {
-    list-style-type: disc;
-  }
-
-  .prose-custom ol li {
-    list-style-type: decimal;
-  }
 }
 
 /* Card flip animation styles */
@@ -122,4 +84,30 @@
 
 .backface-hidden {
   backface-visibility: hidden;
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #d1d5db;
+  border-radius: 3px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #9ca3af;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: #4b5563;
+}
+
+.dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: #6b7280;
 }

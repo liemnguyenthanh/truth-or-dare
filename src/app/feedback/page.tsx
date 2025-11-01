@@ -1,275 +1,339 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { MessageSquare, Zap } from 'lucide-react';
 import { useState } from 'react';
 
-import { type FeedbackFormData } from '@/lib/validations/feedback';
+import { createFeedback } from '@/lib/feedback';
+import {
+  type FeedbackFormData,
+  feedbackSchema,
+} from '@/lib/validations/feedback';
 
-import FeedbackForm from './components/FeedbackForm';
-import FeedbackSuccess from './components/FeedbackSuccess';
-import QuickFeedback from './components/QuickFeedback';
-
-type ViewState = 'form' | 'quick' | 'success';
-
-const tabs = [
+const feedbackTypes = [
   {
-    id: 'quick',
-    name: 'Đánh Giá Nhanh',
-    icon: Zap,
-    description: 'Đánh giá nhanh với emoji và sao',
+    value: 'bug',
+    label: 'Báo lỗi',
+    icon: '🐛',
+    description: 'Báo cáo lỗi hoặc sự cố',
   },
   {
-    id: 'form',
-    name: 'Góp Ý Chi Tiết',
-    icon: MessageSquare,
-    description: 'Form góp ý đầy đủ với các tùy chọn',
+    value: 'feature',
+    label: 'Tính năng',
+    icon: '💡',
+    description: 'Đề xuất tính năng mới',
+  },
+  {
+    value: 'general',
+    label: 'Góp ý chung',
+    icon: '💬',
+    description: 'Góp ý và phản hồi chung',
+  },
+  {
+    value: 'rating',
+    label: 'Đánh giá',
+    icon: '⭐',
+    description: 'Đánh giá ứng dụng',
   },
 ];
 
-export default function FeedbackPage() {
-  const [activeTab, setActiveTab] = useState<'form' | 'quick'>('quick');
-  const [currentView, setCurrentView] = useState<ViewState>('form');
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [lastFeedbackType, setLastFeedbackType] = useState<string>('general');
+const priorityOptions = [
+  { value: 'low', label: 'Thấp', color: 'text-green-600' },
+  { value: 'medium', label: 'Trung bình', color: 'text-yellow-600' },
+  { value: 'high', label: 'Cao', color: 'text-orange-600' },
+  { value: 'critical', label: 'Nghiêm trọng', color: 'text-red-600' },
+];
 
-  const handleSubmitFeedback = async (data: FeedbackFormData) => {
+export default function FeedbackPage() {
+  const [formData, setFormData] = useState<FeedbackFormData>({
+    type: 'general',
+    title: '',
+    description: '',
+    email: '',
+    rating: undefined,
+    category: '',
+    priority: 'medium',
+  });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleInputChange = (field: keyof FeedbackFormData, value: unknown) => {
+    setFormData((prev) => ({ ...prev, [field]: value }));
+    // Clear error when user starts typing
+    if (errors[field]) {
+      setErrors((prev) => ({ ...prev, [field]: '' }));
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
     setIsSubmitting(true);
+    setErrors({});
 
     try {
-      const response = await fetch('/api/feedback', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
+      // Validate form data
+      const validatedData = feedbackSchema.parse(formData);
+
+      // Get user agent and IP (simplified for client-side)
+      const userAgent = navigator.userAgent;
+      const ipAddress = 'client-side'; // IP will be handled by Supabase RLS
+
+      // Submit feedback
+      const result = await createFeedback({
+        ...validatedData,
+        userAgent,
+        ipAddress,
       });
 
-      if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.error || 'Có lỗi xảy ra');
+      if (result.success) {
+        setIsSubmitted(true);
+        setFormData({
+          type: 'general',
+          title: '',
+          description: '',
+          email: '',
+          rating: undefined,
+          category: '',
+          priority: 'medium',
+        });
+      } else {
+        throw new Error('Failed to submit feedback');
       }
-
-      setLastFeedbackType(data.type);
-      setCurrentView('success');
-    } catch (error) {
-      console.error('Submit error:', error);
-      alert('Có lỗi xảy ra khi gửi góp ý. Vui lòng thử lại!');
+    } catch (error: unknown) {
+      if (error && typeof error === 'object' && 'errors' in error) {
+        // Zod validation errors
+        const fieldErrors: Record<string, string> = {};
+        (
+          error as { errors: { path: string[]; message: string }[] }
+        ).errors.forEach((err: { path: string[]; message: string }) => {
+          fieldErrors[err.path[0]] = err.message;
+        });
+        setErrors(fieldErrors);
+      } else {
+        // Error submitting feedback
+        setErrors({
+          general: 'Có lỗi xảy ra khi gửi góp ý. Vui lòng thử lại.',
+        });
+      }
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  const handleQuickFeedback = async (data: {
-    rating: number;
-    description: string;
-    emoji?: string;
-  }) => {
-    setIsSubmitting(true);
-
-    try {
-      const feedbackData: FeedbackFormData = {
-        type: 'rating',
-        title: `Đánh giá ${data.rating} sao`,
-        description: data.description,
-        rating: data.rating,
-        priority: 'medium',
-      };
-
-      await handleSubmitFeedback(feedbackData);
-    } catch (error) {
-      console.error('Quick feedback error:', error);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const handleReset = () => {
-    setCurrentView(activeTab);
-  };
-
-  if (currentView === 'success') {
+  if (isSubmitted) {
     return (
-      <main className='min-h-screen bg-gray-50 dark:bg-gray-900 py-12'>
-        <div className='container mx-auto px-4'>
-          <div className='max-w-4xl mx-auto'>
-            <FeedbackSuccess
-              feedbackType={lastFeedbackType}
-              onReset={handleReset}
-              showShareButtons={true}
-            />
-          </div>
-        </div>
-      </main>
+      <div className='min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 flex items-center justify-center p-4'>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className='bg-white rounded-2xl shadow-xl p-8 max-w-md w-full text-center'
+        >
+          <div className='text-6xl mb-4'>✅</div>
+          <h1 className='text-2xl font-bold text-gray-900 mb-2'>Cảm ơn bạn!</h1>
+          <p className='text-gray-600 mb-6'>
+            Góp ý của bạn đã được gửi thành công. Chúng tôi sẽ xem xét và phản
+            hồi sớm nhất có thể.
+          </p>
+          <button
+            onClick={() => setIsSubmitted(false)}
+            className='bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition-colors'
+          >
+            Gửi góp ý khác
+          </button>
+        </motion.div>
+      </div>
     );
   }
 
   return (
-    <main className='min-h-screen bg-gray-50 dark:bg-gray-900 py-12'>
-      <div className='container mx-auto px-4'>
-        <div className='max-w-4xl mx-auto'>
-          {/* Header */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className='text-center mb-12'
-          >
-            <h1 className='text-4xl font-bold text-gray-900 dark:text-white mb-4'>
-              Góp Ý & Phản Hồi
-            </h1>
-            <p className='text-xl text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto'>
-              Ý kiến của bạn giúp chúng tôi cải thiện Truth or Dare Game. Hãy
-              chia sẻ trải nghiệm và đề xuất tính năng mới!
+    <div className='min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 py-8 px-4'>
+      <div className='max-w-2xl mx-auto'>
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className='bg-white rounded-2xl shadow-xl p-8'
+        >
+          <div className='text-center mb-8'>
+            <h1 className='text-3xl font-bold text-gray-900 mb-2'>Gửi Góp Ý</h1>
+            <p className='text-gray-600'>
+              Chúng tôi rất mong nhận được phản hồi từ bạn để cải thiện ứng dụng
             </p>
-          </motion.div>
+          </div>
 
-          {/* Tab Navigation */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className='flex justify-center mb-8'
-          >
-            <div className='bg-white dark:bg-gray-800 rounded-xl p-1 shadow-lg border border-gray-200 dark:border-gray-700'>
-              <div className='flex space-x-1'>
-                {tabs.map((tab) => {
-                  const IconComponent = tab.icon;
-                  const isActive = activeTab === tab.id;
+          <form onSubmit={handleSubmit} className='space-y-6'>
+            {/* Feedback Type */}
+            <div>
+              <label className='block text-sm font-medium text-gray-700 mb-3'>
+                Loại góp ý *
+              </label>
+              <div className='grid grid-cols-2 gap-3'>
+                {feedbackTypes.map((type) => (
+                  <button
+                    key={type.value}
+                    type='button'
+                    onClick={() => handleInputChange('type', type.value)}
+                    className={`p-4 rounded-lg border-2 transition-all ${
+                      formData.type === type.value
+                        ? 'border-purple-500 bg-purple-50'
+                        : 'border-gray-200 hover:border-gray-300'
+                    }`}
+                  >
+                    <div className='text-2xl mb-1'>{type.icon}</div>
+                    <div className='font-medium text-sm'>{type.label}</div>
+                    <div className='text-xs text-gray-500'>
+                      {type.description}
+                    </div>
+                  </button>
+                ))}
+              </div>
+              {errors.type && (
+                <p className='text-red-500 text-sm mt-1'>{errors.type}</p>
+              )}
+            </div>
 
-                  return (
-                    <motion.button
-                      key={tab.id}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      onClick={() => {
-                        setActiveTab(tab.id as 'form' | 'quick');
-                        setCurrentView(tab.id as 'form' | 'quick');
-                      }}
-                      className={`flex items-center space-x-3 px-6 py-3 rounded-lg transition-all relative ${
-                        isActive
-                          ? 'bg-blue-600 text-white shadow-lg'
-                          : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+            {/* Title */}
+            <div>
+              <label className='block text-sm font-medium text-gray-700 mb-2'>
+                Tiêu đề *
+              </label>
+              <input
+                type='text'
+                value={formData.title}
+                onChange={(e) => handleInputChange('title', e.target.value)}
+                className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent'
+                placeholder='Mô tả ngắn gọn về góp ý của bạn'
+              />
+              {errors.title && (
+                <p className='text-red-500 text-sm mt-1'>{errors.title}</p>
+              )}
+            </div>
+
+            {/* Description */}
+            <div>
+              <label className='block text-sm font-medium text-gray-700 mb-2'>
+                Mô tả chi tiết *
+              </label>
+              <textarea
+                value={formData.description}
+                onChange={(e) =>
+                  handleInputChange('description', e.target.value)
+                }
+                rows={4}
+                className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent'
+                placeholder='Mô tả chi tiết về góp ý của bạn...'
+              />
+              {errors.description && (
+                <p className='text-red-500 text-sm mt-1'>
+                  {errors.description}
+                </p>
+              )}
+            </div>
+
+            {/* Email */}
+            <div>
+              <label className='block text-sm font-medium text-gray-700 mb-2'>
+                Email (tùy chọn)
+              </label>
+              <input
+                type='email'
+                value={formData.email}
+                onChange={(e) => handleInputChange('email', e.target.value)}
+                className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent'
+                placeholder='your@email.com'
+              />
+              {errors.email && (
+                <p className='text-red-500 text-sm mt-1'>{errors.email}</p>
+              )}
+            </div>
+
+            {/* Rating (only for rating type) */}
+            {formData.type === 'rating' && (
+              <div>
+                <label className='block text-sm font-medium text-gray-700 mb-2'>
+                  Đánh giá *
+                </label>
+                <div className='flex space-x-2'>
+                  {[1, 2, 3, 4, 5].map((rating) => (
+                    <button
+                      key={rating}
+                      type='button'
+                      onClick={() => handleInputChange('rating', rating)}
+                      className={`text-2xl ${
+                        formData.rating && formData.rating >= rating
+                          ? 'text-yellow-400'
+                          : 'text-gray-300'
                       }`}
                     >
-                      <IconComponent className='w-5 h-5' />
-                      <div className='text-left'>
-                        <div className='font-medium'>{tab.name}</div>
-                        <div
-                          className={`text-sm ${
-                            isActive
-                              ? 'text-blue-100'
-                              : 'text-gray-500 dark:text-gray-400'
-                          }`}
-                        >
-                          {tab.description}
-                        </div>
-                      </div>
-
-                      {isActive && (
-                        <motion.div
-                          layoutId='activeTab'
-                          className='absolute inset-0 bg-blue-600 rounded-lg -z-10'
-                          transition={{ type: 'spring', duration: 0.5 }}
-                        />
-                      )}
-                    </motion.button>
-                  );
-                })}
-              </div>
-            </div>
-          </motion.div>
-
-          {/* Content */}
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: -20 }}
-            transition={{ duration: 0.3 }}
-          >
-            {activeTab === 'quick' ? (
-              <QuickFeedback
-                onSubmit={handleQuickFeedback}
-                isSubmitting={isSubmitting}
-              />
-            ) : (
-              <FeedbackForm
-                onSubmit={handleSubmitFeedback}
-                isSubmitting={isSubmitting}
-              />
-            )}
-          </motion.div>
-
-          {/* Additional Information */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.4 }}
-            className='mt-12 bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm border border-gray-200 dark:border-gray-700'
-          >
-            <div className='grid md:grid-cols-2 gap-8'>
-              <div>
-                <h3 className='text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center'>
-                  <MessageSquare className='w-5 h-5 mr-2 text-blue-600' />
-                  Tại sao góp ý quan trọng?
-                </h3>
-                <ul className='space-y-2 text-gray-600 dark:text-gray-400'>
-                  <li className='flex items-start'>
-                    <span className='text-green-500 mr-2'>✓</span>
-                    Giúp cải thiện trải nghiệm người dùng
-                  </li>
-                  <li className='flex items-start'>
-                    <span className='text-green-500 mr-2'>✓</span>
-                    Phát triển tính năng mới hữu ích
-                  </li>
-                  <li className='flex items-start'>
-                    <span className='text-green-500 mr-2'>✓</span>
-                    Khắc phục lỗi và sự cố nhanh chóng
-                  </li>
-                  <li className='flex items-start'>
-                    <span className='text-green-500 mr-2'>✓</span>
-                    Xây dựng cộng đồng tích cực
-                  </li>
-                </ul>
-              </div>
-
-              <div>
-                <h3 className='text-lg font-semibold text-gray-900 dark:text-white mb-4 flex items-center'>
-                  <MessageSquare className='w-5 h-5 mr-2 text-purple-600' />
-                  Các loại góp ý
-                </h3>
-                <div className='space-y-3'>
-                  <div className='flex items-center'>
-                    <span className='text-red-500 mr-2'>🐞</span>
-                    <span className='text-gray-600 dark:text-gray-400'>
-                      <strong>Báo lỗi:</strong> Sự cố kỹ thuật, lỗi hiển thị
-                    </span>
-                  </div>
-                  <div className='flex items-center'>
-                    <span className='text-blue-500 mr-2'>⭐</span>
-                    <span className='text-gray-600 dark:text-gray-400'>
-                      <strong>Tính năng:</strong> Ý tưởng cải tiến, tính năng
-                      mới
-                    </span>
-                  </div>
-                  <div className='flex items-center'>
-                    <span className='text-green-500 mr-2'>💬</span>
-                    <span className='text-gray-600 dark:text-gray-400'>
-                      <strong>Chung:</strong> Ý kiến, đề xuất cải thiện
-                    </span>
-                  </div>
-                  <div className='flex items-center'>
-                    <span className='text-yellow-500 mr-2'>⚡</span>
-                    <span className='text-gray-600 dark:text-gray-400'>
-                      <strong>Đánh giá:</strong> Chấm điểm trải nghiệm
-                    </span>
-                  </div>
+                      ⭐
+                    </button>
+                  ))}
                 </div>
+                {errors.rating && (
+                  <p className='text-red-500 text-sm mt-1'>{errors.rating}</p>
+                )}
+              </div>
+            )}
+
+            {/* Category */}
+            <div>
+              <label className='block text-sm font-medium text-gray-700 mb-2'>
+                Danh mục (tùy chọn)
+              </label>
+              <input
+                type='text'
+                value={formData.category}
+                onChange={(e) => handleInputChange('category', e.target.value)}
+                className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent'
+                placeholder='Ví dụ: UI/UX, Performance, Bug...'
+              />
+              {errors.category && (
+                <p className='text-red-500 text-sm mt-1'>{errors.category}</p>
+              )}
+            </div>
+
+            {/* Priority */}
+            <div>
+              <label className='block text-sm font-medium text-gray-700 mb-2'>
+                Mức độ ưu tiên
+              </label>
+              <div className='flex space-x-2'>
+                {priorityOptions.map((priority) => (
+                  <button
+                    key={priority.value}
+                    type='button'
+                    onClick={() =>
+                      handleInputChange('priority', priority.value)
+                    }
+                    className={`px-4 py-2 rounded-lg border transition-all ${
+                      formData.priority === priority.value
+                        ? 'border-purple-500 bg-purple-50'
+                        : 'border-gray-200 hover:border-gray-300'
+                    }`}
+                  >
+                    <span className={priority.color}>{priority.label}</span>
+                  </button>
+                ))}
               </div>
             </div>
-          </motion.div>
-        </div>
+
+            {/* General Error */}
+            {errors.general && (
+              <div className='bg-red-50 border border-red-200 rounded-lg p-4'>
+                <p className='text-red-600 text-sm'>{errors.general}</p>
+              </div>
+            )}
+
+            {/* Submit Button */}
+            <button
+              type='submit'
+              disabled={isSubmitting}
+              className='w-full bg-purple-600 text-white py-3 px-6 rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors'
+            >
+              {isSubmitting ? 'Đang gửi...' : 'Gửi Góp Ý'}
+            </button>
+          </form>
+        </motion.div>
       </div>
-    </main>
+    </div>
   );
 }

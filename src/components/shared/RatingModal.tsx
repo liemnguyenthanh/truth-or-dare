@@ -2,7 +2,10 @@
 
 import { AnimatePresence, motion } from 'framer-motion';
 import { Heart, Send, Star, X } from 'lucide-react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+
+import { createFeedback } from '@/lib/feedback';
 
 interface RatingModalProps {
   isOpen: boolean;
@@ -15,6 +18,9 @@ interface RatingModalProps {
   title?: string;
   description?: string;
   showEmoji?: boolean;
+  category?: string;
+  metadata?: Record<string, any>;
+  autoSubmit?: boolean; // Tự động submit, không cần custom onSubmit
 }
 
 const emojiOptions = [
@@ -32,12 +38,26 @@ export default function RatingModal({
   title = 'Đánh giá trải nghiệm',
   description = 'Chia sẻ cảm nhận của bạn về trò chơi',
   showEmoji = true,
+  category = 'general',
+  metadata,
+  autoSubmit = false,
 }: RatingModalProps) {
+  const router = useRouter();
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
   const [comment, setComment] = useState('');
   const [selectedEmoji, setSelectedEmoji] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Reset form when modal closes
+  useEffect(() => {
+    if (!isOpen) {
+      setRating(0);
+      setComment('');
+      setSelectedEmoji('');
+      setHoverRating(0);
+    }
+  }, [isOpen]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -46,16 +66,31 @@ export default function RatingModal({
     setIsSubmitting(true);
     try {
       const defaultComment = comment.trim() || getDefaultComment();
+      const submitData = {
+        rating,
+        comment: defaultComment,
+        emoji: selectedEmoji,
+      };
 
-      if (onSubmit) {
-        await onSubmit({
-          rating,
-          comment: defaultComment,
-          emoji: selectedEmoji,
+      // Auto submit với createFeedback
+      if (autoSubmit) {
+        const statsText = metadata
+          ? `\n\nStats: ${JSON.stringify(metadata, null, 2)}`
+          : '';
+        
+        await createFeedback({
+          type: 'rating',
+          title: 'Đánh giá trải nghiệm game',
+          description: `${defaultComment}${statsText}`,
+          rating: rating,
+          category: category,
+          priority: 'low',
         });
+      } else if (onSubmit) {
+        await onSubmit(submitData);
       }
 
-      // Reset form
+      // Reset form and close
       setRating(0);
       setComment('');
       setSelectedEmoji('');

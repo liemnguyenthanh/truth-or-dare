@@ -37,4 +37,6 @@ export interface FeedbackFilters {
   offset?: number;
   type?: string;
   status?: string;
+  search?: string;
+  page?: number;
 }
