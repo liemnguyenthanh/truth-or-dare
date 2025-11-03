@@ -48,6 +48,7 @@ export default function RatingModal({
   const [comment, setComment] = useState('');
   const [selectedEmoji, setSelectedEmoji] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showThankYou, setShowThankYou] = useState(false);
 
   // Reset form when modal closes
   useEffect(() => {
@@ -56,8 +57,45 @@ export default function RatingModal({
       setComment('');
       setSelectedEmoji('');
       setHoverRating(0);
+      setShowThankYou(false);
     }
   }, [isOpen]);
+
+  const getThankYouMessage = (stars: number) => {
+    if (stars === 5) {
+      return {
+        emoji: '🎉',
+        title: 'OMG cảm ơn bạn nhiều!',
+        message: 'Bạn thật tuyệt vời! Sự đánh giá 5 sao của bạn làm team mình cực kỳ vui 🥹',
+      };
+    }
+    if (stars === 4) {
+      return {
+        emoji: '😊',
+        title: 'Cảm ơn bạn nha!',
+        message: 'Team mình rất vui khi nhận được feedback tích cực từ bạn! Sẽ cố gắng tốt hơn nữa 💪',
+      };
+    }
+    if (stars === 3) {
+      return {
+        emoji: '🙂',
+        title: 'Cảm ơn bạn đã đánh giá!',
+        message: 'Team mình sẽ tiếp tục cải thiện để mang lại trải nghiệm tốt hơn cho bạn!',
+      };
+    }
+    if (stars === 2) {
+      return {
+        emoji: '😔',
+        title: 'Xin lỗi bạn...',
+        message: 'Team mình rất tiếc vì chưa đáp ứng được kỳ vọng của bạn. Sẽ cố gắng tốt hơn! 😢',
+      };
+    }
+    return {
+      emoji: '😢',
+      title: 'Xin lỗi bạn rất nhiều',
+      message: 'Team mình thật sự xin lỗi vì đã làm bạn thất vọng. Sẽ cải thiện ngay! 😭',
+    };
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -90,11 +128,17 @@ export default function RatingModal({
         await onSubmit(submitData);
       }
 
-      // Reset form and close
-      setRating(0);
-      setComment('');
-      setSelectedEmoji('');
-      onClose();
+      // Show thank you message
+      setShowThankYou(true);
+      
+      // Auto close after 3 seconds
+      setTimeout(() => {
+        setRating(0);
+        setComment('');
+        setSelectedEmoji('');
+        setShowThankYou(false);
+        onClose();
+      }, 3000);
     } catch (error) {
       console.error('Error submitting rating:', error);
     } finally {
@@ -129,6 +173,60 @@ export default function RatingModal({
   };
 
   if (!isOpen) return null;
+
+  const thankYouMessage = rating > 0 ? getThankYouMessage(rating) : null;
+
+  // Show thank you screen
+  if (showThankYou && thankYouMessage) {
+    return (
+      <AnimatePresence>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className='fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4'
+        >
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            className='bg-white dark:bg-gray-800 rounded-2xl p-8 w-full max-w-md shadow-2xl text-center'
+          >
+            <motion.div
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ delay: 0.1, type: 'spring', stiffness: 200 }}
+              className='text-6xl mb-4'
+            >
+              {thankYouMessage.emoji}
+            </motion.div>
+            <h3 className='text-2xl font-bold text-gray-900 dark:text-white mb-3'>
+              {thankYouMessage.title}
+            </h3>
+            <p className='text-gray-600 dark:text-gray-300 mb-6'>
+              {thankYouMessage.message}
+            </p>
+            <div className='flex justify-center space-x-1 mb-4'>
+              {[1, 2, 3, 4, 5].map((star) => (
+                <Star
+                  key={star}
+                  className={`w-6 h-6 ${
+                    star <= rating
+                      ? 'text-yellow-400 fill-yellow-400'
+                      : 'text-gray-300 dark:text-gray-600'
+                  }`}
+                />
+              ))}
+            </div>
+            <p className='text-sm text-gray-500 dark:text-gray-400'>
+              Đóng trong 3 giây...
+            </p>
+          </motion.div>
+        </motion.div>
+      </AnimatePresence>
+    );
+  }
 
   return (
     <AnimatePresence>

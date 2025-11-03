@@ -32,6 +32,11 @@ export default function GroupPage() {
   const [localSelectedCategory, setLocalSelectedCategory] = useState<string | null>(null);
   const [isGameUnlocked, setIsGameUnlocked] = useState(false);
 
+  // Auto scroll to top when page loads (fix mobile scroll position issue)
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
   // Game hook
   const game = useGroupGame(participants);
 
@@ -166,9 +171,9 @@ export default function GroupPage() {
       <div className='min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 p-2 transition-colors duration-200'>
         <PageHeader onViewCodes={() => payment.setIsSavedCodesOpen(true)} />
 
-        <div className='flex flex-col items-center justify-center min-h-[60vh] pb-32'>
+        <div className='flex flex-col items-center justify-center min-h-[50vh] sm:min-h-[60vh] gap-3 sm:gap-4 md:gap-6 pb-20 sm:pb-24 md:pb-32'>
           {!game.selectedType ? (
-            <div className='text-center mb-8'>
+            <div className='text-center mb-4 sm:mb-6 md:mb-8'>
               <Heading level={1} className='mb-2'>
                 {game.currentParticipant?.name || 'Loading...'}
               </Heading>
@@ -202,7 +207,7 @@ export default function GroupPage() {
                     isProcessing={payment.isProcessing}
                     onCreateOrder={payment.createOrder}
                     onCodeInputClick={() => payment.setIsCodeInputOpen(true)}
-                    className='mt-6'
+                    className='mt-2 sm:mt-3 md:mt-4'
                   />
                 )}
             </div>
@@ -243,7 +248,7 @@ export default function GroupPage() {
                     isProcessing={payment.isProcessing}
                     onCreateOrder={payment.createOrder}
                     onCodeInputClick={() => payment.setIsCodeInputOpen(true)}
-                    className='mt-6'
+                    className='mt-2 sm:mt-3 md:mt-4'
                   />
                 )}
             </>

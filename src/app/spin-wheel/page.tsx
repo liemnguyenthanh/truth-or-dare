@@ -15,8 +15,10 @@ import {
   PageHeader,
   PaymentButton,
   PrimaryButton,
+  SuccessToast,
   Text,
 } from '@/components/shared';
+import { getPaymentErrorMessage } from '@/lib/paymentErrors';
 import RatingModal from '@/components/shared/RatingModal';
 import { useHideNavigation } from '@/hooks/useHideNavigation';
 
@@ -26,7 +28,7 @@ import {
   CategorySelection,
   GameStats,
   PaymentProgress,
-  QuestionCard,
+  QuestionModal,
 } from './components';
 import {
   useSpinWheelCategories,
@@ -42,6 +44,13 @@ export default function SpinWheelPage() {
   const [questionsPlayed, setQuestionsPlayed] = useState(0);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [showRatingModal, setShowRatingModal] = useState(false);
+  const [showSuccessToast, setShowSuccessToast] = useState(false);
+  const [showErrorToast, setShowErrorToast] = useState(false);
+
+  // Auto scroll to top when page loads (fix mobile scroll position issue)
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
 
   // Ẩn navigation khi vào game
   useHideNavigation();
@@ -94,6 +103,20 @@ export default function SpinWheelPage() {
     }
   }, [questionsPlayed, game.currentQuestion, showRatingModal]);
 
+  // Show success toast when payment succeeds
+  useEffect(() => {
+    if (payment.paymentSuccess) {
+      setShowSuccessToast(true);
+    }
+  }, [payment.paymentSuccess]);
+
+  // Show error toast when payment error occurs
+  useEffect(() => {
+    if (payment.paymentError) {
+      setShowErrorToast(true);
+    }
+  }, [payment.paymentError]);
+
   // Handle rating modal close
   const handleRatingClose = useCallback(() => {
     setShowRatingModal(false);
@@ -127,6 +150,32 @@ export default function SpinWheelPage() {
     game.setSpinResult(null);
     game.setCurrentQuestion(null);
   }, [game]);
+
+  // Handle payment click from question modal
+  const handlePaymentFromModal = useCallback(async () => {
+    // Just create order, don't close modal yet
+    await payment.createOrder();
+  }, [payment]);
+
+  // Close question modal when order is created (only if payment modal is about to open)
+  useEffect(() => {
+    if (
+      payment.orderData &&
+      game.currentQuestion &&
+      game.spinResult &&
+      payment.isPaymentModalOpen
+    ) {
+      // Order created, close question modal and payment modal will open automatically
+      game.setSpinResult(null);
+      game.setCurrentQuestion(null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    payment.orderData,
+    payment.isPaymentModalOpen,
+    game.currentQuestion,
+    game.spinResult,
+  ]);
 
   // Handle back to category selection
   const handleBackToCategory = useCallback(() => {
@@ -181,64 +230,21 @@ export default function SpinWheelPage() {
 
       {/* Main Game Area */}
       <div className='flex flex-col items-center justify-center min-h-[60vh] gap-6'>
-        <AnimatePresence mode='wait'>
-          {!game.currentQuestion ? (
-            // Spin Wheel
-            <motion.div
-              key='wheel'
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.3 }}
-              className='text-center w-full max-w-md mx-auto'
-            >
-              <Heading level={1} className='mb-4'>
-                Vòng Quay May Mắn
-              </Heading>
-              <Text variant='large' className='mb-6'>
-                Quay để chọn loại câu hỏi
-              </Text>
-              <SpinWheel onSpinEnd={handleSpinEnd} />
-            </motion.div>
-          ) : game.spinResult && game.currentQuestion ? (
-            // Question Card - Show immediately after spin
-            <motion.div
-              key={game.currentQuestion.id || game.currentQuestion.text}
-              initial={{ opacity: 0, y: 20, scale: 0.9 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              exit={{ opacity: 0, y: -20, scale: 0.9 }}
-              transition={{
-                duration: 0.4,
-                ease: 'easeOut',
-              }}
-              className='w-full max-w-md mx-auto flex flex-col items-center gap-4'
-            >
-              <QuestionCard
-                question={game.currentQuestion}
-                spinResult={game.spinResult}
-              />
-              
-              {/* Payment Button - Show when >= 5 questions played */}
-              {payment.isPaymentRequired &&
-                !isGameUnlocked &&
-                questionsPlayed >= PAYMENT_CARDS_LIMIT && (
-                  <PaymentButton
-                    isProcessing={payment.isProcessing}
-                    onCreateOrder={payment.createOrder}
-                    onCodeInputClick={() => payment.setIsCodeInputOpen(true)}
-                    className='mt-0'
-                  />
-                )}
-              
-              {/* Continue Button - Show if unlocked or < 5 questions */}
-              {(!payment.isPaymentRequired ||
-                isGameUnlocked ||
-                questionsPlayed < PAYMENT_CARDS_LIMIT) && (
-                <ContinueButton onClick={handleContinueSpin} className='mt-0' />
-              )}
-            </motion.div>
-          ) : null}
-        </AnimatePresence>
+        {/* Spin Wheel - Always visible */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.3 }}
+          className='text-center w-full max-w-md mx-auto'
+        >
+          <Heading level={1} className='mb-4'>
+            Vòng Quay May Mắn
+          </Heading>
+          <Text variant='large' className='mb-6'>
+            Quay để chọn loại câu hỏi
+          </Text>
+          <SpinWheel onSpinEnd={handleSpinEnd} />
+        </motion.div>
 
         {/* Payment Progress - Show when questions played but not yet reached limit */}
         {payment.isPaymentRequired &&
@@ -273,6 +279,7 @@ export default function SpinWheelPage() {
         onPaymentSuccess={() => {
           setIsGameUnlocked(true);
           payment.closePaymentModal();
+          setShowSuccessToast(true);
         }}
         onPaymentCancel={() => {
           router.push('/');
@@ -292,11 +299,38 @@ export default function SpinWheelPage() {
         }}
       />
 
-      {/* Error Display */}
-      {payment.error && (
+      {/* Success Toast */}
+      {payment.paymentSuccess && showSuccessToast && (
+        <SuccessToast
+          message='Thanh toán thành công! Bạn có thể tiếp tục chơi.'
+          onClose={() => {
+            setShowSuccessToast(false);
+            payment.resetPayment();
+          }}
+          duration={3000}
+        />
+      )}
+
+      {/* Error Toast */}
+      {payment.paymentError && showErrorToast && (
         <ErrorToast
-          message={payment.error}
-          variant='error'
+          message={payment.error || 'Đã xảy ra lỗi'}
+          suggestion={
+            payment.paymentError
+              ? getPaymentErrorMessage(payment.paymentError).suggestion
+              : undefined
+          }
+          onRetry={
+            payment.paymentError?.canRetry
+              ? () => {
+                  setShowErrorToast(false);
+                  payment.retryPayment();
+                  setTimeout(() => setShowErrorToast(true), 500);
+                }
+              : undefined
+          }
+          onClose={() => setShowErrorToast(false)}
+          variant={payment.paymentError.type === 'WEBHOOK_DELAY' ? 'warning' : 'error'}
         />
       )}
 
@@ -313,6 +347,22 @@ export default function SpinWheelPage() {
       <SavedCodesModal
         isOpen={payment.isSavedCodesOpen}
         onClose={() => payment.setIsSavedCodesOpen(false)}
+      />
+
+      {/* Question Modal - Show when spin result is available */}
+      <QuestionModal
+        isOpen={!!(game.currentQuestion && game.spinResult)}
+        question={game.currentQuestion}
+        spinResult={game.spinResult}
+        onClose={handleContinueSpin}
+        onContinue={handleContinueSpin}
+        showPaymentButton={
+          payment.isPaymentRequired &&
+          !isGameUnlocked &&
+          questionsPlayed >= PAYMENT_CARDS_LIMIT
+        }
+        onPaymentClick={handlePaymentFromModal}
+        isProcessing={payment.isProcessing}
       />
 
       {/* Rating Modal */}

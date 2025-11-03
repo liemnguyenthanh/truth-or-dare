@@ -82,7 +82,12 @@ export const metadata: Metadata = {
     shortcut: '/favicon.svg',
     apple: '/favicon.svg',
   },
-  manifest: '/favicon/site.webmanifest',
+  manifest: '/manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'default',
+    title: 'Thật Hay Thách',
+  },
   alternates: {
     canonical: 'https://www.truthordaregame.xyz',
   },

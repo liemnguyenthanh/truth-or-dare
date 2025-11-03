@@ -7,6 +7,7 @@ import '@/styles/globals.css';
 import { GameProvider } from '@/hooks/GameProvider';
 
 import {
+  AddToHomeScreenBanner,
   gameSchema,
   JsonLd,
   Navigation,
@@ -38,6 +39,7 @@ export default function RootLayout({
             <Navigation />
             <main className='min-h-screen pt-16'>{children}</main>
             <Footer />
+            <AddToHomeScreenBanner />
           </GameProvider>
         </ThemeProvider>
         <GoogleTagManager gtmId='GTM-5FP2P39P' />

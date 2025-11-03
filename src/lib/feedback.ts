@@ -21,21 +21,36 @@ export async function createFeedback(
     ipAddress?: string;
   }
 ) {
+  // Only include ip_address if it's a valid IP address, otherwise set to null
+  // INET type doesn't accept strings like "client-side"
+  const insertData: any = {
+    type: data.type,
+    title: data.title,
+    description: data.description,
+    email: data.email || null,
+    rating: data.rating || null,
+    category: data.category || null,
+    priority: data.priority || 'medium',
+    user_agent: data.userAgent || null,
+  };
+
+  // Only add ip_address if it's a valid IP address format
+  // INET type requires valid IP address format
+  if (data.ipAddress && data.ipAddress !== 'client-side') {
+    // Basic IP validation - check if it looks like an IP
+    const ipRegex = /^(\d{1,3}\.){3}\d{1,3}$|^([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$/;
+    if (ipRegex.test(data.ipAddress)) {
+      insertData.ip_address = data.ipAddress;
+    } else {
+      insertData.ip_address = null;
+    }
+  } else {
+    insertData.ip_address = null;
+  }
+
   const { data: feedback, error } = await supabase
     .from('feedback')
-    .insert([
-      {
-        type: data.type,
-        title: data.title,
-        description: data.description,
-        email: data.email || null,
-        rating: data.rating || null,
-        category: data.category || null,
-        priority: data.priority || 'medium',
-        user_agent: data.userAgent,
-        ip_address: data.ipAddress,
-      },
-    ])
+    .insert([insertData])
     .select()
     .single();
 
@@ -213,4 +228,113 @@ export async function getFeedbackById(id: number) {
 
   if (error) throw error;
   return data;
+}
+
+// Comments functions
+export async function createComment(
+  data: {
+    feedback_id: number;
+    parent_id?: number;
+    content: string;
+    author_name?: string;
+    email?: string;
+    userAgent?: string;
+    ipAddress?: string;
+  }
+) {
+  // Only include ip_address if it's a valid IP address, otherwise set to null
+  // INET type doesn't accept strings like "client-side"
+  const insertData: any = {
+    feedback_id: data.feedback_id,
+    parent_id: data.parent_id || null,
+    content: data.content,
+    author_name: data.author_name || 'Ẩn danh',
+    email: data.email || null,
+    user_agent: data.userAgent || null,
+  };
+
+  // Only add ip_address if it's a valid IP address format
+  // INET type requires valid IP address format
+  if (data.ipAddress && data.ipAddress !== 'client-side') {
+    // Basic IP validation - check if it looks like an IP
+    const ipRegex = /^(\d{1,3}\.){3}\d{1,3}$|^([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$/;
+    if (ipRegex.test(data.ipAddress)) {
+      insertData.ip_address = data.ipAddress;
+    } else {
+      insertData.ip_address = null;
+    }
+  } else {
+    insertData.ip_address = null;
+  }
+
+  const { data: comment, error } = await supabase
+    .from('feedback_comments')
+    .insert([insertData])
+    .select()
+    .single();
+
+  if (error) throw error;
+
+  return {
+    success: true,
+    comment,
+    message: 'Bình luận đã được gửi thành công!',
+  };
+}
+
+export async function getCommentsByFeedbackId(feedbackId: number) {
+  const { data: comments, error } = await supabase
+    .from('feedback_comments')
+    .select('*')
+    .eq('feedback_id', feedbackId)
+    .order('created_at', { ascending: true });
+
+  if (error) throw error;
+
+  // Organize comments into nested structure
+  const commentsMap = new Map<number, any>();
+  const rootComments: any[] = [];
+
+  // First pass: create map of all comments
+  comments?.forEach((comment) => {
+    commentsMap.set(comment.id, { ...comment, replies: [] });
+  });
+
+  // Second pass: organize into nested structure
+  comments?.forEach((comment) => {
+    const commentWithReplies = commentsMap.get(comment.id);
+    if (comment.parent_id) {
+      const parent = commentsMap.get(comment.parent_id);
+      if (parent) {
+        parent.replies.push(commentWithReplies);
+      }
+    } else {
+      rootComments.push(commentWithReplies);
+    }
+  });
+
+  return {
+    success: true,
+    comments: rootComments,
+  };
+}
+
+// Get comment count for multiple feedbacks
+export async function getCommentCountsByFeedbackIds(feedbackIds: number[]) {
+  if (feedbackIds.length === 0) return {};
+
+  const { data, error } = await supabase
+    .from('feedback_comments')
+    .select('feedback_id')
+    .in('feedback_id', feedbackIds);
+
+  if (error) throw error;
+
+  // Count comments per feedback_id
+  const counts: Record<number, number> = {};
+  data?.forEach((item) => {
+    counts[item.feedback_id] = (counts[item.feedback_id] || 0) + 1;
+  });
+
+  return counts;
 }

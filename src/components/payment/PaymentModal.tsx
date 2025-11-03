@@ -1,12 +1,11 @@
 'use client';
 
 import { AnimatePresence, motion } from 'framer-motion';
-import { Clock, Copy, CreditCard, X } from 'lucide-react';
+import { CreditCard, X } from 'lucide-react';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
 
-import { CreateOrderResponse } from '@/types/payment';
 import { formatPaymentAmount } from '@/lib/config/payment';
+import { CreateOrderResponse } from '@/types/payment';
 
 interface PaymentModalProps {
   isOpen: boolean;
@@ -112,9 +111,57 @@ export function PaymentModal({
                     Nội dung ck:
                   </span>
                   <div className='font-mono text-lg font-bold text-gray-900 dark:text-white tracking-wider'>
-                    {orderData.accessCode}
+                    {`TOD${orderData.accessCode}`}
                   </div>
                 </div>
+              </div>
+
+              {/* Info Note */}
+              <div className='bg-purple-50 dark:bg-purple-900/20 rounded-xl p-4 border border-purple-200 dark:border-purple-800'>
+                <h3 className='text-sm font-semibold text-purple-900 dark:text-purple-100 mb-3'>
+                  📝 Thông tin mã code:
+                </h3>
+                <ul className='space-y-2 text-xs text-purple-800 dark:text-purple-200'>
+                  <li className='flex items-start gap-2'>
+                    <span className='text-purple-600 dark:text-purple-400 mt-0.5'>
+                      ⏰
+                    </span>
+                    <span>
+                      <strong>Thời hạn:</strong>{' '}
+                      {orderData.codeExpiresAt
+                        ? new Date(orderData.codeExpiresAt).toLocaleDateString('vi-VN', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                          })
+                        : '30 ngày kể từ khi thanh toán'}
+                    </span>
+                  </li>
+                  <li className='flex items-start gap-2'>
+                    <span className='text-purple-600 dark:text-purple-400 mt-0.5'>
+                      📱
+                    </span>
+                    <span>
+                      <strong>Có thể sử dụng</strong> trên thiết bị khác
+                    </span>
+                  </li>
+                  <li className='flex items-start gap-2'>
+                    <span className='text-purple-600 dark:text-purple-400 mt-0.5'>
+                      🎮
+                    </span>
+                    <span>
+                      <strong>Dùng cho tất cả</strong> các mode game
+                    </span>
+                  </li>
+                  <li className='flex items-start gap-2'>
+                    <span className='text-purple-600 dark:text-purple-400 mt-0.5'>
+                      💾
+                    </span>
+                    <span>
+                      Mã code được <strong>tự động lưu</strong>, xem trong "Mã codes"
+                    </span>
+                  </li>
+                </ul>
               </div>
             </div>
 

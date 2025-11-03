@@ -58,10 +58,10 @@ function generateQRUrl(accessCode: string, amount: number): string {
  */
 function calculateExpiryTime(): string {
   const now = new Date();
-  const expiryHours = parseInt(
-    Deno.env.get('PAYMENT_CODE_EXPIRY_HOURS') || '24'
+  const expiryDays = parseInt(
+    Deno.env.get('PAYMENT_CODE_EXPIRY_DAYS') || '30'
   );
-  const expiry = new Date(now.getTime() + expiryHours * 60 * 60 * 1000);
+  const expiry = new Date(now.getTime() + expiryDays * 24 * 60 * 60 * 1000);
   return expiry.toISOString();
 }
 

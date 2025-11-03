@@ -22,6 +22,7 @@
     "@next/third-parties": "15.4.0-canary.51",
     "@supabase/supabase-js": "^2.75.0",
     "@tailwindcss/typography": "^0.5.16",
+    "clipboard-copy": "^4.0.1",
     "clsx": "^2.0.0",
     "dotenv": "^16.5.0",
     "framer-motion": "^12.7.4",

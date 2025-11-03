@@ -12,6 +12,7 @@ import {
   getOrderStatusRequest,
   validateCodeRequest,
 } from '@/lib/paymentApi';
+import { classifyPaymentError, getPaymentErrorMessage, type PaymentError } from '@/lib/paymentErrors';
 import { useOrderStorage } from '@/hooks';
 
 interface UsePaymentOptions {
@@ -28,6 +29,8 @@ interface UsePaymentReturn {
   orderData: CreateOrderResponse | null;
   isProcessing: boolean;
   error: string | null;
+  paymentError: PaymentError | null;
+  paymentSuccess: boolean; // Track payment success
 
   // Actions
   createOrder: () => Promise<void>;
@@ -36,6 +39,7 @@ interface UsePaymentReturn {
   openPaymentModal: () => void;
   closePaymentModal: () => void;
   resetPayment: () => void;
+  retryPayment: () => Promise<void>; // Retry payment check
 }
 
 const PAYMENT_CARDS_LIMIT = 5;
@@ -52,7 +56,10 @@ export function usePayment({
   const [orderData, setOrderData] = useState<CreateOrderResponse | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [paymentError, setPaymentError] = useState<PaymentError | null>(null);
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
   const pollingInterval = useRef<NodeJS.Timeout | null>(null);
+  const paidOrderIds = useRef<Set<string>>(new Set()); // Track paid orders to prevent duplicate saves
 
   // Check if payment is required - ALL modes now require payment
   const isPaymentRequired = true;
@@ -81,7 +88,10 @@ export function usePayment({
       setOrderData(data);
       setIsPaymentModalOpen(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Unknown error');
+      const classifiedError = classifyPaymentError(err);
+      setPaymentError(classifiedError);
+      const { message } = getPaymentErrorMessage(classifiedError);
+      setError(message);
       // Create order error
     } finally {
       setIsProcessing(false);
@@ -124,24 +134,51 @@ export function usePayment({
       clearPolling();
 
       const handleStatus = async () => {
-        const status = await checkOrderStatus(orderId);
-        if (status === 'paid') {
-          clearPolling();
-          onPaymentSuccess();
-          if (orderData) {
-            upsert(orderData.orderId, {
-              code: orderData.accessCode,
-              expiresAt: orderData.codeExpiresAt,
-              createdAt: new Date().toISOString(),
-            });
-          }
+        try {
+          const status = await checkOrderStatus(orderId);
+          if (status === 'paid') {
+            clearPolling();
+            setPaymentSuccess(true);
+            setPaymentError(null);
+            setError(null);
+            
+            // Prevent duplicate saves - only save once per orderId
+            if (!paidOrderIds.current.has(orderId)) {
+              paidOrderIds.current.add(orderId);
+              onPaymentSuccess();
+              if (orderData) {
+                upsert(orderData.orderId, {
+                  code: orderData.accessCode,
+                  expiresAt: orderData.codeExpiresAt,
+                  createdAt: new Date().toISOString(),
+                });
+              }
+            }
 
-          setIsPaymentModalOpen(false);
-        } else if (status === 'expired') {
-          clearPolling();
-          setError('Mã thanh toán đã hết hạn');
-          if (orderData) {
-            remove(orderData.orderId);
+            setIsPaymentModalOpen(false);
+          } else if (status === 'expired') {
+            clearPolling();
+            const expiredError = classifyPaymentError(new Error('Mã thanh toán đã hết hạn'));
+            setPaymentError(expiredError);
+            const { message } = getPaymentErrorMessage(expiredError);
+            setError(message);
+            if (orderData) {
+              remove(orderData.orderId);
+            }
+          }
+        } catch (err) {
+          // Network or other errors during status check
+          const classifiedError = classifyPaymentError(err);
+          setPaymentError(classifiedError);
+          // Don't clear polling for network errors - let it retry
+          if (classifiedError.type === 'NETWORK_ERROR' || classifiedError.type === 'TIMEOUT') {
+            // Continue polling - might be temporary
+            console.warn('Payment status check error, will retry:', err);
+          } else {
+            // For other errors, stop polling
+            clearPolling();
+            const { message } = getPaymentErrorMessage(classifiedError);
+            setError(message);
           }
         }
       };
@@ -149,7 +186,7 @@ export function usePayment({
       const interval = setInterval(handleStatus, POLLING_INTERVAL);
       pollingInterval.current = interval;
     },
-    [checkOrderStatus, onPaymentSuccess, orderData]
+    [checkOrderStatus, onPaymentSuccess, orderData, upsert, remove]
   );
 
   // Stop polling
@@ -171,13 +208,50 @@ export function usePayment({
     stopPolling();
   }, [stopPolling]);
 
+  // Retry payment check
+  const retryPayment = useCallback(async () => {
+    if (!orderData) return;
+    
+    setError(null);
+    setPaymentError(null);
+    
+    try {
+      const status = await checkOrderStatus(orderData.orderId);
+      if (status === 'paid') {
+        setPaymentSuccess(true);
+        onPaymentSuccess();
+        if (orderData) {
+          upsert(orderData.orderId, {
+            code: orderData.accessCode,
+            expiresAt: orderData.codeExpiresAt,
+            createdAt: new Date().toISOString(),
+          });
+        }
+        setIsPaymentModalOpen(false);
+      } else {
+        const { message } = getPaymentErrorMessage(
+          classifyPaymentError(new Error('Thanh toán chưa được xác nhận'))
+        );
+        setError(message);
+      }
+    } catch (err) {
+      const classifiedError = classifyPaymentError(err);
+      setPaymentError(classifiedError);
+      const { message } = getPaymentErrorMessage(classifiedError);
+      setError(message);
+    }
+  }, [orderData, checkOrderStatus, onPaymentSuccess, upsert]);
+
   // Reset payment state
   const resetPayment = useCallback(() => {
     setOrderData(null);
     setIsPaymentModalOpen(false);
     setIsProcessing(false);
     setError(null);
+    setPaymentError(null);
+    setPaymentSuccess(false);
     stopPolling();
+    paidOrderIds.current.clear(); // Clear paid orders when resetting
   }, [stopPolling]);
 
   // Start polling when order data is available
@@ -201,6 +275,8 @@ export function usePayment({
     orderData,
     isProcessing,
     error,
+    paymentError,
+    paymentSuccess,
 
     // Actions
     createOrder,
@@ -209,5 +285,6 @@ export function usePayment({
     openPaymentModal,
     closePaymentModal,
     resetPayment,
+    retryPayment,
   };
 }

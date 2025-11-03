@@ -28,6 +28,11 @@ export default function CouplePositionsPage() {
   const [ageVerified, setAgeVerified] = useState(false);
   const [isGameUnlocked, setIsGameUnlocked] = useState(false);
 
+  // Auto scroll to top when page loads (fix mobile scroll position issue)
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
   // Ẩn navigation khi vào game
   useHideNavigation();
 

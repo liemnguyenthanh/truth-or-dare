@@ -19,7 +19,7 @@ export function ViewCodesButton({
   return (
     <motion.button
       onClick={onClick}
-      className={`flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/20 dark:bg-blue-500/30 backdrop-blur-sm text-blue-700 dark:text-blue-300 hover:bg-blue-500/30 dark:hover:bg-blue-500/40 transition-all duration-200 shadow-lg hover:shadow-xl transform hover:scale-105 ${className}`}
+      className={`flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-600 to-blue-700 dark:from-blue-500 dark:to-blue-600 text-white font-semibold border-2 border-blue-400 dark:border-blue-300 hover:from-blue-700 hover:to-blue-800 dark:hover:from-blue-600 dark:hover:to-blue-700 transition-all duration-200 shadow-xl hover:shadow-2xl transform hover:scale-105 ${className}`}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
     >

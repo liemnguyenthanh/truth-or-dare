@@ -6,4 +6,6 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 1,
   userScalable: false,
+  // iOS Safari specific
+  viewportFit: 'cover', // Enable safe area insets for notched devices
 };

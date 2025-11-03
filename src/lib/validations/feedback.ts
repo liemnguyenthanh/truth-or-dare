@@ -43,7 +43,21 @@ export const featureRequestSchema = feedbackSchema.extend({
   category: z.string().min(1, 'Vui lòng chọn danh mục tính năng'),
 });
 
+export const commentSchema = z.object({
+  content: z
+    .string()
+    .min(1, 'Nội dung bình luận không được để trống')
+    .max(1000, 'Nội dung bình luận không được vượt quá 1000 ký tự'),
+  author_name: z
+    .string()
+    .max(100, 'Tên không được vượt quá 100 ký tự')
+    .optional()
+    .default('Ẩn danh'),
+  email: z.string().email('Email không hợp lệ').optional().or(z.literal('')),
+});
+
 export type FeedbackFormData = z.infer<typeof feedbackSchema>;
 export type QuickFeedbackData = z.infer<typeof quickFeedbackSchema>;
 export type BugReportData = z.infer<typeof bugReportSchema>;
 export type FeatureRequestData = z.infer<typeof featureRequestSchema>;
+export type CommentFormData = z.infer<typeof commentSchema>;

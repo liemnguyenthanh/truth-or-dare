@@ -15,10 +15,14 @@ interface UseSpinWheelPaymentReturn {
   orderData: ReturnType<typeof usePayment>['orderData'];
   isProcessing: boolean;
   error: string | null;
+  paymentSuccess: boolean;
+  paymentError: ReturnType<typeof usePayment>['paymentError'];
 
   // Payment actions
   createOrder: () => Promise<void>;
   closePaymentModal: () => void;
+  resetPayment: () => void;
+  retryPayment: () => Promise<void>;
 
   // Modal state
   isCodeInputOpen: boolean;
@@ -42,8 +46,12 @@ export function useSpinWheelPayment({
     orderData,
     isProcessing,
     error,
+    paymentSuccess,
+    paymentError,
     createOrder: createOrderBase,
     closePaymentModal,
+    resetPayment,
+    retryPayment,
   } = usePayment({
     gameMode: 'spin_wheel',
     cardsFlipped: questionsPlayed,
@@ -67,8 +75,12 @@ export function useSpinWheelPayment({
     orderData,
     isProcessing,
     error,
+    paymentSuccess,
+    paymentError,
     createOrder,
     closePaymentModal,
+    resetPayment,
+    retryPayment,
     isCodeInputOpen,
     isSavedCodesOpen,
     setIsCodeInputOpen,

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 import { DRINK_QUESTIONS, DrinkQuestion } from '@/data/questions/drink';
 
@@ -25,6 +25,7 @@ export function useDrinkGame(
   const [usedQuestions, setUsedQuestions] = useState<Set<number>>(new Set());
   const [isFlipping, setIsFlipping] = useState(false);
   const [isGameComplete, setIsGameComplete] = useState(false);
+  const hasAutoDrawnRef = useRef(false);
 
   // Lấy câu hỏi ngẫu nhiên
   const getRandomQuestion = useCallback((): {
@@ -49,7 +50,7 @@ export function useDrinkGame(
 
   // Rút bài mới
   const drawNewCard = useCallback(() => {
-    if (isGameComplete) {
+    if (isGameComplete || isFlipping) {
       return;
     }
 
@@ -69,7 +70,7 @@ export function useDrinkGame(
       setUsedQuestions((prev) => new Set(prev).add(originalIndex));
       setIsFlipping(false);
     }, FLIP_ANIMATION_DELAY);
-  }, [getRandomQuestion, isGameComplete, onGameComplete]);
+  }, [getRandomQuestion, isGameComplete, isFlipping, onGameComplete]);
 
   // Reset game
   const resetGame = useCallback(() => {
@@ -77,11 +78,13 @@ export function useDrinkGame(
     setUsedQuestions(new Set());
     setIsFlipping(false);
     setIsGameComplete(false);
+    hasAutoDrawnRef.current = false;
   }, []);
 
-  // Rút bài đầu tiên khi load trang
+  // Rút bài đầu tiên khi load trang - luôn auto rút card đầu tiên (chỉ 1 lần)
   useEffect(() => {
-    if (!isPaymentRequired || isGameUnlocked) {
+    if (!hasAutoDrawnRef.current && !isGameComplete && usedQuestions.size === 0) {
+      hasAutoDrawnRef.current = true;
       drawNewCard();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

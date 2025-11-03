@@ -36,17 +36,17 @@ export function QuestionCard({
       className='w-full max-w-lg'
     >
       <div
-        className={`bg-gradient-to-br ${cardColor} rounded-3xl shadow-2xl p-8 flex flex-col items-center justify-center min-h-[400px]`}
+        className={`bg-gradient-to-br ${cardColor} rounded-3xl shadow-2xl p-4 sm:p-6 md:p-8 flex flex-col items-center justify-center min-h-[280px] sm:min-h-[320px] md:min-h-[400px]`}
       >
         {/* Type Label */}
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1, duration: 0.3 }}
-          className='mb-6 flex items-center justify-center gap-2'
+          className='mb-3 sm:mb-4 md:mb-6 flex items-center justify-center gap-2'
         >
-          <div className='text-5xl'>{icon}</div>
-          <Heading level={3} className='text-3xl tracking-wider text-white drop-shadow-lg'>
+          <div className='text-3xl sm:text-4xl md:text-5xl'>{icon}</div>
+          <Heading level={3} className='text-xl sm:text-2xl md:text-3xl tracking-wider text-white drop-shadow-lg'>
             {typeLabel}
           </Heading>
         </motion.div>
@@ -56,9 +56,9 @@ export function QuestionCard({
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2, duration: 0.3 }}
-          className='text-white text-center'
+          className='text-white text-center px-2 sm:px-4'
         >
-          <Text variant='large' className='text-2xl font-bold leading-relaxed text-white'>
+          <Text variant='large' className='text-base sm:text-lg md:text-2xl font-bold leading-relaxed text-white'>
             {currentQuestion?.text}
           </Text>
         </motion.div>

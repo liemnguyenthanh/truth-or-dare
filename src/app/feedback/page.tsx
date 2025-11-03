@@ -1,337 +1,261 @@
 'use client';
 
-import { motion } from 'framer-motion';
-import { useState } from 'react';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useState, useCallback, useEffect } from 'react';
 
-import { createFeedback } from '@/lib/feedback';
-import {
-  type FeedbackFormData,
-  feedbackSchema,
-} from '@/lib/validations/feedback';
+import { Heading, PrimaryButton, Text } from '@/components/shared';
 
-const feedbackTypes = [
-  {
-    value: 'bug',
-    label: 'Báo lỗi',
-    icon: '🐛',
-    description: 'Báo cáo lỗi hoặc sự cố',
-  },
-  {
-    value: 'feature',
-    label: 'Tính năng',
-    icon: '💡',
-    description: 'Đề xuất tính năng mới',
-  },
-  {
-    value: 'general',
-    label: 'Góp ý chung',
-    icon: '💬',
-    description: 'Góp ý và phản hồi chung',
-  },
-  {
-    value: 'rating',
-    label: 'Đánh giá',
-    icon: '⭐',
-    description: 'Đánh giá ứng dụng',
-  },
-];
+import { createComment, getCommentsByFeedbackId, getCommentCountsByFeedbackIds } from '@/lib/feedback';
+import { commentSchema } from '@/lib/validations/feedback';
 
-const priorityOptions = [
-  { value: 'low', label: 'Thấp', color: 'text-green-600' },
-  { value: 'medium', label: 'Trung bình', color: 'text-yellow-600' },
-  { value: 'high', label: 'Cao', color: 'text-orange-600' },
-  { value: 'critical', label: 'Nghiêm trọng', color: 'text-red-600' },
-];
+import type { Feedback, FeedbackComment } from '@/types/feedback';
+
+import { FeedbackForm, FeedbackList } from './components';
+import { useFeedbackForm, useFeedbackList } from './hooks';
 
 export default function FeedbackPage() {
-  const [formData, setFormData] = useState<FeedbackFormData>({
-    type: 'general',
-    title: '',
-    description: '',
-    email: '',
-    rating: undefined,
-    category: '',
-    priority: 'medium',
+  const [showForm, setShowForm] = useState(false);
+  const [expandedFeedbackId, setExpandedFeedbackId] = useState<number | null>(null);
+  const [commentCounts, setCommentCounts] = useState<Record<number, number>>({});
+  const [commentsMap, setCommentsMap] = useState<Record<number, FeedbackComment[]>>({});
+  const [loadingCommentsMap, setLoadingCommentsMap] = useState<Record<number, boolean>>({});
+  const [replyingToMap, setReplyingToMap] = useState<Record<number, number | null>>({});
+  const [commentDataMap, setCommentDataMap] = useState<
+    Record<number, { content: string; author_name: string }>
+  >({});
+  const [isSubmittingCommentMap, setIsSubmittingCommentMap] = useState<
+    Record<number, boolean>
+  >({});
+
+  // Hooks
+  const feedbackList = useFeedbackList(50);
+  const feedbackForm = useFeedbackForm(() => {
+    feedbackList.loadFeedbacks();
+    setTimeout(() => setShowForm(false), 2000);
   });
-  const [errors, setErrors] = useState<Record<string, string>>({});
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleInputChange = (field: keyof FeedbackFormData, value: unknown) => {
-    setFormData((prev) => ({ ...prev, [field]: value }));
-    // Clear error when user starts typing
-    if (errors[field]) {
-      setErrors((prev) => ({ ...prev, [field]: '' }));
-    }
-  };
+  // Sync comment counts from hook
+  useEffect(() => {
+    setCommentCounts(feedbackList.commentCounts);
+  }, [feedbackList.commentCounts]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    setErrors({});
-
+  // Load comments for a feedback
+  const loadComments = useCallback(async (feedbackId: number) => {
+    setLoadingCommentsMap((prev) => ({ ...prev, [feedbackId]: true }));
     try {
-      // Validate form data
-      const validatedData = feedbackSchema.parse(formData);
-
-      // Get user agent and IP (simplified for client-side)
-      const userAgent = navigator.userAgent;
-      const ipAddress = 'client-side'; // IP will be handled by Supabase RLS
-
-      // Submit feedback
-      const result = await createFeedback({
-        ...validatedData,
-        userAgent,
-        ipAddress,
-      });
-
+      const result = await getCommentsByFeedbackId(feedbackId);
       if (result.success) {
-        setIsSubmitted(true);
-        setFormData({
-          type: 'general',
-          title: '',
-          description: '',
-          email: '',
-          rating: undefined,
-          category: '',
-          priority: 'medium',
-        });
-      } else {
-        throw new Error('Failed to submit feedback');
+        setCommentsMap((prev) => ({ ...prev, [feedbackId]: result.comments }));
       }
-    } catch (error: unknown) {
-      if (error && typeof error === 'object' && 'errors' in error) {
-        // Zod validation errors
-        const fieldErrors: Record<string, string> = {};
-        (
-          error as { errors: { path: string[]; message: string }[] }
-        ).errors.forEach((err: { path: string[]; message: string }) => {
-          fieldErrors[err.path[0]] = err.message;
-        });
-        setErrors(fieldErrors);
-      } else {
-        // Error submitting feedback
-        setErrors({
-          general: 'Có lỗi xảy ra khi gửi góp ý. Vui lòng thử lại.',
-        });
-      }
+    } catch (error) {
+      console.error('Error loading comments:', error);
     } finally {
-      setIsSubmitting(false);
+      setLoadingCommentsMap((prev) => ({ ...prev, [feedbackId]: false }));
     }
-  };
+  }, []);
 
-  if (isSubmitted) {
-    return (
-      <div className='min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 flex items-center justify-center p-4'>
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          className='bg-white rounded-2xl shadow-xl p-8 max-w-md w-full text-center'
-        >
-          <div className='text-6xl mb-4'>✅</div>
-          <h1 className='text-2xl font-bold text-gray-900 mb-2'>Cảm ơn bạn!</h1>
-          <p className='text-gray-600 mb-6'>
-            Góp ý của bạn đã được gửi thành công. Chúng tôi sẽ xem xét và phản
-            hồi sớm nhất có thể.
-          </p>
-          <button
-            onClick={() => setIsSubmitted(false)}
-            className='bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition-colors'
-          >
-            Gửi góp ý khác
-          </button>
-        </motion.div>
-      </div>
-    );
-  }
+  // Initialize comment data for a feedback
+  const initCommentData = useCallback((feedbackId: number) => {
+    if (!commentDataMap[feedbackId]) {
+      setCommentDataMap((prev) => ({
+        ...prev,
+        [feedbackId]: { content: '', author_name: '' },
+      }));
+    }
+  }, [commentDataMap]);
+
+  const handleFeedbackExpand = useCallback(
+    (feedbackId: number) => {
+      const willExpand = expandedFeedbackId !== feedbackId;
+      setExpandedFeedbackId(willExpand ? feedbackId : null);
+      
+      if (willExpand) {
+        initCommentData(feedbackId);
+        if (!commentsMap[feedbackId] && !loadingCommentsMap[feedbackId]) {
+          loadComments(feedbackId);
+        }
+      }
+    },
+    [expandedFeedbackId, commentsMap, loadingCommentsMap, loadComments, initCommentData]
+  );
+
+  const handleCommentSubmit = useCallback(
+    (feedbackId: number) => async (e: React.FormEvent) => {
+      e.preventDefault();
+      setIsSubmittingCommentMap((prev) => ({ ...prev, [feedbackId]: true }));
+
+      try {
+        const commentData = commentDataMap[feedbackId] || { content: '', author_name: '' };
+        const validatedData = commentSchema.parse(commentData);
+        const userAgent = navigator.userAgent;
+
+        await createComment({
+          feedback_id: feedbackId,
+          content: validatedData.content,
+          author_name: validatedData.author_name,
+          email: validatedData.email || undefined,
+          userAgent,
+          ipAddress: 'client-side',
+        });
+
+        // Reset comment form
+        setCommentDataMap((prev) => ({
+          ...prev,
+          [feedbackId]: { content: '', author_name: '' },
+        }));
+
+        // Reload comments
+        await loadComments(feedbackId);
+        
+        // Update comment count for this feedback
+        const counts = await getCommentCountsByFeedbackIds([feedbackId]);
+        setCommentCounts((prev) => ({ ...prev, ...counts }));
+      } catch (error) {
+        console.error('Error submitting comment:', error);
+      } finally {
+        setIsSubmittingCommentMap((prev) => ({ ...prev, [feedbackId]: false }));
+      }
+    },
+    [commentDataMap, loadComments]
+  );
+
+  const handleReplySubmit = useCallback(
+    (feedbackId: number) => async (e: React.FormEvent, parentId: number) => {
+      e.preventDefault();
+      setIsSubmittingCommentMap((prev) => ({ ...prev, [feedbackId]: true }));
+
+      try {
+        const commentData = commentDataMap[feedbackId] || { content: '', author_name: '' };
+        const validatedData = commentSchema.parse(commentData);
+        const userAgent = navigator.userAgent;
+
+        await createComment({
+          feedback_id: feedbackId,
+          parent_id: parentId,
+          content: validatedData.content,
+          author_name: validatedData.author_name,
+          email: validatedData.email || undefined,
+          userAgent,
+          ipAddress: 'client-side',
+        });
+
+        // Reset comment form
+        setCommentDataMap((prev) => ({
+          ...prev,
+          [feedbackId]: { content: '', author_name: '' },
+        }));
+        setReplyingToMap((prev) => ({ ...prev, [feedbackId]: null }));
+
+        // Reload comments
+        await loadComments(feedbackId);
+        
+        // Update comment count for this feedback
+        const counts = await getCommentCountsByFeedbackIds([feedbackId]);
+        setCommentCounts((prev) => ({ ...prev, ...counts }));
+      } catch (error) {
+        console.error('Error submitting reply:', error);
+      } finally {
+        setIsSubmittingCommentMap((prev) => ({ ...prev, [feedbackId]: false }));
+      }
+    },
+    [commentDataMap, loadComments]
+  );
+
+  const handleReplyClick = useCallback(
+    (feedbackId: number, commentId: number) => {
+      setReplyingToMap((prev) => ({
+        ...prev,
+        [feedbackId]: prev[feedbackId] === commentId ? null : commentId,
+      }));
+      initCommentData(feedbackId);
+    },
+    [initCommentData]
+  );
+
+  const handleCommentDataChange = useCallback(
+    (feedbackId: number, field: string, value: string) => {
+      setCommentDataMap((prev) => ({
+        ...prev,
+        [feedbackId]: {
+          ...(prev[feedbackId] || { content: '', author_name: '' }),
+          [field]: value,
+        },
+      }));
+    },
+    []
+  );
 
   return (
-    <div className='min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 py-8 px-4'>
-      <div className='max-w-2xl mx-auto'>
+    <div className='min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 p-2 sm:p-4 transition-colors duration-200'>
+      <div className='max-w-4xl mx-auto mt-2 sm:mt-4'>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className='bg-white rounded-2xl shadow-xl p-8'
+          className='bg-white dark:bg-gray-800 rounded-xl shadow-lg p-3 sm:p-6 lg:p-8'
         >
-          <div className='text-center mb-8'>
-            <h1 className='text-3xl font-bold text-gray-900 mb-2'>Gửi Góp Ý</h1>
-            <p className='text-gray-600'>
-              Chúng tôi rất mong nhận được phản hồi từ bạn để cải thiện ứng dụng
-            </p>
+          <div className='text-center mb-6 sm:mb-8'>
+            <Heading level={1} className='mb-2 sm:mb-3 text-2xl sm:text-3xl'>
+              💬 Góp Ý & Thảo Luận
+            </Heading>
+            <Text variant='large' className='text-sm sm:text-base'>
+              Chia sẻ ý kiến của bạn hoặc tham gia thảo luận với cộng đồng
+            </Text>
           </div>
 
-          <form onSubmit={handleSubmit} className='space-y-6'>
-            {/* Feedback Type */}
-            <div>
-              <label className='block text-sm font-medium text-gray-700 mb-3'>
-                Loại góp ý *
-              </label>
-              <div className='grid grid-cols-2 gap-3'>
-                {feedbackTypes.map((type) => (
-                  <button
-                    key={type.value}
-                    type='button'
-                    onClick={() => handleInputChange('type', type.value)}
-                    className={`p-4 rounded-lg border-2 transition-all ${
-                      formData.type === type.value
-                        ? 'border-purple-500 bg-purple-50'
-                        : 'border-gray-200 hover:border-gray-300'
-                    }`}
-                  >
-                    <div className='text-2xl mb-1'>{type.icon}</div>
-                    <div className='font-medium text-sm'>{type.label}</div>
-                    <div className='text-xs text-gray-500'>
-                      {type.description}
-                    </div>
-                  </button>
-                ))}
-              </div>
-              {errors.type && (
-                <p className='text-red-500 text-sm mt-1'>{errors.type}</p>
-              )}
-            </div>
-
-            {/* Title */}
-            <div>
-              <label className='block text-sm font-medium text-gray-700 mb-2'>
-                Tiêu đề *
-              </label>
-              <input
-                type='text'
-                value={formData.title}
-                onChange={(e) => handleInputChange('title', e.target.value)}
-                className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent'
-                placeholder='Mô tả ngắn gọn về góp ý của bạn'
-              />
-              {errors.title && (
-                <p className='text-red-500 text-sm mt-1'>{errors.title}</p>
-              )}
-            </div>
-
-            {/* Description */}
-            <div>
-              <label className='block text-sm font-medium text-gray-700 mb-2'>
-                Mô tả chi tiết *
-              </label>
-              <textarea
-                value={formData.description}
-                onChange={(e) =>
-                  handleInputChange('description', e.target.value)
-                }
-                rows={4}
-                className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent'
-                placeholder='Mô tả chi tiết về góp ý của bạn...'
-              />
-              {errors.description && (
-                <p className='text-red-500 text-sm mt-1'>
-                  {errors.description}
-                </p>
-              )}
-            </div>
-
-            {/* Email */}
-            <div>
-              <label className='block text-sm font-medium text-gray-700 mb-2'>
-                Email (tùy chọn)
-              </label>
-              <input
-                type='email'
-                value={formData.email}
-                onChange={(e) => handleInputChange('email', e.target.value)}
-                className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent'
-                placeholder='your@email.com'
-              />
-              {errors.email && (
-                <p className='text-red-500 text-sm mt-1'>{errors.email}</p>
-              )}
-            </div>
-
-            {/* Rating (only for rating type) */}
-            {formData.type === 'rating' && (
-              <div>
-                <label className='block text-sm font-medium text-gray-700 mb-2'>
-                  Đánh giá *
-                </label>
-                <div className='flex space-x-2'>
-                  {[1, 2, 3, 4, 5].map((rating) => (
-                    <button
-                      key={rating}
-                      type='button'
-                      onClick={() => handleInputChange('rating', rating)}
-                      className={`text-2xl ${
-                        formData.rating && formData.rating >= rating
-                          ? 'text-yellow-400'
-                          : 'text-gray-300'
-                      }`}
-                    >
-                      ⭐
-                    </button>
-                  ))}
-                </div>
-                {errors.rating && (
-                  <p className='text-red-500 text-sm mt-1'>{errors.rating}</p>
-                )}
-              </div>
+          <AnimatePresence>
+            {showForm && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                className='mb-8 overflow-hidden'
+              >
+                <FeedbackForm
+                  formData={feedbackForm.formData}
+                  errors={feedbackForm.errors}
+                  isSubmitting={feedbackForm.isSubmitting}
+                  isSubmitted={feedbackForm.isSubmitted}
+                  onInputChange={(field, value) =>
+                    feedbackForm.setFormData({ [field]: value })
+                  }
+                  onSubmit={feedbackForm.handleSubmit}
+                />
+              </motion.div>
             )}
+          </AnimatePresence>
 
-            {/* Category */}
-            <div>
-              <label className='block text-sm font-medium text-gray-700 mb-2'>
-                Danh mục (tùy chọn)
-              </label>
-              <input
-                type='text'
-                value={formData.category}
-                onChange={(e) => handleInputChange('category', e.target.value)}
-                className='w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent'
-                placeholder='Ví dụ: UI/UX, Performance, Bug...'
-              />
-              {errors.category && (
-                <p className='text-red-500 text-sm mt-1'>{errors.category}</p>
-              )}
+          <div className='border-t border-gray-200 dark:border-gray-700 pt-4 sm:pt-6'>
+            <div className='flex items-center justify-between mb-3 sm:mb-4 gap-2 flex-wrap'>
+              <Heading level={2} className='!mb-0 text-lg sm:text-xl'>
+                Các góp ý gần đây
+              </Heading>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setShowForm(!showForm)}
+                className='text-xs sm:text-sm text-purple-600 dark:text-purple-400 hover:text-purple-700 dark:hover:text-purple-300 transition-colors whitespace-nowrap'
+              >
+                {showForm ? 'Ẩn form' : 'Gửi góp ý'}
+              </motion.button>
             </div>
 
-            {/* Priority */}
-            <div>
-              <label className='block text-sm font-medium text-gray-700 mb-2'>
-                Mức độ ưu tiên
-              </label>
-              <div className='flex space-x-2'>
-                {priorityOptions.map((priority) => (
-                  <button
-                    key={priority.value}
-                    type='button'
-                    onClick={() =>
-                      handleInputChange('priority', priority.value)
-                    }
-                    className={`px-4 py-2 rounded-lg border transition-all ${
-                      formData.priority === priority.value
-                        ? 'border-purple-500 bg-purple-50'
-                        : 'border-gray-200 hover:border-gray-300'
-                    }`}
-                  >
-                    <span className={priority.color}>{priority.label}</span>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* General Error */}
-            {errors.general && (
-              <div className='bg-red-50 border border-red-200 rounded-lg p-4'>
-                <p className='text-red-600 text-sm'>{errors.general}</p>
-              </div>
-            )}
-
-            {/* Submit Button */}
-            <button
-              type='submit'
-              disabled={isSubmitting}
-              className='w-full bg-purple-600 text-white py-3 px-6 rounded-lg hover:bg-purple-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors'
-            >
-              {isSubmitting ? 'Đang gửi...' : 'Gửi Góp Ý'}
-            </button>
-          </form>
+            <FeedbackList
+              feedbacks={feedbackList.feedbacks}
+              loading={feedbackList.loading}
+              expandedFeedbackId={expandedFeedbackId}
+              commentCounts={commentCounts}
+              commentsMap={commentsMap}
+              loadingCommentsMap={loadingCommentsMap}
+              replyingToMap={replyingToMap}
+              commentDataMap={commentDataMap}
+              isSubmittingCommentMap={isSubmittingCommentMap}
+              onFeedbackExpand={handleFeedbackExpand}
+              onCommentSubmit={handleCommentSubmit}
+              onReplySubmit={handleReplySubmit}
+              onReplyClick={handleReplyClick}
+              onCommentDataChange={handleCommentDataChange}
+            />
+          </div>
         </motion.div>
       </div>
     </div>

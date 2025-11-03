@@ -2,7 +2,8 @@
 
 import { AnimatePresence, motion } from 'framer-motion';
 import { Check, Clock, Copy, Trash2, X } from 'lucide-react';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
+import copy from 'clipboard-copy';
 import { useOrderStorage } from '@/hooks';
 
 interface SavedCodeItem {
@@ -19,48 +20,63 @@ interface SavedCodesModalProps {
 
 export function SavedCodesModal({ isOpen, onClose }: SavedCodesModalProps) {
   const { list, remove } = useOrderStorage();
-  const [savedCodes, setSavedCodes] = useState<SavedCodeItem[]>([]);
   const [copiedCode, setCopiedCode] = useState<string | null>(null);
 
-  // Load saved codes from localStorage
-  useEffect(() => {
-    if (isOpen) {
-      loadSavedCodes();
-    }
-  }, [isOpen]);
-
-  const loadSavedCodes = () => {
+  // Compute saved codes from list, automatically updates when list changes
+  const savedCodes = useMemo(() => {
     try {
-      // Map hook data to UI items and sort by createdAt desc
+      // Map hook data to UI items
       const mapped: SavedCodeItem[] = list.map((item) => ({
         orderId: item.orderId,
         accessCode: item.code,
         expiresAt: item.expiresAt,
         createdAt: item.createdAt,
       }));
-      mapped.sort(
+
+      // Remove duplicates by accessCode - keep only the most recent one
+      const seenCodes = new Map<string, SavedCodeItem>();
+      for (const item of mapped) {
+        const existing = seenCodes.get(item.accessCode);
+        if (!existing || new Date(item.createdAt) > new Date(existing.createdAt)) {
+          seenCodes.set(item.accessCode, item);
+        }
+      }
+
+      // Convert map to array and sort by createdAt desc
+      const uniqueCodes = Array.from(seenCodes.values());
+      uniqueCodes.sort(
         (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       );
-      setSavedCodes(mapped);
+      return uniqueCodes;
     } catch {
-      setSavedCodes([]);
+      return [];
     }
-  };
+  }, [list]);
 
   const copyToClipboard = async (code: string) => {
     try {
-      await navigator.clipboard.writeText(code);
+      await copy(code);
       setCopiedCode(code);
       setTimeout(() => setCopiedCode(null), 2000);
     } catch (error) {
-      // Failed to copy code
+      // Failed to copy code - clipboard-copy handles permissions and fallbacks
+      console.error('Failed to copy code:', error);
     }
   };
 
   const deleteCode = (orderId: string) => {
     try {
-      remove(orderId);
-      loadSavedCodes();
+      // Find the code for this orderId
+      const codeToDelete = list.find((item) => item.orderId === orderId)?.code;
+      if (codeToDelete) {
+        // Delete all orders with the same code (handle duplicates)
+        const ordersToDelete = list.filter((item) => item.code === codeToDelete);
+        ordersToDelete.forEach((item) => remove(item.orderId));
+      } else {
+        // Fallback: just delete the specified orderId
+        remove(orderId);
+      }
+      // savedCodes will automatically update via useMemo when list changes
     } catch {
       // ignore
     }

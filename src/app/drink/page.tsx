@@ -23,6 +23,11 @@ export default function DrinkPage() {
   const [isGameUnlocked, setIsGameUnlocked] = useState(false);
   const [cardsDrawn, setCardsDrawn] = useState(0);
 
+  // Auto scroll to top when page loads (fix mobile scroll position issue)
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, []);
+
   // Ẩn navigation khi vào trang này
   useHideNavigation();
 

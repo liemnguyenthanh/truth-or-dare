@@ -1,36 +1,40 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useCallback, useEffect, useState } from 'react';
 
 import { getFeedbackList } from '@/lib/feedback';
 
-import { Feedback } from '@/types/feedback';
+import { Heading, PrimaryButton, SecondaryButton, Text } from '@/components/shared';
+
+import type { Feedback } from '@/types/feedback';
+
+import { formatDate } from '../utils/formatDate';
 
 const typeLabels = {
-  bug: { label: 'Báo lỗi', icon: '🐛', color: 'bg-red-100 text-red-800' },
+  bug: { label: 'Báo lỗi', icon: '🐛', color: 'bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-300' },
   feature: {
     label: 'Tính năng',
     icon: '💡',
-    color: 'bg-blue-100 text-blue-800',
+    color: 'bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-300',
   },
   general: {
     label: 'Góp ý chung',
     icon: '💬',
-    color: 'bg-gray-100 text-gray-800',
+    color: 'bg-gray-100 dark:bg-gray-700 text-gray-800 dark:text-gray-300',
   },
   rating: {
     label: 'Đánh giá',
     icon: '⭐',
-    color: 'bg-yellow-100 text-yellow-800',
+    color: 'bg-yellow-100 dark:bg-yellow-900/30 text-yellow-800 dark:text-yellow-300',
   },
 };
 
 const priorityLabels = {
-  low: { label: 'Thấp', color: 'text-green-600' },
-  medium: { label: 'Trung bình', color: 'text-yellow-600' },
-  high: { label: 'Cao', color: 'text-orange-600' },
-  critical: { label: 'Nghiêm trọng', color: 'text-red-600' },
+  low: { label: 'Thấp', color: 'text-green-600 dark:text-green-400' },
+  medium: { label: 'Trung bình', color: 'text-yellow-600 dark:text-yellow-400' },
+  high: { label: 'Cao', color: 'text-orange-600 dark:text-orange-400' },
+  critical: { label: 'Nghiêm trọng', color: 'text-red-600 dark:text-red-400' },
 };
 
 export default function FeedbackListPage() {
@@ -73,7 +77,6 @@ export default function FeedbackListPage() {
       }
     } catch (err) {
       setError('Có lỗi xảy ra khi tải danh sách góp ý');
-      // Error loading feedbacks
     } finally {
       setLoading(false);
     }
@@ -87,17 +90,16 @@ export default function FeedbackListPage() {
     setFilters((prev) => ({
       ...prev,
       [key]: value,
-      page: 1, // Reset to first page when filtering
+      page: 1,
     }));
   };
 
-  // Debounced search
   const debouncedSearch = useCallback((value: string) => {
     const timeoutId = setTimeout(() => {
       setFilters((prev) => ({
         ...prev,
         search: value,
-        page: 1, // Reset to first page when searching
+        page: 1,
       }));
     }, 500);
     return () => clearTimeout(timeoutId);
@@ -112,42 +114,32 @@ export default function FeedbackListPage() {
     setFilters((prev) => ({ ...prev, page }));
   };
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString('vi-VN', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
-    });
-  };
-
   if (loading) {
     return (
-      <div className='min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 flex items-center justify-center'>
+      <div className='min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4'>
         <div className='text-center'>
-          <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 mx-auto mb-4'></div>
-          <p className='text-gray-600'>Đang tải danh sách góp ý...</p>
+          <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-purple-600 dark:border-purple-400 mx-auto mb-4'></div>
+          <Text>Đang tải danh sách góp ý...</Text>
         </div>
       </div>
     );
   }
 
   return (
-    <div className='min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 py-8 px-4'>
-      <div className='max-w-6xl mx-auto'>
+    <div className='min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 p-2 transition-colors duration-200'>
+      <div className='max-w-6xl mx-auto mt-4'>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className='bg-white rounded-2xl shadow-xl p-8'
+          className='bg-white dark:bg-gray-800 rounded-xl shadow-lg p-4 sm:p-6 lg:p-8'
         >
           <div className='text-center mb-8'>
-            <h1 className='text-3xl font-bold text-gray-900 mb-2'>
+            <Heading level={1} className='mb-3'>
               Danh Sách Góp Ý
-            </h1>
-            <p className='text-gray-600'>
+            </Heading>
+            <Text variant='large'>
               Tổng cộng {pagination.total} góp ý từ cộng đồng
-            </p>
+            </Text>
           </div>
 
           {/* Filters */}
@@ -159,13 +151,13 @@ export default function FeedbackListPage() {
                   placeholder='Tìm kiếm góp ý...'
                   value={searchInput}
                   onChange={(e) => handleSearchInputChange(e.target.value)}
-                  className='w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent'
+                  className='w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white'
                 />
               </div>
               <select
                 value={filters.type}
                 onChange={(e) => handleFilterChange('type', e.target.value)}
-                className='px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent'
+                className='px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent dark:bg-gray-700 dark:text-white'
               >
                 <option value='all'>Tất cả loại</option>
                 <option value='bug'>Báo lỗi</option>
@@ -177,28 +169,32 @@ export default function FeedbackListPage() {
           </div>
 
           {/* Error State */}
-          {error && (
-            <div className='bg-red-50 border border-red-200 rounded-lg p-4 mb-6'>
-              <p className='text-red-600'>{error}</p>
-              <button
-                onClick={loadFeedbacks}
-                className='mt-2 text-red-600 hover:text-red-700 underline'
+          <AnimatePresence>
+            {error && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className='bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-4 mb-6'
               >
-                Thử lại
-              </button>
-            </div>
-          )}
+                <Text variant='small' className='text-red-600 dark:text-red-400 !mb-2'>
+                  {error}
+                </Text>
+                <PrimaryButton onClick={loadFeedbacks} size='sm'>
+                  Thử lại
+                </PrimaryButton>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* Feedback List */}
           {feedbacks.length === 0 ? (
             <div className='text-center py-12'>
               <div className='text-6xl mb-4'>📝</div>
-              <h3 className='text-xl font-semibold text-gray-900 mb-2'>
+              <Heading level={3} className='mb-2'>
                 Chưa có góp ý nào
-              </h3>
-              <p className='text-gray-600'>
-                Hãy là người đầu tiên gửi góp ý cho chúng tôi!
-              </p>
+              </Heading>
+              <Text>Hãy là người đầu tiên gửi góp ý cho chúng tôi!</Text>
             </div>
           ) : (
             <div className='space-y-6'>
@@ -207,10 +203,10 @@ export default function FeedbackListPage() {
                   key={feedback.id}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className='border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow'
+                  className='border border-gray-200 dark:border-gray-700 rounded-xl p-6 hover:shadow-lg transition-shadow bg-gray-50 dark:bg-gray-700/50'
                 >
-                  <div className='flex items-start justify-between mb-4'>
-                    <div className='flex items-center space-x-3'>
+                  <div className='flex items-start justify-between mb-4 flex-wrap gap-3'>
+                    <div className='flex items-center gap-3 flex-wrap'>
                       <span
                         className={`px-3 py-1 rounded-full text-sm font-medium ${
                           typeLabels[feedback.type].color
@@ -227,34 +223,29 @@ export default function FeedbackListPage() {
                         {priorityLabels[feedback.priority].label}
                       </span>
                     </div>
-                    <span className='text-sm text-gray-500'>
+                    <Text variant='caption' className='!mb-0'>
                       {formatDate(feedback.created_at)}
-                    </span>
+                    </Text>
                   </div>
 
-                  <h3 className='text-lg font-semibold text-gray-900 mb-2'>
+                  <Heading level={3} className='mb-2'>
                     {feedback.title}
-                  </h3>
+                  </Heading>
 
-                  <p className='text-gray-700 mb-4 line-clamp-3'>
-                    {feedback.description}
-                  </p>
+                  <Text className='mb-4 line-clamp-3'>{feedback.description}</Text>
 
-                  <div className='flex items-center justify-between'>
-                    <div className='flex items-center space-x-4 text-sm text-gray-500'>
+                  <div className='flex items-center justify-between flex-wrap gap-4'>
+                    <div className='flex items-center gap-4 text-sm'>
                       {feedback.rating && (
-                        <div className='flex items-center'>
-                          <span className='mr-1'>⭐</span>
+                        <div className='flex items-center gap-1 text-gray-600 dark:text-gray-400'>
+                          <span>⭐</span>
                           <span>{feedback.rating}/5</span>
                         </div>
                       )}
                       {feedback.category && (
-                        <div className='bg-gray-100 px-2 py-1 rounded'>
+                        <div className='bg-gray-200 dark:bg-gray-600 px-2 py-1 rounded text-sm'>
                           {feedback.category}
                         </div>
-                      )}
-                      {feedback.email && (
-                        <div className='text-gray-500'>{feedback.email}</div>
                       )}
                     </div>
                   </div>
@@ -266,39 +257,38 @@ export default function FeedbackListPage() {
           {/* Pagination */}
           {pagination.totalPages > 1 && (
             <div className='mt-8 flex justify-center'>
-              <div className='flex space-x-2'>
-                <button
+              <div className='flex gap-2'>
+                <SecondaryButton
                   onClick={() => handlePageChange(pagination.currentPage - 1)}
                   disabled={pagination.currentPage === 1}
-                  className='px-3 py-2 border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50'
+                  size='sm'
                 >
                   Trước
-                </button>
+                </SecondaryButton>
 
-                {Array.from(
-                  { length: pagination.totalPages },
-                  (_, i) => i + 1
-                ).map((page) => (
-                  <button
-                    key={page}
-                    onClick={() => handlePageChange(page)}
-                    className={`px-3 py-2 border rounded-lg ${
-                      page === pagination.currentPage
-                        ? 'bg-purple-600 text-white border-purple-600'
-                        : 'border-gray-300 hover:bg-gray-50'
-                    }`}
-                  >
-                    {page}
-                  </button>
-                ))}
+                {Array.from({ length: pagination.totalPages }, (_, i) => i + 1).map(
+                  (page) => (
+                    <button
+                      key={page}
+                      onClick={() => handlePageChange(page)}
+                      className={`px-3 py-2 border rounded-lg transition-colors ${
+                        page === pagination.currentPage
+                          ? 'bg-gradient-to-r from-purple-600 to-pink-600 text-white border-transparent'
+                          : 'border-gray-300 dark:border-gray-600 hover:bg-gray-50 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300'
+                      }`}
+                    >
+                      {page}
+                    </button>
+                  )
+                )}
 
-                <button
+                <SecondaryButton
                   onClick={() => handlePageChange(pagination.currentPage + 1)}
                   disabled={pagination.currentPage === pagination.totalPages}
-                  className='px-3 py-2 border border-gray-300 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50'
+                  size='sm'
                 >
                   Sau
-                </button>
+                </SecondaryButton>
               </div>
             </div>
           )}

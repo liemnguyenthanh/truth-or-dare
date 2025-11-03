@@ -40,3 +40,27 @@ export interface FeedbackFilters {
   search?: string;
   page?: number;
 }
+
+export interface FeedbackComment {
+  id: number;
+  feedback_id: number;
+  parent_id?: number;
+  content: string;
+  author_name: string;
+  email?: string;
+  user_agent?: string;
+  ip_address?: string;
+  created_at: string;
+  updated_at: string;
+  replies?: FeedbackComment[];
+}
+
+export interface CreateCommentInput {
+  feedback_id: number;
+  parent_id?: number;
+  content: string;
+  author_name?: string;
+  email?: string;
+  userAgent?: string;
+  ipAddress?: string;
+}
