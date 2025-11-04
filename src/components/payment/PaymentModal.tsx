@@ -1,10 +1,12 @@
 'use client';
 
 import { AnimatePresence, motion } from 'framer-motion';
-import { CreditCard, X } from 'lucide-react';
+import { ChevronDown, CreditCard, X } from 'lucide-react';
 import Image from 'next/image';
+import { useState } from 'react';
 
 import { formatPaymentAmount } from '@/lib/config/payment';
+
 import { CreateOrderResponse } from '@/types/payment';
 
 interface PaymentModalProps {
@@ -22,10 +24,32 @@ export function PaymentModal({
   onPaymentSuccess: _onPaymentSuccess,
   onPaymentCancel,
 }: PaymentModalProps) {
+  const [isTransferInfoOpen, setIsTransferInfoOpen] = useState(false);
+
   const handleClose = () => {
     onPaymentCancel();
     onClose();
   };
+
+  // Parse bank account info from QR URL if available
+  const parseBankInfoFromQR = () => {
+    try {
+      const url = new URL(orderData?.qrUrl || '');
+      const acc = url.searchParams.get('acc');
+      const bank = url.searchParams.get('bank');
+      return {
+        accountNumber: acc || '0326347644',
+        bankName: bank || 'MBBank',
+      };
+    } catch {
+      return {
+        accountNumber: '0326347644',
+        bankName: 'MBBank',
+      };
+    }
+  };
+
+  const bankInfo = orderData ? parseBankInfoFromQR() : null;
 
   if (!orderData) return null;
 
@@ -104,16 +128,87 @@ export function PaymentModal({
                 </div>
               </div>
 
-              {/* Access Code */}
-              <div className='bg-gray-50 dark:bg-gray-700 rounded-xl p-4'>
-                <div className='flex items-center justify-between'>
+              {/* Transfer Information - Collapsible */}
+              <div className='bg-gray-50 dark:bg-gray-700 rounded-xl overflow-hidden'>
+                <button
+                  onClick={() => setIsTransferInfoOpen(!isTransferInfoOpen)}
+                  className='w-full p-4 flex items-center justify-between hover:bg-gray-100 dark:hover:bg-gray-600 transition-colors'
+                >
                   <span className='text-sm font-medium text-gray-700 dark:text-gray-300'>
-                    Nội dung ck:
+                    Thông tin chuyển khoản
                   </span>
-                  <div className='font-mono text-lg font-bold text-gray-900 dark:text-white tracking-wider'>
-                    {`TOD${orderData.accessCode}`}
-                  </div>
-                </div>
+                  <motion.div
+                    animate={{ rotate: isTransferInfoOpen ? 180 : 0 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <ChevronDown className='w-5 h-5 text-gray-600 dark:text-gray-400' />
+                  </motion.div>
+                </button>
+
+                <AnimatePresence>
+                  {isTransferInfoOpen && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: 'easeInOut' }}
+                      className='overflow-hidden'
+                    >
+                      <div className='px-4 pb-4 space-y-3 border-t border-gray-200 dark:border-gray-600 pt-4'>
+                        {bankInfo && (
+                          <>
+                            {/* Bank Name */}
+                            <div className='flex items-center justify-between'>
+                              <span className='text-sm text-gray-600 dark:text-gray-400'>
+                                Ngân hàng:
+                              </span>
+                              <span className='text-sm font-semibold text-gray-900 dark:text-white'>
+                                {bankInfo.bankName}
+                              </span>
+                            </div>
+
+                            {/* Account Number */}
+                            <div className='flex items-center justify-between'>
+                              <span className='text-sm text-gray-600 dark:text-gray-400'>
+                                Số tài khoản:
+                              </span>
+                              <span className='text-sm font-semibold text-gray-900 dark:text-white font-mono'>
+                                {bankInfo.accountNumber}
+                              </span>
+                            </div>
+                          </>
+                        )}
+
+                        {/* Amount */}
+                        <div className='flex items-center justify-between'>
+                          <span className='text-sm text-gray-600 dark:text-gray-400'>
+                            Số tiền:
+                          </span>
+                          <span className='text-sm font-semibold text-gray-900 dark:text-white'>
+                            {formatPaymentAmount(orderData.amount)}
+                          </span>
+                        </div>
+
+                        {/* Transfer Content */}
+                        <div className='flex items-center justify-between pt-2 border-t border-gray-200 dark:border-gray-600'>
+                          <span className='text-sm text-gray-600 dark:text-gray-400'>
+                            Nội dung chuyển khoản:
+                          </span>
+                          <div className='font-mono text-sm font-bold text-gray-900 dark:text-white tracking-wider'>
+                            {`TOD${orderData.accessCode}`}
+                          </div>
+                        </div>
+
+                        {/* Copy instruction */}
+                        <div className='pt-2 mt-2 border-t border-gray-200 dark:border-gray-600'>
+                          <p className='text-xs text-gray-500 dark:text-gray-400 text-center'>
+                            💡 Sao chép nội dung chuyển khoản để thanh toán
+                          </p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
 
               {/* Info Note */}
@@ -129,11 +224,14 @@ export function PaymentModal({
                     <span>
                       <strong>Thời hạn:</strong>{' '}
                       {orderData.codeExpiresAt
-                        ? new Date(orderData.codeExpiresAt).toLocaleDateString('vi-VN', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                          })
+                        ? new Date(orderData.codeExpiresAt).toLocaleDateString(
+                            'vi-VN',
+                            {
+                              year: 'numeric',
+                              month: 'long',
+                              day: 'numeric',
+                            }
+                          )
                         : '30 ngày kể từ khi thanh toán'}
                     </span>
                   </li>
@@ -158,7 +256,8 @@ export function PaymentModal({
                       💾
                     </span>
                     <span>
-                      Mã code được <strong>tự động lưu</strong>, xem trong "Mã codes"
+                      Mã code được <strong>tự động lưu</strong>, xem trong "Mã
+                      codes"
                     </span>
                   </li>
                 </ul>
