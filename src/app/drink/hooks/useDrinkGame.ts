@@ -1,6 +1,10 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
-import { DRINK_QUESTIONS, DrinkQuestion } from '@/data/questions/drink';
+import {
+  DRINK_QUESTIONS_BY_CATEGORY,
+  DrinkCategoryId,
+  DrinkQuestion,
+} from '@/data/questions/drink';
 
 interface UseDrinkGameReturn {
   // State
@@ -17,24 +21,39 @@ interface UseDrinkGameReturn {
 const FLIP_ANIMATION_DELAY = 300;
 
 export function useDrinkGame(
+  categoryId: DrinkCategoryId | null,
   isPaymentRequired: boolean,
   isGameUnlocked: boolean,
   onGameComplete: () => void
 ): UseDrinkGameReturn {
-  const [currentQuestion, setCurrentQuestion] = useState<DrinkQuestion | null>(null);
+  const [currentQuestion, setCurrentQuestion] = useState<DrinkQuestion | null>(
+    null
+  );
   const [usedQuestions, setUsedQuestions] = useState<Set<number>>(new Set());
   const [isFlipping, setIsFlipping] = useState(false);
   const [isGameComplete, setIsGameComplete] = useState(false);
   const hasAutoDrawnRef = useRef(false);
 
+  // Lấy bộ câu hỏi theo category trực tiếp từ mapping
+  const categoryQuestions = useMemo(() => {
+    if (!categoryId) return [];
+    return DRINK_QUESTIONS_BY_CATEGORY[categoryId] || [];
+  }, [categoryId]);
+
   // Lấy câu hỏi ngẫu nhiên
   const getRandomQuestion = useCallback((): {
     question: DrinkQuestion;
-    originalIndex: number;
+    questionIndex: number; // Index trong bộ câu hỏi của category
   } | null => {
-    const availableQuestions = DRINK_QUESTIONS.filter(
-      (_, index) => !usedQuestions.has(index)
-    );
+    if (categoryQuestions.length === 0) {
+      setIsGameComplete(true);
+      return null;
+    }
+
+    // Lọc các câu hỏi chưa được dùng (dùng index trong bộ câu hỏi của category)
+    const availableQuestions = categoryQuestions
+      .map((q, index) => ({ question: q, index }))
+      .filter(({ index }) => !usedQuestions.has(index));
 
     if (availableQuestions.length === 0) {
       setIsGameComplete(true);
@@ -42,11 +61,10 @@ export function useDrinkGame(
     }
 
     const randomIndex = Math.floor(Math.random() * availableQuestions.length);
-    const selectedQuestion = availableQuestions[randomIndex];
-    const originalIndex = DRINK_QUESTIONS.findIndex((q) => q === selectedQuestion);
+    const selected = availableQuestions[randomIndex];
 
-    return { question: selectedQuestion, originalIndex };
-  }, [usedQuestions]);
+    return { question: selected.question, questionIndex: selected.index };
+  }, [categoryQuestions, usedQuestions]);
 
   // Rút bài mới
   const drawNewCard = useCallback(() => {
@@ -65,9 +83,9 @@ export function useDrinkGame(
         return;
       }
 
-      const { question, originalIndex } = result;
+      const { question, questionIndex } = result;
       setCurrentQuestion(question);
-      setUsedQuestions((prev) => new Set(prev).add(originalIndex));
+      setUsedQuestions((prev) => new Set(prev).add(questionIndex));
       setIsFlipping(false);
     }, FLIP_ANIMATION_DELAY);
   }, [getRandomQuestion, isGameComplete, isFlipping, onGameComplete]);
@@ -81,14 +99,27 @@ export function useDrinkGame(
     hasAutoDrawnRef.current = false;
   }, []);
 
+  // Reset game khi category thay đổi
+  useEffect(() => {
+    if (categoryId) {
+      resetGame();
+      hasAutoDrawnRef.current = false;
+    }
+  }, [categoryId]); // eslint-disable-line react-hooks/exhaustive-deps
+
   // Rút bài đầu tiên khi load trang - luôn auto rút card đầu tiên (chỉ 1 lần)
   useEffect(() => {
-    if (!hasAutoDrawnRef.current && !isGameComplete && usedQuestions.size === 0) {
+    if (
+      categoryId &&
+      !hasAutoDrawnRef.current &&
+      !isGameComplete &&
+      usedQuestions.size === 0
+    ) {
       hasAutoDrawnRef.current = true;
       drawNewCard();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [categoryId]);
 
   return {
     currentQuestion,
@@ -99,4 +130,3 @@ export function useDrinkGame(
     resetGame,
   };
 }
-

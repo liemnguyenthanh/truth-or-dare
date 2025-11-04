@@ -1,5 +1,5 @@
-export * from './DrinkCard';
+export * from './CategorySelector';
 export * from './DrawButton';
-export * from './PaymentProgress';
+export * from './DrinkCard';
 export * from './GameStats';
-
+export * from './PaymentProgress';

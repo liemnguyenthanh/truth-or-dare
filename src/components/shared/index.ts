@@ -1,6 +1,9 @@
 // Shared components
+export * from './AddToHomeScreenBanner';
 export * from './AgeVerificationModal';
 export * from './BackButton';
+export * from './CategoryCard';
+export * from './CategorySelector';
 export * from './ContinueButton';
 export * from './ErrorToast';
 export * from './Footer';
@@ -16,7 +19,6 @@ export * from './PrimaryButton';
 export * from './RatingModal';
 export * from './SecondaryButton';
 export * from './SuccessToast';
-export * from './AddToHomeScreenBanner';
 export * from './ThemeToggle';
 export * from './Typography';
 export * from './ViewCodesButton';

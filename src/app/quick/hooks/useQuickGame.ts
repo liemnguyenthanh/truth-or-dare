@@ -26,22 +26,24 @@ export function useQuickGame() {
       name: '18+',
       description: 'Câu hỏi dành cho người lớn',
       icon: '💜',
+      color: '#9b59b6',
     },
     {
       id: 'party',
       name: 'Party',
       description: 'Câu hỏi vui nhộn cho bữa tiệc',
       icon: '🎉',
+      color: '#3498db',
     },
   ];
 
   return {
     // Game State
     ...gameState,
-    
+
     // Game Stats
     ...gameStats,
-    
+
     // Question Logic
     currentQuestion: questionLogic.currentQuestion,
     usedQuestions: questionLogic.usedQuestions,
@@ -49,11 +51,11 @@ export function useQuickGame() {
     hasAvailableTruth: questionLogic.hasAvailableTruth(),
     hasAvailableDare: questionLogic.hasAvailableDare(),
     isGameComplete: questionLogic.isGameComplete(),
-    
+
     // Actions
     drawNewCard,
     selectCategory: gameState.startGame,
-    
+
     // Data
     categories,
   };

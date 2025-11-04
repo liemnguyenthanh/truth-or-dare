@@ -28,6 +28,7 @@ export interface GameModeOption {
   description: string;
   icon: string;
   isNew?: boolean;
+  hasNewQuestions?: boolean;
 }
 
 export interface GameState {
