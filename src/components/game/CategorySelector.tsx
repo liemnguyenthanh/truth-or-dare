@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 
 import { useGame } from '@/hooks/useGame';
 
-export function CategorySelector() {
+export function GameCategorySelector() {
   const { categories, startGame, gameState } = useGame();
   const [isModalOpen, setIsModalOpen] = useState(false);
 

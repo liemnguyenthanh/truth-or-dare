@@ -8,6 +8,7 @@ import RatingModal from '@/components/shared/RatingModal';
 import { CodeInputModal } from '@/components/payment/CodeInputModal';
 import { PaymentModal } from '@/components/payment/PaymentModal';
 import { SavedCodesModal } from '@/components/payment/SavedCodesModal';
+import { CategoryCard } from '@/components/shared/CategoryCard';
 import { ErrorToast, Heading, PageHeader, PaymentButton, PrimaryButton, SecondaryButton, Text } from '@/components/shared';
 
 import {
@@ -110,36 +111,27 @@ export default function GroupPage() {
 
             {/* Category Selection */}
             {participants.length >= 2 && (
-              <div className='mt-8'>
-                <Heading level={3} className='mb-4'>
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5, delay: 0.2 }}
+                className='mt-10'
+              >
+                <Heading level={3} className='mb-6 text-gray-800 dark:text-gray-200'>
                   Chọn Category
                 </Heading>
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6'>
-                  {game.categories.map((category) => (
-                    <motion.button
+                  {game.categories.map((category, index) => (
+                    <CategoryCard
                       key={category.id}
+                      category={category}
+                      index={index}
                       onClick={() => handleCategorySelect(category.id)}
-                      whileHover={{ scale: 1.02, y: -5 }}
-                      whileTap={{ scale: 0.98 }}
-                      className={`bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 sm:p-8 border-2 transition-all duration-200 ${
-                        localSelectedCategory === category.id
-                          ? 'border-purple-500'
-                          : 'border-transparent hover:border-purple-500'
-                      }`}
-                    >
-                      <div className='text-center'>
-                        <div className='text-4xl mb-3'>{category.icon}</div>
-                        <Heading level={3} className='text-purple-800 dark:text-purple-300 mb-2 text-xl sm:text-2xl'>
-                          {category.name}
-                        </Heading>
-                        <Text variant='large' className='leading-relaxed'>
-                          {category.description}
-                        </Text>
-                      </div>
-                    </motion.button>
+                      isSelected={localSelectedCategory === category.id}
+                    />
                   ))}
                 </div>
-              </div>
+              </motion.div>
             )}
 
             {/* Actions */}

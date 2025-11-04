@@ -59,12 +59,14 @@ export function useGroupGame(participants: Participant[]) {
       name: '18+',
       description: 'Câu hỏi dành cho người lớn',
       icon: '💜',
+      color: '#9b59b6',
     },
     {
       id: 'party',
       name: 'Party',
       description: 'Câu hỏi vui nhộn cho bữa tiệc',
       icon: '🎉',
+      color: '#3498db',
     },
   ];
 

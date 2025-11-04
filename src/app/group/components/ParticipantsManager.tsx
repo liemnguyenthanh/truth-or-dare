@@ -90,25 +90,27 @@ export function ParticipantsManager({
     <div className='w-full'>
       {/* Add Participant */}
       <div className='mb-6'>
-        <label className='block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2'>
+        <label className='block text-sm font-medium text-gray-800 dark:text-gray-200 mb-3'>
           Thêm người chơi
         </label>
-        <div className='flex gap-2'>
+        <div className='flex gap-3'>
           <input
             type='text'
             value={newParticipant}
             onChange={(e) => setNewParticipant(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && addParticipant()}
             placeholder='Nhập tên người chơi...'
-            className='flex-1 px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent dark:bg-gray-700 dark:text-white'
+            className='flex-1 px-4 py-3 border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-700 dark:text-white dark:focus:border-purple-400 transition-all duration-200 shadow-sm'
           />
-          <button
+          <motion.button
             onClick={addParticipant}
             disabled={!newParticipant.trim()}
-            className='px-6 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed text-white rounded-lg transition-colors'
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            className='px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 disabled:from-gray-400 disabled:to-gray-400 disabled:cursor-not-allowed text-white rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl font-medium'
           >
             Thêm
-          </button>
+          </motion.button>
         </div>
       </div>
 
@@ -118,23 +120,28 @@ export function ParticipantsManager({
           Người chơi ({participants.length}/{minParticipants}+)
         </h3>
         {participants.length === 0 ? (
-          <div className='text-center py-8 text-gray-500 dark:text-gray-400'>
-            <div className='text-4xl mb-2'>👤</div>
-            <p>Chưa có người chơi nào</p>
-            <p className='text-sm mt-1'>
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            className='text-center py-12 text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-800/50 rounded-xl border-2 border-dashed border-gray-200 dark:border-gray-700'
+          >
+            <div className='text-5xl mb-3'>👤</div>
+            <p className='font-medium'>Chưa có người chơi nào</p>
+            <p className='text-sm mt-2'>
               Cần ít nhất {minParticipants} người chơi để bắt đầu
             </p>
-          </div>
+          </motion.div>
         ) : (
-          <div className='space-y-2'>
+          <div className='space-y-3'>
             <AnimatePresence>
-              {participants.map((participant) => (
+              {participants.map((participant, index) => (
                 <motion.div
                   key={participant.id}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: 20 }}
-                  className='flex items-center justify-between bg-gray-50 dark:bg-gray-700 rounded-lg p-3 group'
+                  exit={{ opacity: 0, x: 20, scale: 0.9 }}
+                  transition={{ delay: index * 0.05 }}
+                  className='flex items-center justify-between bg-white dark:bg-gray-700 rounded-xl p-4 shadow-md hover:shadow-lg transition-all duration-200 border-2 border-transparent hover:border-purple-200 dark:hover:border-purple-800 group'
                 >
                   {editingId === participant.id ? (
                     <input
@@ -144,32 +151,41 @@ export function ParticipantsManager({
                       onKeyPress={(e) => e.key === 'Enter' && saveEdit()}
                       onBlur={saveEdit}
                       autoFocus
-                      className='flex-1 px-3 py-1 border border-blue-500 rounded focus:ring-2 focus:ring-blue-500 focus:outline-none dark:bg-gray-800 dark:text-white'
+                      className='flex-1 px-4 py-2 border-2 border-purple-500 rounded-lg focus:ring-2 focus:ring-purple-500 focus:outline-none dark:bg-gray-800 dark:text-white'
                     />
                   ) : (
-                    <span className='text-gray-900 dark:text-white font-medium'>
-                      {participant.name}
-                    </span>
+                    <div className='flex items-center gap-3'>
+                      <div className='w-10 h-10 rounded-full bg-gradient-to-br from-purple-500 to-pink-500 flex items-center justify-center text-white font-bold shadow-md'>
+                        {participant.name.charAt(0).toUpperCase()}
+                      </div>
+                      <span className='text-gray-900 dark:text-white font-medium text-lg'>
+                        {participant.name}
+                      </span>
+                    </div>
                   )}
                   <div className='flex items-center gap-2'>
-                    <button
+                    <motion.button
                       onClick={() =>
                         editingId === participant.id
                           ? saveEdit()
                           : startEditing(participant)
                       }
-                      className='text-blue-500 hover:text-blue-700 transition-colors'
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                      className='text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300 transition-colors p-2 rounded-lg hover:bg-purple-50 dark:hover:bg-purple-900/20'
                       title='Sửa'
                     >
                       {editingId === participant.id ? '✓' : '✎'}
-                    </button>
-                    <button
+                    </motion.button>
+                    <motion.button
                       onClick={() => removeParticipant(participant.id)}
-                      className='text-red-500 hover:text-red-700 transition-colors'
+                      whileHover={{ scale: 1.1 }}
+                      whileTap={{ scale: 0.9 }}
+                      className='text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300 transition-colors p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20'
                       title='Xóa'
                     >
                       ✕
-                    </button>
+                    </motion.button>
                   </div>
                 </motion.div>
               ))}
@@ -180,11 +196,16 @@ export function ParticipantsManager({
 
       {/* Validation Message */}
       {participants.length > 0 && participants.length < minParticipants && (
-        <div className='mt-4 p-3 bg-yellow-50 dark:bg-yellow-900/20 border border-yellow-200 dark:border-yellow-800 rounded-lg'>
-          <p className='text-sm text-yellow-800 dark:text-yellow-200'>
-            ⚠️ Cần ít nhất {minParticipants} người chơi để bắt đầu
+        <motion.div
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          className='mt-4 p-4 bg-gradient-to-r from-yellow-50 to-orange-50 dark:from-yellow-900/20 dark:to-orange-900/20 border-2 border-yellow-200 dark:border-yellow-800 rounded-xl shadow-sm'
+        >
+          <p className='text-sm font-medium text-yellow-800 dark:text-yellow-200 flex items-center gap-2'>
+            <span className='text-lg'>⚠️</span>
+            Cần ít nhất {minParticipants} người chơi để bắt đầu
           </p>
-        </div>
+        </motion.div>
       )}
     </div>
   );

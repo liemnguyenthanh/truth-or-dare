@@ -1,0 +1,393 @@
+# Cursor Rules for Truth or Dare Project
+
+## Project Overview
+This is a Next.js 14+ application using App Router, TypeScript, Tailwind CSS, and Framer Motion. The project follows a feature-based modular architecture.
+
+## Directory Structure
+
+### App Router Structure
+```
+src/app/
+  ├── [route]/              # Route folder (kebab-case)
+  │   ├── components/      # Page-specific components
+  │   │   ├── ComponentName.tsx
+  │   │   └── index.ts     # Export all components
+  │   ├── hooks/           # Page-specific hooks
+  │   │   ├── useHookName.ts
+  │   │   └── index.ts     # Export all hooks
+  │   ├── page.tsx         # Next.js page (required at root of route)
+  │   └── [other files]    # Route-specific files
+  ├── index/                # Home page components/hooks (special case)
+  │   ├── components/
+  │   └── hooks/
+  └── page.tsx              # Home page (root route "/")
+```
+
+### Shared Structure
+```
+src/
+  ├── components/
+  │   ├── shared/          # Reusable UI components
+  │   ├── payment/          # Payment-related components
+  │   └── game/            # Game-specific components
+  ├── hooks/               # Global hooks (used across multiple pages)
+  ├── data/                # Static data and questions
+  │   └── questions/       # Question sets by category
+  ├── lib/                 # Utilities and helpers
+  ├── types/               # TypeScript type definitions
+  └── styles/             # Global styles
+```
+
+## Naming Conventions
+
+### Files and Folders
+- **Folders**: kebab-case (e.g., `game-mode-selection`, `spin-wheel`, `drink`)
+- **Component files**: PascalCase matching component name (e.g., `GameModeCard.tsx`, `DrinkCard.tsx`)
+- **Hook files**: camelCase with "use" prefix (e.g., `useDrinkGame.ts`, `useGameModeSelection.ts`)
+- **Utility files**: camelCase (e.g., `formatDate.ts`, `paymentApi.ts`)
+- **Type files**: camelCase (e.g., `game.ts`, `payment.ts`)
+- **Data files**: camelCase (e.g., `drink.ts`, `party.ts`)
+
+### Components
+- **Component names**: PascalCase (e.g., `GameModeCard`, `DrinkCard`, `CategorySelector`)
+- **Props interface**: `{ComponentName}Props` (e.g., `GameModeCardProps`, `DrinkCardProps`)
+- **Export**: Named exports (e.g., `export function GameModeCard`)
+- **File name**: Must match component name exactly
+
+### Hooks
+- **Hook names**: camelCase with "use" prefix (e.g., `useDrinkGame`, `useGameModeSelection`)
+- **Return interface**: `Use{HookName}Return` (e.g., `UseDrinkGameReturn`)
+- **Props interface**: `Use{HookName}Props` (e.g., `UseDrinkGameProps`)
+- **Export**: Named exports (e.g., `export function useDrinkGame`)
+
+### Types
+- **Type names**: PascalCase (e.g., `GameMode`, `DrinkQuestion`, `GameModeOption`)
+- **Interface names**: PascalCase (e.g., `GameState`, `Participant`)
+
+## Code Style
+
+### Component Structure
+```typescript
+'use client'; // Required for client components
+
+import { ... } from 'external-library';
+import { ... } from '@/components/shared';
+import { ... } from '@/types';
+
+import { LocalComponent } from './components';
+import { useLocalHook } from './hooks';
+
+interface ComponentProps {
+  // Props definition
+}
+
+export function ComponentName({ prop1, prop2 }: ComponentProps) {
+  // Component logic
+  return (
+    // JSX
+  );
+}
+```
+
+### Hook Structure
+```typescript
+import { useCallback, useState, useEffect } from 'react';
+
+import { Type } from '@/types';
+
+interface UseHookNameProps {
+  // Props
+}
+
+interface UseHookNameReturn {
+  // Return values
+  state: Type;
+  action: () => void;
+}
+
+export function useHookName(props: UseHookNameProps): UseHookNameReturn {
+  const [state, setState] = useState<Type>(initialValue);
+  
+  const action = useCallback(() => {
+    // Logic
+  }, [dependencies]);
+  
+  return {
+    state,
+    action,
+  };
+}
+```
+
+### Data Structure
+```typescript
+export type DataType = {
+  field: string;
+};
+
+export const DATA_CONSTANT: DataType[] = [
+  // Data entries
+];
+```
+
+## Import Order
+1. External libraries (React, Next.js, Framer Motion, etc.)
+2. `@/` path aliases (components, hooks, types, lib, data)
+3. Relative imports (`./components`, `./hooks`)
+4. Types (if imported separately)
+
+### Example Import Order
+```typescript
+// 1. External libraries
+import { motion } from 'framer-motion';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+
+// 2. @/ path aliases
+import { GameMode } from '@/types';
+import RatingModal from '@/components/shared/RatingModal';
+import { DRINK_QUESTIONS } from '@/data/questions/drink';
+
+// 3. Relative imports
+import { GameModeCard } from './components';
+import { useGameModeSelection } from './hooks';
+```
+
+## File Organization Rules
+
+### Page Structure
+- Each route folder (`app/[route]/`) should have:
+  - `page.tsx` - Main page component
+  - `components/` - Page-specific components
+  - `hooks/` - Page-specific hooks
+  - `index.ts` files in components/ and hooks/ for exports
+
+### Component Organization
+- **Shared components**: `src/components/shared/` - Reusable across multiple pages
+- **Page components**: `src/app/[route]/components/` - Specific to one page
+- **Feature components**: `src/components/[feature]/` - Grouped by feature (payment, game)
+
+### Hook Organization
+- **Global hooks**: `src/hooks/` - Used across multiple pages (e.g., `useGame`, `usePayment`)
+- **Page hooks**: `src/app/[route]/hooks/` - Specific to one page (e.g., `useDrinkGame`)
+
+## TypeScript Rules
+
+### Type Definitions
+- Use `type` for unions and intersections
+- Use `interface` for object shapes
+- Export types from `src/types/` for shared types
+- Define props interfaces in component files
+
+### Type Naming
+- Props: `{ComponentName}Props`
+- Return: `Use{HookName}Return`
+- State: PascalCase matching usage
+
+## Component Patterns
+
+### Client Components
+- Always include `'use client'` directive at the top
+- Use Framer Motion for animations
+- Support dark mode with `dark:` prefix classes
+
+### Component Exports
+- Use named exports (not default exports for components)
+- Export from `index.ts` files for clean imports
+- Pattern: `export * from './ComponentName'`
+
+### Component Props
+- Always define TypeScript interface for props
+- Use descriptive prop names
+- Optional props use `?:`
+- Provide default values when appropriate
+
+## Hook Patterns
+
+### Hook Creation
+- Always start with "use" prefix
+- Return object with named properties
+- Use `useCallback` for functions
+- Use `useMemo` for expensive computations
+- Document return values in interface
+
+### Hook Dependencies
+- Always include all dependencies in dependency arrays
+- Use ESLint disable comments only when necessary with explanation
+
+## Data Organization
+
+### Question Data
+- Store in `src/data/questions/`
+- Separate files by category
+- Export both type and constant array
+- Use descriptive category IDs
+
+### Question Structure
+```typescript
+export type QuestionType = {
+  category: string;
+  text: string;
+};
+
+export const QUESTIONS: QuestionType[] = [
+  // Questions
+];
+```
+
+## Styling Rules
+
+### Tailwind CSS
+- Use Tailwind utility classes
+- Prefer composition over custom CSS
+- Use responsive prefixes (`sm:`, `md:`, `lg:`)
+- Support dark mode with `dark:` prefix
+- Use consistent spacing scale
+
+### Animation
+- Use Framer Motion for animations
+- Prefer `motion.div` for animated elements
+- Use consistent animation durations
+- Consider accessibility (reduced motion)
+
+## Specific Patterns
+
+### Payment Integration
+- Use `use[Page]Payment` hooks for payment logic
+- Constants: `PAYMENT_CARDS_LIMIT = 5`
+- Payment flow:
+  1. Track cards drawn / questions played
+  2. Show `PaymentProgress` when limit reached
+  3. Show `PaymentModal` or `CodeInputModal`
+  4. Set `isGameUnlocked` state on success
+- Components: `PaymentModal`, `CodeInputModal`, `SavedCodesModal`, `PaymentProgress`
+
+### Game Completion Pattern
+- Show `RatingModal` when game completes
+- Track completion in hook
+- Call `onGameComplete` callback
+- Reset game state when category changes
+
+### Category Selection Pattern
+- Show category selection before game starts
+- Use `CategorySelector` or `CategorySelection` component
+- Store selected category in state
+- Filter questions by category using mapping object
+- Reset game when category changes
+
+### Badge Patterns
+- "MỚI" badge: Pink-red gradient, position absolute top-right
+- "CÂU HỎI MỚI" badge: Blue-purple gradient, smaller font, position below "MỚI"
+- Use `isNew` and `hasNewQuestions` props
+- Animation: spring animation on mount, pulse animation continuous
+
+### Animation Patterns
+- Use Framer Motion for all animations
+- Consistent durations: 0.3s for transitions, 0.5s for page transitions
+- Stagger animations for lists: `delay: index * 0.1`
+- Hover effects: `scale: 1.02, y: -5`
+- Flip animations: `rotateY` for card flips
+
+### Data Organization for Questions
+- Separate questions by category in different const arrays
+- Create mapping object: `QUESTIONS_BY_CATEGORY: Record<CategoryId, Question[]>`
+- Merge all questions for full list: `export const ALL_QUESTIONS = [...CAT1, ...CAT2]`
+- Use category ID as string in question objects
+
+## Best Practices
+
+### Creating New Features
+1. Create route folder in `app/[route]/` (kebab-case)
+2. Create `components/` and `hooks/` folders
+3. Create `index.ts` files for exports
+4. Create `page.tsx` for the route
+5. Follow naming conventions
+6. Add payment integration if needed
+7. Add category selection if needed
+
+### Adding Components
+1. Determine if component is shared or page-specific
+2. Create component file with PascalCase name
+3. Export from appropriate `index.ts`
+4. Define TypeScript props interface: `{ComponentName}Props`
+5. Add `'use client'` if needed
+6. Support dark mode with `dark:` classes
+7. Make responsive with `sm:`, `md:` prefixes
+
+### Adding Hooks
+1. Determine if hook is global or page-specific
+2. Create hook file with camelCase "use" prefix
+3. Export from appropriate `index.ts`
+4. Define return type interface: `Use{HookName}Return`
+5. Define props interface: `Use{HookName}Props`
+6. Use proper React hooks (useCallback, useMemo, etc.)
+7. Document return values in comments
+
+### Adding Data
+1. Create file in `src/data/` or appropriate subfolder
+2. Define TypeScript type for data structure
+3. Export constant arrays for each category
+4. Create mapping object: `DATA_BY_CATEGORY`
+5. Export merged array for all data
+6. Use descriptive names matching category IDs
+
+### Adding Categories
+1. Add category to `CATEGORIES` constant array
+2. Add category ID to type definition
+3. Create questions array for new category
+4. Add to mapping object
+5. Update category selector component
+6. Add icon and color for visual distinction
+
+## Code Quality
+
+### Error Handling
+- Use try-catch for async operations
+- Provide user-friendly error messages
+- Use ErrorToast for error display
+- Log errors appropriately
+
+### Performance
+- Use `useCallback` for event handlers
+- Use `useMemo` for expensive computations
+- Lazy load components when appropriate
+- Optimize images and assets
+
+### Accessibility
+- Use semantic HTML
+- Provide alt text for images
+- Ensure keyboard navigation
+- Support screen readers
+
+## Testing
+- Write tests in `__tests__/` directory
+- Test components and hooks
+- Use descriptive test names
+- Follow AAA pattern (Arrange, Act, Assert)
+
+## When Creating/Updating Code
+
+### Before Creating
+1. Check if similar component/hook exists
+2. Determine if it should be shared or page-specific
+3. Plan the file structure
+4. Consider reusability
+
+### When Updating
+1. Maintain existing patterns
+2. Update types if needed
+3. Update exports in index.ts
+4. Test affected areas
+5. Update related components if interface changes
+
+### Code Review Checklist
+- [ ] Follows naming conventions
+- [ ] Proper TypeScript types
+- [ ] Correct import order
+- [ ] Exported from index.ts
+- [ ] 'use client' if needed
+- [ ] Dark mode support
+- [ ] Responsive design
+- [ ] Error handling
+- [ ] Performance optimized
+

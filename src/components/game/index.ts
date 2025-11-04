@@ -1,5 +1,5 @@
 // Game components exports
-export { CategorySelector } from './CategorySelector';
+export { GameCategorySelector } from './CategorySelector';
 export { default as FavoritesButton } from './FavoritesButton';
 export { default as FloatingCategoryFilter } from './FloatingCategoryFilter';
 export { GameControls } from './GameControls';
