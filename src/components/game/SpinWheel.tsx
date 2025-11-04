@@ -3,12 +3,9 @@ import React, { useMemo, useState } from 'react';
 
 import { gtmEvents } from '@/lib/gtm';
 
-import { QuestionType } from '@/types';
+import { DEGREES_PER_SEGMENT, SEGMENT_COUNT } from '@/app/spin-wheel/constants';
 
-import {
-  DEGREES_PER_SEGMENT,
-  SEGMENT_COUNT,
-} from '@/app/spin-wheel/constants';
+import { QuestionType } from '@/types';
 
 interface SpinWheelProps {
   onSpinEnd: (type: QuestionType) => void;
@@ -42,7 +39,8 @@ export function SpinWheel({ onSpinEnd }: SpinWheelProps) {
     // Random number of full rotations (3-5) plus random ending position
     const fullRotations = Math.floor(Math.random() * 3) + 3; // 3-5 rotations
     const endingSegmentIndex = Math.floor(Math.random() * SEGMENT_COUNT);
-    const segmentCenterAngle = endingSegmentIndex * DEGREES_PER_SEGMENT + DEGREES_PER_SEGMENT / 2;
+    const segmentCenterAngle =
+      endingSegmentIndex * DEGREES_PER_SEGMENT + DEGREES_PER_SEGMENT / 2;
     // Thêm một chút random để tự nhiên hơn
     const randomOffset = (Math.random() - 0.5) * (DEGREES_PER_SEGMENT * 0.6);
     const endingDegrees = segmentCenterAngle + randomOffset;
@@ -64,7 +62,8 @@ export function SpinWheel({ onSpinEnd }: SpinWheelProps) {
     // We need to account for the rotation and find which segment is under pointer
     // The pointer is at 0 degrees (top), so we need to reverse the rotation
     const adjustedDegrees = (360 - normalizedDegrees) % 360;
-    const segmentIndex = Math.floor(adjustedDegrees / DEGREES_PER_SEGMENT) % SEGMENT_COUNT;
+    const segmentIndex =
+      Math.floor(adjustedDegrees / DEGREES_PER_SEGMENT) % SEGMENT_COUNT;
     const result = segments[segmentIndex].type;
 
     setIsSpinning(false);
@@ -72,7 +71,7 @@ export function SpinWheel({ onSpinEnd }: SpinWheelProps) {
   };
 
   // Create SVG path for segments
-  const createSegmentPath = (index: number, radius: number = 100) => {
+  const createSegmentPath = (index: number, radius = 100) => {
     const startAngle = (index * DEGREES_PER_SEGMENT - 90) * (Math.PI / 180);
     const endAngle = ((index + 1) * DEGREES_PER_SEGMENT - 90) * (Math.PI / 180);
 

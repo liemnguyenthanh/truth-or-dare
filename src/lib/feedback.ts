@@ -6,13 +6,12 @@ import {
   FeedbackStats,
 } from '@/types/feedback';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+// Hardcoded Supabase config for static export
+const supabaseUrl = 'https://qixucipfehjbdhwzrhfq.supabase.co';
+const supabaseKey =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFpeHVjaXBmZWhqYmRod3pyaGZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA2MDUxMTMsImV4cCI6MjA3NjE4MTExM30.Wn-q3l7lyeLwOqsneO9VveBUykkimvP9TGJAdrubBuc';
 
-if (!supabaseUrl || !supabaseKey) {
-  throw new Error('Missing Supabase environment variables');
-}
-const supabase = createClient(supabaseUrl as string, supabaseKey as string);
+const supabase = createClient(supabaseUrl, supabaseKey);
 
 // Create feedback using Supabase client directly
 export async function createFeedback(
@@ -38,7 +37,8 @@ export async function createFeedback(
   // INET type requires valid IP address format
   if (data.ipAddress && data.ipAddress !== 'client-side') {
     // Basic IP validation - check if it looks like an IP
-    const ipRegex = /^(\d{1,3}\.){3}\d{1,3}$|^([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$/;
+    const ipRegex =
+      /^(\d{1,3}\.){3}\d{1,3}$|^([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$/;
     if (ipRegex.test(data.ipAddress)) {
       insertData.ip_address = data.ipAddress;
     } else {
@@ -231,17 +231,15 @@ export async function getFeedbackById(id: number) {
 }
 
 // Comments functions
-export async function createComment(
-  data: {
-    feedback_id: number;
-    parent_id?: number;
-    content: string;
-    author_name?: string;
-    email?: string;
-    userAgent?: string;
-    ipAddress?: string;
-  }
-) {
+export async function createComment(data: {
+  feedback_id: number;
+  parent_id?: number;
+  content: string;
+  author_name?: string;
+  email?: string;
+  userAgent?: string;
+  ipAddress?: string;
+}) {
   // Only include ip_address if it's a valid IP address, otherwise set to null
   // INET type doesn't accept strings like "client-side"
   const insertData: any = {
@@ -257,7 +255,8 @@ export async function createComment(
   // INET type requires valid IP address format
   if (data.ipAddress && data.ipAddress !== 'client-side') {
     // Basic IP validation - check if it looks like an IP
-    const ipRegex = /^(\d{1,3}\.){3}\d{1,3}$|^([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$/;
+    const ipRegex =
+      /^(\d{1,3}\.){3}\d{1,3}$|^([0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}$/;
     if (ipRegex.test(data.ipAddress)) {
       insertData.ip_address = data.ipAddress;
     } else {

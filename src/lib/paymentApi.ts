@@ -1,16 +1,21 @@
-import { CreateOrderResponse, OrderStatus, ValidateCodeResponse } from '@/types/payment';
+import {
+  CreateOrderResponse,
+  OrderStatus,
+  ValidateCodeResponse,
+} from '@/types/payment';
+
+// Hardcoded Supabase config for static export
+const SUPABASE_URL = 'https://qixucipfehjbdhwzrhfq.supabase.co';
+const SUPABASE_ANON_KEY =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFpeHVjaXBmZWhqYmRod3pyaGZxIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjA2MDUxMTMsImV4cCI6MjA3NjE4MTExM30.Wn-q3l7lyeLwOqsneO9VveBUykkimvP9TGJAdrubBuc';
 
 function getSupabaseUrl(): string {
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-  if (!supabaseUrl) {
-    throw new Error('Supabase URL not configured');
-  }
-  return supabaseUrl;
+  return SUPABASE_URL;
 }
 
 function getAuthHeaders(): Record<string, string> {
   return {
-    Authorization: `Bearer ${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`,
+    Authorization: `Bearer ${SUPABASE_ANON_KEY}`,
   };
 }
 
@@ -37,7 +42,9 @@ export async function createOrderRequest(args: {
   return response.json();
 }
 
-export async function getOrderStatusRequest(orderId: string): Promise<OrderStatus> {
+export async function getOrderStatusRequest(
+  orderId: string
+): Promise<OrderStatus> {
   const supabaseUrl = getSupabaseUrl();
 
   const response = await fetch(
@@ -55,7 +62,9 @@ export async function getOrderStatusRequest(orderId: string): Promise<OrderStatu
   return data.status as OrderStatus;
 }
 
-export async function validateCodeRequest(code: string): Promise<ValidateCodeResponse> {
+export async function validateCodeRequest(
+  code: string
+): Promise<ValidateCodeResponse> {
   const supabaseUrl = getSupabaseUrl();
 
   const response = await fetch(
@@ -71,5 +80,3 @@ export async function validateCodeRequest(code: string): Promise<ValidateCodeRes
 
   return response.json();
 }
-
-

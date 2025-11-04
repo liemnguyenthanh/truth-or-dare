@@ -8,18 +8,6 @@ export const supabase = createClient(
   PAYMENT_CONFIG.SUPABASE.ANON_KEY
 );
 
-// Server-side Supabase client with service role
-export const supabaseAdmin = createClient(
-  PAYMENT_CONFIG.SUPABASE.URL,
-  PAYMENT_CONFIG.SUPABASE.SERVICE_ROLE_KEY,
-  {
-    auth: {
-      autoRefreshToken: false,
-      persistSession: false,
-    },
-  }
-);
-
 // Database types
 export interface Database {
   public: {

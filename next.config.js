@@ -6,7 +6,7 @@ const nextConfig = {
 
   reactStrictMode: true,
   swcMinify: true,
-  // output: 'export', // Temporarily disabled for Hashnode testing
+  output: 'export', // Full Static Site Generation (SSG)
 
   // SEO optimizations
   compress: true,
