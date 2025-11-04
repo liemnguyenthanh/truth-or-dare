@@ -1,3 +1,5 @@
+import { supabase } from './supabase';
+
 import {
   CreateOrderResponse,
   OrderStatus,
@@ -76,6 +78,42 @@ export async function validateCodeRequest(
 
   if (!response.ok) {
     throw new Error('Failed to validate code');
+  }
+
+  return response.json();
+}
+
+export async function adminUpdateOrderRequest(args: {
+  orderId: string;
+  status: 'pending' | 'paid' | 'expired';
+}): Promise<{ success: boolean; order: unknown }> {
+  const supabaseUrl = getSupabaseUrl();
+
+  // Get current session token from Supabase Auth
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+
+  if (!session?.access_token) {
+    throw new Error('Not authenticated');
+  }
+
+  const response = await fetch(
+    `${supabaseUrl}/functions/v1/admin-update-order`,
+    {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${session.access_token}`,
+        apikey: SUPABASE_ANON_KEY, // Required for Supabase Edge Functions
+      },
+      body: JSON.stringify(args),
+    }
+  );
+
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.error || 'Failed to update order');
   }
 
   return response.json();
