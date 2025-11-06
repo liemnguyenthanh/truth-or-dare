@@ -10,6 +10,7 @@ import { useHideNavigation } from '@/hooks/useHideNavigation';
 import { SpinWheel } from '@/components/game/SpinWheel';
 import {
   DonateModal,
+  DonateTicker,
   ErrorToast,
   Heading,
   PageHeader,
@@ -75,6 +76,11 @@ export default function SpinWheelPage() {
   const handleRatingClose = useCallback(() => {
     setShowRatingModal(false);
   }, []);
+
+  // Handle donate button click
+  const handleDonateClick = useCallback(() => {
+    donate.openDonateModal();
+  }, [donate]);
 
   // Handle spin end
   const handleSpinEnd = useCallback(
@@ -147,38 +153,45 @@ export default function SpinWheelPage() {
 
   // Main game view
   return (
-    <div className='min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 p-2 transition-colors duration-200'>
-      <PageHeader onBack={handleBackToCategory} backLabel='Quay lại' />
+    <div className='min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 transition-colors duration-200'>
+      <DonateTicker />
+      <div className='p-2'>
+        <PageHeader
+          onBack={handleBackToCategory}
+          backLabel='Quay lại'
+          onDonate={handleDonateClick}
+        />
 
-      {/* Main Game Area */}
-      <div className='flex flex-col items-center justify-center min-h-[60vh] gap-6'>
-        {/* Spin Wheel - Always visible */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.3 }}
-          className='text-center w-full max-w-md mx-auto'
-        >
-          <Heading level={1} className='mb-4'>
-            Vòng Quay May Mắn
-          </Heading>
-          <Text variant='large' className='mb-6'>
-            Quay để chọn loại câu hỏi
-          </Text>
-          <SpinWheel onSpinEnd={handleSpinEnd} />
-        </motion.div>
+        {/* Main Game Area */}
+        <div className='flex flex-col items-center justify-center min-h-[60vh] gap-6'>
+          {/* Spin Wheel - Always visible */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3 }}
+            className='text-center w-full max-w-md mx-auto'
+          >
+            <Heading level={1} className='mb-4'>
+              Vòng Quay May Mắn
+            </Heading>
+            <Text variant='large' className='mb-6'>
+              Quay để chọn loại câu hỏi
+            </Text>
+            <SpinWheel onSpinEnd={handleSpinEnd} />
+          </motion.div>
 
-        {/* Stats - Always show when in game */}
-        {game.usedQuestions.size > 0 && (
-          <GameStats
-            usedCount={game.usedQuestions.size}
-            totalCount={game.totalQuestions}
-            truthUsed={game.truthCount.used}
-            dareUsed={game.dareCount.used}
-            truthTotal={game.truthCount.total}
-            dareTotal={game.dareCount.total}
-          />
-        )}
+          {/* Stats - Always show when in game */}
+          {game.usedQuestions.size > 0 && (
+            <GameStats
+              usedCount={game.usedQuestions.size}
+              totalCount={game.totalQuestions}
+              truthUsed={game.truthCount.used}
+              dareUsed={game.dareCount.used}
+              truthTotal={game.truthCount.total}
+              dareTotal={game.dareCount.total}
+            />
+          )}
+        </div>
       </div>
 
       {/* Donate Modal */}

@@ -5,7 +5,12 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { useDonate } from '@/hooks';
 
-import { DonateModal, Heading, PageHeader } from '@/components/shared';
+import {
+  DonateModal,
+  DonateTicker,
+  Heading,
+  PageHeader,
+} from '@/components/shared';
 import RatingModal from '@/components/shared/RatingModal';
 
 import {
@@ -49,77 +54,85 @@ export default function QuickPage() {
     router.push('/');
   }, [game, router]);
 
+  // Handle donate button click
+  const handleDonateClick = useCallback(() => {
+    donate.openDonateModal();
+  }, [donate]);
+
   if (game.gameStarted && game.selectedCategory) {
     return (
-      <div className='min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 p-2 transition-colors duration-200'>
-        <PageHeader />
+      <div className='min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 transition-colors duration-200'>
+        <DonateTicker />
+        <div className='p-2'>
+          <PageHeader onDonate={handleDonateClick} />
 
-        <div className='flex flex-col items-center justify-center min-h-[50vh] sm:min-h-[60vh] gap-3 sm:gap-4 md:gap-6'>
-          {!game.selectedType ? (
-            <div className='text-center mb-4 sm:mb-6 md:mb-8'>
-              <Heading level={1} className='mb-2'>
-                Chọn loại câu hỏi
-              </Heading>
-              <TruthDareButtons
+          <div className='flex flex-col items-center justify-center min-h-[50vh] sm:min-h-[60vh] gap-3 sm:gap-4 md:gap-6'>
+            {!game.selectedType ? (
+              <div className='text-center mb-4 sm:mb-6 md:mb-8'>
+                <Heading level={1} className='mb-2'>
+                  Chọn loại câu hỏi
+                </Heading>
+                <TruthDareButtons
+                  selectedType={game.selectedType}
+                  currentQuestion={game.currentQuestion}
+                  isDrawingCard={game.isDrawingCard}
+                  onDrawCard={game.drawNewCard}
+                  showInitialSelection={true}
+                  disabledTruth={!game.hasAvailableTruth}
+                  disabledDare={!game.hasAvailableDare}
+                />
+              </div>
+            ) : (
+              <QuestionCard
                 selectedType={game.selectedType}
                 currentQuestion={game.currentQuestion}
                 isDrawingCard={game.isDrawingCard}
-                onDrawCard={game.drawNewCard}
-                showInitialSelection={true}
-                disabledTruth={!game.hasAvailableTruth}
-                disabledDare={!game.hasAvailableDare}
               />
-            </div>
-          ) : (
-            <QuestionCard
+            )}
+
+            {game.selectedType && game.currentQuestion && (
+              <>
+                <TruthDareButtons
+                  selectedType={game.selectedType}
+                  currentQuestion={game.currentQuestion}
+                  isDrawingCard={game.isDrawingCard}
+                  onDrawCard={game.drawNewCard}
+                  showInitialSelection={false}
+                  disabledTruth={!game.hasAvailableTruth}
+                  disabledDare={!game.hasAvailableDare}
+                />
+              </>
+            )}
+
+            <GameStats
               selectedType={game.selectedType}
-              currentQuestion={game.currentQuestion}
-              isDrawingCard={game.isDrawingCard}
+              truthCount={game.truthCount}
+              dareCount={game.dareCount}
+              usedQuestions={game.usedQuestions}
+              totalQuestions={game.totalQuestions}
             />
-          )}
+          </div>
 
-          {game.selectedType && game.currentQuestion && (
-            <>
-              <TruthDareButtons
-                selectedType={game.selectedType}
-                currentQuestion={game.currentQuestion}
-                isDrawingCard={game.isDrawingCard}
-                onDrawCard={game.drawNewCard}
-                showInitialSelection={false}
-                disabledTruth={!game.hasAvailableTruth}
-                disabledDare={!game.hasAvailableDare}
-              />
-            </>
-          )}
+          <DonateModal
+            isOpen={donate.isDonateModalOpen}
+            onClose={donate.closeDonateModal}
+          />
 
-          <GameStats
-            selectedType={game.selectedType}
-            truthCount={game.truthCount}
-            dareCount={game.dareCount}
-            usedQuestions={game.usedQuestions}
-            totalQuestions={game.totalQuestions}
+          <RatingModal
+            isOpen={showRatingModal}
+            onClose={handleRatingClose}
+            title='🎉 Hoàn thành game!'
+            description='Bạn đã chơi hết tất cả câu hỏi. Hãy đánh giá trải nghiệm của bạn!'
+            category='quick-mode'
+            autoSubmit={true}
+            metadata={{
+              truthCount: game.truthCount,
+              dareCount: game.dareCount,
+              totalQuestions: game.totalQuestions,
+              selectedCategory: game.selectedCategory,
+            }}
           />
         </div>
-
-        <DonateModal
-          isOpen={donate.isDonateModalOpen}
-          onClose={donate.closeDonateModal}
-        />
-
-        <RatingModal
-          isOpen={showRatingModal}
-          onClose={handleRatingClose}
-          title='🎉 Hoàn thành game!'
-          description='Bạn đã chơi hết tất cả câu hỏi. Hãy đánh giá trải nghiệm của bạn!'
-          category='quick-mode'
-          autoSubmit={true}
-          metadata={{
-            truthCount: game.truthCount,
-            dareCount: game.dareCount,
-            totalQuestions: game.totalQuestions,
-            selectedCategory: game.selectedCategory,
-          }}
-        />
       </div>
     );
   }

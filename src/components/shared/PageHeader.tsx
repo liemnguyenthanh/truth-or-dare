@@ -1,29 +1,29 @@
 'use client';
 
 import { BackButton } from './BackButton';
-import { ViewCodesButton } from './ViewCodesButton';
+import { DonateButton } from './DonateButton';
 
 interface PageHeaderProps {
-  /** Callback khi click vào button mã codes - Optional vì không còn payment system */
-  onViewCodes?: () => void;
+  /** Callback khi click vào button donate - Optional */
+  onDonate?: () => void;
   /** Route để quay lại, mặc định là '/' */
   backHref?: string;
   /** Custom back handler - Nếu có sẽ override backHref */
   onBack?: () => void;
   /** Text hiển thị cho back button, mặc định là 'Quay lại' */
   backLabel?: string;
-  /** Text hiển thị cho codes button, mặc định là 'Mã codes' */
-  codesLabel?: string;
+  /** Text hiển thị cho donate button, mặc định là 'Donate' */
+  donateLabel?: string;
   /** Custom className cho container */
   className?: string;
 }
 
 export function PageHeader({
-  onViewCodes,
+  onDonate,
   backHref = '/',
   onBack,
   backLabel = 'Quay lại',
-  codesLabel = 'Mã codes',
+  donateLabel = 'Donate',
   className = '',
 }: PageHeaderProps) {
   return (
@@ -51,9 +51,7 @@ export function PageHeader({
       ) : (
         <BackButton href={backHref} label={backLabel} />
       )}
-      {onViewCodes && (
-        <ViewCodesButton onClick={onViewCodes} label={codesLabel} />
-      )}
+      {onDonate && <DonateButton onClick={onDonate} label={donateLabel} />}
     </div>
   );
 }

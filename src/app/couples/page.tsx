@@ -7,7 +7,12 @@ import { useDonate } from '@/hooks';
 import { useHideNavigation } from '@/hooks/useHideNavigation';
 
 import { SwipeCardStack } from '@/components/game';
-import { DonateModal, PageHeader, Text } from '@/components/shared';
+import {
+  DonateModal,
+  DonateTicker,
+  PageHeader,
+  Text,
+} from '@/components/shared';
 import AgeVerificationModal from '@/components/shared/AgeVerificationModal';
 
 import { useCouplesGame } from './hooks';
@@ -58,6 +63,11 @@ export default function CouplePositionsPage() {
     router.push('/');
   }, [router]);
 
+  // Handle donate button click
+  const handleDonateClick = useCallback(() => {
+    donate.openDonateModal();
+  }, [donate]);
+
   // Handle position change
   const handlePositionChange = useCallback(
     (position: CouplePosition, index: number) => {
@@ -81,13 +91,18 @@ export default function CouplePositionsPage() {
   // Main game view
   return (
     <div className='min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 relative h-screen overflow-hidden'>
-      {/* Header */}
+      {/* Donate Ticker */}
       <div className='absolute top-0 left-0 right-0 z-50'>
+        <DonateTicker />
+      </div>
+      {/* Header */}
+      <div className='absolute top-[44px] left-0 right-0 z-50'>
         <div className='bg-gradient-to-b from-black/20 to-transparent p-3'>
           <PageHeader
             backHref='/'
             backLabel='Quay lại'
             className='relative z-50'
+            onDonate={handleDonateClick}
           />
         </div>
       </div>

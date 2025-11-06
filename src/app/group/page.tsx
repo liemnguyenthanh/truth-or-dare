@@ -8,6 +8,7 @@ import { useDonate } from '@/hooks';
 
 import {
   DonateModal,
+  DonateTicker,
   Heading,
   PageHeader,
   PrimaryButton,
@@ -64,6 +65,11 @@ export default function GroupPage() {
       setShowRatingModal(true);
     }
   }, [game.isGameComplete, game.gameStarted, showRatingModal]);
+
+  // Handle donate button click
+  const handleDonateClick = useCallback(() => {
+    donate.openDonateModal();
+  }, [donate]);
 
   const handleParticipantsChange = useCallback(
     (newParticipants: Participant[]) => {
@@ -160,55 +166,58 @@ export default function GroupPage() {
   // Show game
   if (game.gameStarted && game.selectedCategory) {
     return (
-      <div className='min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 p-2 transition-colors duration-200'>
-        <PageHeader />
+      <div className='min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 transition-colors duration-200'>
+        <DonateTicker />
+        <div className='p-2'>
+          <PageHeader onDonate={handleDonateClick} />
 
-        <div className='flex flex-col items-center justify-center min-h-[50vh] sm:min-h-[60vh] gap-3 sm:gap-4 md:gap-6 pb-20 sm:pb-24 md:pb-32'>
-          {!game.selectedType ? (
-            <div className='text-center mb-4 sm:mb-6 md:mb-8'>
-              <Heading level={1} className='mb-2'>
-                {game.currentParticipant?.name || 'Loading...'}
-              </Heading>
-              <Text variant='large' className='mb-6'>
-                Chọn loại câu hỏi
-              </Text>
-              <TruthDareButtons
+          <div className='flex flex-col items-center justify-center min-h-[50vh] sm:min-h-[60vh] gap-3 sm:gap-4 md:gap-6 pb-20 sm:pb-24 md:pb-32'>
+            {!game.selectedType ? (
+              <div className='text-center mb-4 sm:mb-6 md:mb-8'>
+                <Heading level={1} className='mb-2'>
+                  {game.currentParticipant?.name || 'Loading...'}
+                </Heading>
+                <Text variant='large' className='mb-6'>
+                  Chọn loại câu hỏi
+                </Text>
+                <TruthDareButtons
+                  selectedType={game.selectedType}
+                  currentQuestion={game.currentQuestion}
+                  isDrawingCard={game.isDrawingCard}
+                  onDrawCard={game.drawNewCard}
+                  showInitialSelection={true}
+                  disabledTruth={!game.hasAvailableTruth}
+                  disabledDare={!game.hasAvailableDare}
+                />
+              </div>
+            ) : (
+              <QuestionCard
                 selectedType={game.selectedType}
                 currentQuestion={game.currentQuestion}
                 isDrawingCard={game.isDrawingCard}
-                onDrawCard={game.drawNewCard}
-                showInitialSelection={true}
-                disabledTruth={!game.hasAvailableTruth}
-                disabledDare={!game.hasAvailableDare}
               />
-            </div>
-          ) : (
-            <QuestionCard
-              selectedType={game.selectedType}
-              currentQuestion={game.currentQuestion}
-              isDrawingCard={game.isDrawingCard}
-            />
-          )}
+            )}
 
-          {game.selectedType && game.currentQuestion && (
-            <>
-              <TruthDareButtons
-                selectedType={game.selectedType}
-                currentQuestion={game.currentQuestion}
-                isDrawingCard={game.isDrawingCard}
-                onDrawCard={game.drawNewCard}
-                showInitialSelection={false}
-                disabledTruth={!game.hasAvailableTruth}
-                disabledDare={!game.hasAvailableDare}
-              />
-            </>
-          )}
+            {game.selectedType && game.currentQuestion && (
+              <>
+                <TruthDareButtons
+                  selectedType={game.selectedType}
+                  currentQuestion={game.currentQuestion}
+                  isDrawingCard={game.isDrawingCard}
+                  onDrawCard={game.drawNewCard}
+                  showInitialSelection={false}
+                  disabledTruth={!game.hasAvailableTruth}
+                  disabledDare={!game.hasAvailableDare}
+                />
+              </>
+            )}
+          </div>
+
+          <ParticipantQueue
+            participants={participants}
+            currentIndex={game.currentParticipantIndex}
+          />
         </div>
-
-        <ParticipantQueue
-          participants={participants}
-          currentIndex={game.currentParticipantIndex}
-        />
 
         <DonateModal
           isOpen={donate.isDonateModalOpen}
