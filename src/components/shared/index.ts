@@ -5,6 +5,7 @@ export * from './BackButton';
 export * from './CategoryCard';
 export * from './CategorySelector';
 export * from './ContinueButton';
+export { default as DonateModal } from './DonateModal';
 export * from './ErrorToast';
 export * from './Footer';
 export * from './icons';

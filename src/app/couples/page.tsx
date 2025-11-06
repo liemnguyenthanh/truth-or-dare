@@ -1,32 +1,23 @@
 'use client';
 
-import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 
-import {
-  SwipeCardStack,
-} from '@/components/game';
-import { CodeInputModal } from '@/components/payment/CodeInputModal';
-import { PaymentModal } from '@/components/payment/PaymentModal';
-import { SavedCodesModal } from '@/components/payment/SavedCodesModal';
-import { ErrorToast, PageHeader, Text } from '@/components/shared';
-import AgeVerificationModal from '@/components/shared/AgeVerificationModal';
+import { useDonate } from '@/hooks';
 import { useHideNavigation } from '@/hooks/useHideNavigation';
 
-import {
-  useCouplesGame,
-  useCouplesPayment,
-} from './hooks';
-import { PaymentButton } from '@/components/shared';
+import { SwipeCardStack } from '@/components/game';
+import { DonateModal, PageHeader, Text } from '@/components/shared';
+import AgeVerificationModal from '@/components/shared/AgeVerificationModal';
 
-const PAYMENT_CARDS_LIMIT = 5;
+import { useCouplesGame } from './hooks';
+
+import { CouplePosition } from '@/types';
 
 export default function CouplePositionsPage() {
   const router = useRouter();
   const [showAgeVerification, setShowAgeVerification] = useState(true);
-  const [ageVerified, setAgeVerified] = useState(false);
-  const [isGameUnlocked, setIsGameUnlocked] = useState(false);
+  const [_ageVerified, setAgeVerified] = useState(false);
 
   // Auto scroll to top when page loads (fix mobile scroll position issue)
   useEffect(() => {
@@ -45,18 +36,15 @@ export default function CouplePositionsPage() {
     }
   }, []);
 
-  // Game hook - no category filtering anymore
+  // Game hook - no payment restrictions
   const game = useCouplesGame(
-    true, // Payment is always required (handled at payment level)
-    isGameUnlocked
+    false, // isPaymentRequired = false
+    true // isGameUnlocked = true (always unlocked)
   );
 
-  // Payment hook - uses game.cardsFlipped
-  const payment = useCouplesPayment({
-    cardsFlipped: game.cardsFlipped,
-    onPaymentSuccess: () => {
-      setIsGameUnlocked(true);
-    },
+  // Donate modal hook
+  const donate = useDonate({
+    cardsPlayed: game.cardsFlipped,
   });
 
   // Handle age verification
@@ -70,10 +58,9 @@ export default function CouplePositionsPage() {
     router.push('/');
   }, [router]);
 
-
   // Handle position change
   const handlePositionChange = useCallback(
-    (position: any, index: number) => {
+    (position: CouplePosition, index: number) => {
       game.onPositionChange(position, index);
       // Note: Payment is NOT auto-triggered - user must click button
     },
@@ -100,8 +87,6 @@ export default function CouplePositionsPage() {
           <PageHeader
             backHref='/'
             backLabel='Quay lại'
-            onViewCodes={() => payment.setIsSavedCodesOpen(true)}
-            codesLabel='Mã codes'
             className='relative z-50'
           />
         </div>
@@ -114,11 +99,7 @@ export default function CouplePositionsPage() {
             <SwipeCardStack
               positions={game.displayedPositions}
               onPositionChange={handlePositionChange}
-              disabled={
-                payment.isPaymentRequired &&
-                !isGameUnlocked &&
-                game.cardsFlipped >= PAYMENT_CARDS_LIMIT
-              }
+              disabled={false}
             />
           ) : (
             <div className='flex items-center justify-center h-full'>
@@ -126,10 +107,16 @@ export default function CouplePositionsPage() {
                 <div className='w-24 h-24 bg-gray-200 dark:bg-gray-700 rounded-full flex items-center justify-center mb-4 mx-auto'>
                   <span className='text-4xl'>😔</span>
                 </div>
-                <Text variant='large' className='text-gray-500 dark:text-gray-400'>
+                <Text
+                  variant='large'
+                  className='text-gray-500 dark:text-gray-400'
+                >
                   Không tìm thấy tư thế phù hợp
                 </Text>
-                <Text variant='small' className='text-gray-400 dark:text-gray-500 mt-2'>
+                <Text
+                  variant='small'
+                  className='text-gray-400 dark:text-gray-500 mt-2'
+                >
                   Thử chọn danh mục khác
                 </Text>
               </div>
@@ -138,99 +125,10 @@ export default function CouplePositionsPage() {
         </div>
       </div>
 
-      {/* Payment Button - Fixed bottom */}
-      {payment.isPaymentRequired &&
-        !isGameUnlocked &&
-        game.cardsFlipped >= PAYMENT_CARDS_LIMIT && (
-          <div
-            className='absolute bottom-4 left-4 right-4 z-50'
-            style={{ zIndex: 10000 }}
-          >
-            <PaymentButton
-              isProcessing={payment.isProcessing}
-              onCreateOrder={payment.createOrder}
-              onCodeInputClick={() => payment.setIsCodeInputOpen(true)}
-              showProgress={true}
-              cardsFlipped={game.cardsFlipped}
-              maxCards={PAYMENT_CARDS_LIMIT}
-            />
-          </div>
-        )}
-
-      {/* Payment Progress - Show when cards flipped but not yet reached limit */}
-      {payment.isPaymentRequired &&
-        !isGameUnlocked &&
-        game.cardsFlipped > 0 &&
-        game.cardsFlipped < PAYMENT_CARDS_LIMIT && (
-          <div
-            className='absolute bottom-4 left-4 right-4 z-50 max-w-[375px] mx-auto'
-            style={{ zIndex: 10000 }}
-          >
-            <div className='bg-black/60 backdrop-blur-sm rounded-full px-4 py-2'>
-              <div className='flex items-center justify-between text-white text-sm'>
-                <span>Đã lật: {game.cardsFlipped}/{PAYMENT_CARDS_LIMIT}</span>
-                <div className='flex-1 mx-3'>
-                  <div className='w-full bg-white/20 rounded-full h-2'>
-                    <motion.div
-                      className='bg-gradient-to-r from-purple-400 to-pink-500 rounded-full h-2'
-                      animate={{
-                        width: `${(game.cardsFlipped / PAYMENT_CARDS_LIMIT) * 100}%`,
-                      }}
-                      transition={{ duration: 0.3 }}
-                    />
-                  </div>
-                </div>
-                <button
-                  onClick={() => payment.setIsCodeInputOpen(true)}
-                  className='text-xs text-blue-400 hover:text-blue-300 underline'
-                >
-                  Có mã code?
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-
-      {/* Payment Modal */}
-      <PaymentModal
-        isOpen={payment.isPaymentModalOpen}
-        onClose={payment.closePaymentModal}
-        orderData={payment.orderData}
-        onPaymentSuccess={() => {
-          setIsGameUnlocked(true);
-          payment.closePaymentModal();
-        }}
-        onPaymentCancel={() => {
-          router.push('/');
-        }}
-      />
-
-      {/* Code Input Modal */}
-      <CodeInputModal
-        isOpen={payment.isCodeInputOpen}
-        onClose={() => payment.setIsCodeInputOpen(false)}
-        onCodeValid={(_code) => {
-          setIsGameUnlocked(true);
-          payment.setIsCodeInputOpen(false);
-        }}
-        onCodeInvalid={() => {
-          // Error handled by modal
-        }}
-      />
-
-      {/* Error Display */}
-      {payment.error && (
-        <ErrorToast
-          message={payment.error}
-          variant='error'
-          className='absolute top-20 left-4 right-4'
-        />
-      )}
-
-      {/* Saved Codes Modal */}
-      <SavedCodesModal
-        isOpen={payment.isSavedCodesOpen}
-        onClose={() => payment.setIsSavedCodesOpen(false)}
+      {/* Donate Modal */}
+      <DonateModal
+        isOpen={donate.isDonateModalOpen}
+        onClose={donate.closeDonateModal}
       />
     </div>
   );

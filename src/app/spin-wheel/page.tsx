@@ -1,51 +1,33 @@
 'use client';
 
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
 
+import { useDonate } from '@/hooks';
+import { useHideNavigation } from '@/hooks/useHideNavigation';
+
 import { SpinWheel } from '@/components/game/SpinWheel';
-import { CodeInputModal } from '@/components/payment/CodeInputModal';
-import { PaymentModal } from '@/components/payment/PaymentModal';
-import { SavedCodesModal } from '@/components/payment/SavedCodesModal';
 import {
-  ContinueButton,
+  DonateModal,
   ErrorToast,
   Heading,
   PageHeader,
-  PaymentButton,
   PrimaryButton,
-  SuccessToast,
   Text,
 } from '@/components/shared';
-import { getPaymentErrorMessage } from '@/lib/paymentErrors';
 import RatingModal from '@/components/shared/RatingModal';
-import { useHideNavigation } from '@/hooks/useHideNavigation';
+
+import { CategorySelection, GameStats, QuestionModal } from './components';
+import { useSpinWheelCategories, useSpinWheelGame } from './hooks';
 
 import { QuestionType } from '@/types';
 
-import {
-  CategorySelection,
-  GameStats,
-  PaymentProgress,
-  QuestionModal,
-} from './components';
-import {
-  useSpinWheelCategories,
-  useSpinWheelGame,
-  useSpinWheelPayment,
-} from './hooks';
-
-const PAYMENT_CARDS_LIMIT = 5;
-
 export default function SpinWheelPage() {
   const router = useRouter();
-  const [isGameUnlocked, setIsGameUnlocked] = useState(false);
   const [questionsPlayed, setQuestionsPlayed] = useState(0);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [showRatingModal, setShowRatingModal] = useState(false);
-  const [showSuccessToast, setShowSuccessToast] = useState(false);
-  const [showErrorToast, setShowErrorToast] = useState(false);
 
   // Auto scroll to top when page loads (fix mobile scroll position issue)
   useEffect(() => {
@@ -58,34 +40,20 @@ export default function SpinWheelPage() {
   // Category management
   const categories = useSpinWheelCategories();
 
-  // Payment hook
-  const payment = useSpinWheelPayment({
-    questionsPlayed,
-    onPaymentSuccess: () => {
-      setIsGameUnlocked(true);
-    },
-  });
-
   // Game logic
   const game = useSpinWheelGame(categories.selectedCategory);
 
-  // Track questions played for payment
+  // Track questions played
   useEffect(() => {
-    if (
-      payment.isPaymentRequired &&
-      !isGameUnlocked &&
-      game.currentQuestion &&
-      game.usedQuestions.size > questionsPlayed
-    ) {
+    if (game.currentQuestion && game.usedQuestions.size > questionsPlayed) {
       setQuestionsPlayed(game.usedQuestions.size);
     }
-  }, [
-    game.currentQuestion,
-    game.usedQuestions.size,
-    payment.isPaymentRequired,
-    isGameUnlocked,
-    questionsPlayed,
-  ]);
+  }, [game.currentQuestion, game.usedQuestions.size, questionsPlayed]);
+
+  // Donate modal hook
+  const donate = useDonate({
+    cardsPlayed: questionsPlayed,
+  });
 
   // Show rating modal when user has played significant amount of questions
   // Show after every 20 questions as milestone (optional feedback)
@@ -103,20 +71,6 @@ export default function SpinWheelPage() {
     }
   }, [questionsPlayed, game.currentQuestion, showRatingModal]);
 
-  // Show success toast when payment succeeds
-  useEffect(() => {
-    if (payment.paymentSuccess) {
-      setShowSuccessToast(true);
-    }
-  }, [payment.paymentSuccess]);
-
-  // Show error toast when payment error occurs
-  useEffect(() => {
-    if (payment.paymentError) {
-      setShowErrorToast(true);
-    }
-  }, [payment.paymentError]);
-
   // Handle rating modal close
   const handleRatingClose = useCallback(() => {
     setShowRatingModal(false);
@@ -127,7 +81,7 @@ export default function SpinWheelPage() {
     (type: QuestionType) => {
       setErrorMessage(null);
       const question = game.drawQuestion(type);
-      
+
       if (question) {
         game.setCurrentQuestion(question);
         game.setSpinResult(type);
@@ -136,7 +90,7 @@ export default function SpinWheelPage() {
         setErrorMessage(
           `Không còn câu hỏi loại "${typeLabel}" trong category này. Vui lòng chọn category khác hoặc thử lại.`
         );
-        
+
         setTimeout(() => {
           setErrorMessage(null);
         }, 5000);
@@ -151,37 +105,10 @@ export default function SpinWheelPage() {
     game.setCurrentQuestion(null);
   }, [game]);
 
-  // Handle payment click from question modal
-  const handlePaymentFromModal = useCallback(async () => {
-    // Just create order, don't close modal yet
-    await payment.createOrder();
-  }, [payment]);
-
-  // Close question modal when order is created (only if payment modal is about to open)
-  useEffect(() => {
-    if (
-      payment.orderData &&
-      game.currentQuestion &&
-      game.spinResult &&
-      payment.isPaymentModalOpen
-    ) {
-      // Order created, close question modal and payment modal will open automatically
-      game.setSpinResult(null);
-      game.setCurrentQuestion(null);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    payment.orderData,
-    payment.isPaymentModalOpen,
-    game.currentQuestion,
-    game.spinResult,
-  ]);
-
   // Handle back to category selection
   const handleBackToCategory = useCallback(() => {
     game.resetGame();
     categories.resetCategory();
-    setIsGameUnlocked(false);
     setQuestionsPlayed(0);
   }, [game, categories]);
 
@@ -221,12 +148,7 @@ export default function SpinWheelPage() {
   // Main game view
   return (
     <div className='min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 p-2 transition-colors duration-200'>
-      <PageHeader
-        onViewCodes={() => payment.setIsSavedCodesOpen(true)}
-        onBack={handleBackToCategory}
-        backLabel='Quay lại'
-        codesLabel='Mã codes'
-      />
+      <PageHeader onBack={handleBackToCategory} backLabel='Quay lại' />
 
       {/* Main Game Area */}
       <div className='flex flex-col items-center justify-center min-h-[60vh] gap-6'>
@@ -246,18 +168,6 @@ export default function SpinWheelPage() {
           <SpinWheel onSpinEnd={handleSpinEnd} />
         </motion.div>
 
-        {/* Payment Progress - Show when questions played but not yet reached limit */}
-        {payment.isPaymentRequired &&
-          !isGameUnlocked &&
-          questionsPlayed > 0 &&
-          questionsPlayed < PAYMENT_CARDS_LIMIT && (
-            <PaymentProgress
-              cardsDrawn={questionsPlayed}
-              maxCards={PAYMENT_CARDS_LIMIT}
-              onCodeInputClick={() => payment.setIsCodeInputOpen(true)}
-            />
-          )}
-
         {/* Stats - Always show when in game */}
         {game.usedQuestions.size > 0 && (
           <GameStats
@@ -271,68 +181,11 @@ export default function SpinWheelPage() {
         )}
       </div>
 
-      {/* Payment Modal */}
-      <PaymentModal
-        isOpen={payment.isPaymentModalOpen}
-        onClose={payment.closePaymentModal}
-        orderData={payment.orderData}
-        onPaymentSuccess={() => {
-          setIsGameUnlocked(true);
-          payment.closePaymentModal();
-          setShowSuccessToast(true);
-        }}
-        onPaymentCancel={() => {
-          router.push('/');
-        }}
+      {/* Donate Modal */}
+      <DonateModal
+        isOpen={donate.isDonateModalOpen}
+        onClose={donate.closeDonateModal}
       />
-
-      {/* Code Input Modal */}
-      <CodeInputModal
-        isOpen={payment.isCodeInputOpen}
-        onClose={() => payment.setIsCodeInputOpen(false)}
-        onCodeValid={(_code) => {
-          setIsGameUnlocked(true);
-          payment.setIsCodeInputOpen(false);
-        }}
-        onCodeInvalid={() => {
-          // Error handled by modal
-        }}
-      />
-
-      {/* Success Toast */}
-      {payment.paymentSuccess && showSuccessToast && (
-        <SuccessToast
-          message='Thanh toán thành công! Bạn có thể tiếp tục chơi.'
-          onClose={() => {
-            setShowSuccessToast(false);
-            payment.resetPayment();
-          }}
-          duration={3000}
-        />
-      )}
-
-      {/* Error Toast */}
-      {payment.paymentError && showErrorToast && (
-        <ErrorToast
-          message={payment.error || 'Đã xảy ra lỗi'}
-          suggestion={
-            payment.paymentError
-              ? getPaymentErrorMessage(payment.paymentError).suggestion
-              : undefined
-          }
-          onRetry={
-            payment.paymentError?.canRetry
-              ? () => {
-                  setShowErrorToast(false);
-                  payment.retryPayment();
-                  setTimeout(() => setShowErrorToast(true), 500);
-                }
-              : undefined
-          }
-          onClose={() => setShowErrorToast(false)}
-          variant={payment.paymentError.type === 'WEBHOOK_DELAY' ? 'warning' : 'error'}
-        />
-      )}
 
       {/* Question Error Display */}
       {errorMessage && (
@@ -343,12 +196,6 @@ export default function SpinWheelPage() {
         />
       )}
 
-      {/* Saved Codes Modal */}
-      <SavedCodesModal
-        isOpen={payment.isSavedCodesOpen}
-        onClose={() => payment.setIsSavedCodesOpen(false)}
-      />
-
       {/* Question Modal - Show when spin result is available */}
       <QuestionModal
         isOpen={!!(game.currentQuestion && game.spinResult)}
@@ -356,13 +203,9 @@ export default function SpinWheelPage() {
         spinResult={game.spinResult}
         onClose={handleContinueSpin}
         onContinue={handleContinueSpin}
-        showPaymentButton={
-          payment.isPaymentRequired &&
-          !isGameUnlocked &&
-          questionsPlayed >= PAYMENT_CARDS_LIMIT
-        }
-        onPaymentClick={handlePaymentFromModal}
-        isProcessing={payment.isProcessing}
+        showPaymentButton={false}
+        onPaymentClick={() => undefined}
+        isProcessing={false}
       />
 
       {/* Rating Modal */}
@@ -378,7 +221,7 @@ export default function SpinWheelPage() {
           totalQuestions: game.totalQuestions,
           truthUsed: game.truthCount.used,
           dareUsed: game.dareCount.used,
-          isGameUnlocked,
+          isGameUnlocked: true,
         }}
       />
     </div>

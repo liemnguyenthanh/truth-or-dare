@@ -4,8 +4,8 @@ import { BackButton } from './BackButton';
 import { ViewCodesButton } from './ViewCodesButton';
 
 interface PageHeaderProps {
-  /** Callback khi click vào button mã codes */
-  onViewCodes: () => void;
+  /** Callback khi click vào button mã codes - Optional vì không còn payment system */
+  onViewCodes?: () => void;
   /** Route để quay lại, mặc định là '/' */
   backHref?: string;
   /** Custom back handler - Nếu có sẽ override backHref */
@@ -51,8 +51,9 @@ export function PageHeader({
       ) : (
         <BackButton href={backHref} label={backLabel} />
       )}
-      <ViewCodesButton onClick={onViewCodes} label={codesLabel} />
+      {onViewCodes && (
+        <ViewCodesButton onClick={onViewCodes} label={codesLabel} />
+      )}
     </div>
   );
 }
-

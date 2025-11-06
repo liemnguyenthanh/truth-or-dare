@@ -1,24 +1,25 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useState, useEffect, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { useCallback, useEffect, useState } from 'react';
 
-import RatingModal from '@/components/shared/RatingModal';
-import { CodeInputModal } from '@/components/payment/CodeInputModal';
-import { PaymentModal } from '@/components/payment/PaymentModal';
-import { SavedCodesModal } from '@/components/payment/SavedCodesModal';
-import { CategoryCard } from '@/components/shared/CategoryCard';
-import { ErrorToast, Heading, PageHeader, PaymentButton, PrimaryButton, SecondaryButton, Text } from '@/components/shared';
+import { useDonate } from '@/hooks';
 
 import {
-  QuestionCard,
-  TruthDareButtons,
-} from '../quick/components';
-import { ParticipantsManager, ParticipantQueue } from './components';
-import { useGroupGame, useGroupPayment } from './hooks';
+  DonateModal,
+  Heading,
+  PageHeader,
+  PrimaryButton,
+  SecondaryButton,
+  Text,
+} from '@/components/shared';
+import { CategoryCard } from '@/components/shared/CategoryCard';
+import RatingModal from '@/components/shared/RatingModal';
 
-const PAYMENT_CARDS_LIMIT = 5;
+import { ParticipantQueue, ParticipantsManager } from './components';
+import { useGroupGame } from './hooks';
+import { QuestionCard, TruthDareButtons } from '../quick/components';
 
 interface Participant {
   id: string;
@@ -30,8 +31,9 @@ export default function GroupPage() {
   const [showRatingModal, setShowRatingModal] = useState(false);
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [showParticipantsManager, setShowParticipantsManager] = useState(true);
-  const [localSelectedCategory, setLocalSelectedCategory] = useState<string | null>(null);
-  const [isGameUnlocked, setIsGameUnlocked] = useState(false);
+  const [localSelectedCategory, setLocalSelectedCategory] = useState<
+    string | null
+  >(null);
 
   // Auto scroll to top when page loads (fix mobile scroll position issue)
   useEffect(() => {
@@ -44,12 +46,9 @@ export default function GroupPage() {
   // Track total questions played
   const questionsPlayed = game.truthCount + game.dareCount;
 
-  // Payment hook
-  const payment = useGroupPayment({
-    questionsPlayed,
-    onPaymentSuccess: () => {
-      setIsGameUnlocked(true);
-    },
+  // Donate modal hook
+  const donate = useDonate({
+    cardsPlayed: questionsPlayed,
   });
 
   // Hide participants manager when starting game
@@ -66,9 +65,12 @@ export default function GroupPage() {
     }
   }, [game.isGameComplete, game.gameStarted, showRatingModal]);
 
-  const handleParticipantsChange = useCallback((newParticipants: Participant[]) => {
-    setParticipants(newParticipants);
-  }, []);
+  const handleParticipantsChange = useCallback(
+    (newParticipants: Participant[]) => {
+      setParticipants(newParticipants);
+    },
+    []
+  );
 
   const handleRatingClose = useCallback(() => {
     setShowRatingModal(false);
@@ -98,9 +100,7 @@ export default function GroupPage() {
               <Heading level={1} className='mb-2'>
                 Chế Độ Nhóm
               </Heading>
-              <Text>
-                Thêm người chơi và chọn category để bắt đầu
-              </Text>
+              <Text>Thêm người chơi và chọn category để bắt đầu</Text>
             </div>
 
             {/* Participants Manager */}
@@ -117,7 +117,10 @@ export default function GroupPage() {
                 transition={{ duration: 0.5, delay: 0.2 }}
                 className='mt-10'
               >
-                <Heading level={3} className='mb-6 text-gray-800 dark:text-gray-200'>
+                <Heading
+                  level={3}
+                  className='mb-6 text-gray-800 dark:text-gray-200'
+                >
                   Chọn Category
                 </Heading>
                 <div className='grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6'>
@@ -136,10 +139,7 @@ export default function GroupPage() {
 
             {/* Actions */}
             <div className='flex gap-4 mt-8'>
-              <SecondaryButton
-                onClick={() => router.push('/')}
-                fullWidth
-              >
+              <SecondaryButton onClick={() => router.push('/')} fullWidth>
                 Quay lại trang chủ
               </SecondaryButton>
               <PrimaryButton
@@ -161,7 +161,7 @@ export default function GroupPage() {
   if (game.gameStarted && game.selectedCategory) {
     return (
       <div className='min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 p-2 transition-colors duration-200'>
-        <PageHeader onViewCodes={() => payment.setIsSavedCodesOpen(true)} />
+        <PageHeader />
 
         <div className='flex flex-col items-center justify-center min-h-[50vh] sm:min-h-[60vh] gap-3 sm:gap-4 md:gap-6 pb-20 sm:pb-24 md:pb-32'>
           {!game.selectedType ? (
@@ -178,30 +178,9 @@ export default function GroupPage() {
                 isDrawingCard={game.isDrawingCard}
                 onDrawCard={game.drawNewCard}
                 showInitialSelection={true}
-                disabledTruth={
-                  !game.hasAvailableTruth ||
-                  (payment.isPaymentRequired &&
-                    !isGameUnlocked &&
-                    questionsPlayed >= PAYMENT_CARDS_LIMIT)
-                }
-                disabledDare={
-                  !game.hasAvailableDare ||
-                  (payment.isPaymentRequired &&
-                    !isGameUnlocked &&
-                    questionsPlayed >= PAYMENT_CARDS_LIMIT)
-                }
+                disabledTruth={!game.hasAvailableTruth}
+                disabledDare={!game.hasAvailableDare}
               />
-
-              {payment.isPaymentRequired &&
-                !isGameUnlocked &&
-                questionsPlayed >= PAYMENT_CARDS_LIMIT && (
-                  <PaymentButton
-                    isProcessing={payment.isProcessing}
-                    onCreateOrder={payment.createOrder}
-                    onCodeInputClick={() => payment.setIsCodeInputOpen(true)}
-                    className='mt-2 sm:mt-3 md:mt-4'
-                  />
-                )}
             </div>
           ) : (
             <QuestionCard
@@ -219,30 +198,9 @@ export default function GroupPage() {
                 isDrawingCard={game.isDrawingCard}
                 onDrawCard={game.drawNewCard}
                 showInitialSelection={false}
-                disabledTruth={
-                  !game.hasAvailableTruth ||
-                  (payment.isPaymentRequired &&
-                    !isGameUnlocked &&
-                    questionsPlayed >= PAYMENT_CARDS_LIMIT)
-                }
-                disabledDare={
-                  !game.hasAvailableDare ||
-                  (payment.isPaymentRequired &&
-                    !isGameUnlocked &&
-                    questionsPlayed >= PAYMENT_CARDS_LIMIT)
-                }
+                disabledTruth={!game.hasAvailableTruth}
+                disabledDare={!game.hasAvailableDare}
               />
-
-              {payment.isPaymentRequired &&
-                !isGameUnlocked &&
-                questionsPlayed >= PAYMENT_CARDS_LIMIT && (
-                  <PaymentButton
-                    isProcessing={payment.isProcessing}
-                    onCreateOrder={payment.createOrder}
-                    onCodeInputClick={() => payment.setIsCodeInputOpen(true)}
-                    className='mt-2 sm:mt-3 md:mt-4'
-                  />
-                )}
             </>
           )}
         </div>
@@ -252,33 +210,9 @@ export default function GroupPage() {
           currentIndex={game.currentParticipantIndex}
         />
 
-        <PaymentModal
-          isOpen={payment.isPaymentModalOpen}
-          onClose={payment.closePaymentModal}
-          orderData={payment.orderData}
-          onPaymentSuccess={() => setIsGameUnlocked(true)}
-          onPaymentCancel={() => router.push('/')}
-        />
-
-        <CodeInputModal
-          isOpen={payment.isCodeInputOpen}
-          onClose={() => payment.setIsCodeInputOpen(false)}
-          onCodeValid={(_code) => {
-            setIsGameUnlocked(true);
-            payment.setIsCodeInputOpen(false);
-          }}
-          onCodeInvalid={() => {
-            // Error handled by modal
-          }}
-        />
-
-        {payment.error && (
-          <ErrorToast message={payment.error} variant='error' />
-        )}
-
-        <SavedCodesModal
-          isOpen={payment.isSavedCodesOpen}
-          onClose={() => payment.setIsSavedCodesOpen(false)}
+        <DonateModal
+          isOpen={donate.isDonateModalOpen}
+          onClose={donate.closeDonateModal}
         />
 
         <RatingModal

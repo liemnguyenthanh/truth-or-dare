@@ -3,17 +3,22 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import {
-  CreateOrderResponse,
-  OrderStatus,
-  ValidateCodeResponse,
-} from '@/types/payment';
-import {
   createOrderRequest,
   getOrderStatusRequest,
   validateCodeRequest,
 } from '@/lib/paymentApi';
-import { classifyPaymentError, getPaymentErrorMessage, type PaymentError } from '@/lib/paymentErrors';
+import {
+  type PaymentError,
+  classifyPaymentError,
+  getPaymentErrorMessage,
+} from '@/lib/paymentErrors';
 import { useOrderStorage } from '@/hooks';
+
+import {
+  CreateOrderResponse,
+  OrderStatus,
+  ValidateCodeResponse,
+} from '@/types/payment';
 
 interface UsePaymentOptions {
   gameMode: 'couples' | 'drink' | 'quick' | 'group' | 'spin_wheel';
@@ -51,7 +56,7 @@ export function usePayment({
   onPaymentSuccess,
   onPaymentCancel: _onPaymentCancel,
 }: UsePaymentOptions): UsePaymentReturn {
-  const { upsert, remove, list } = useOrderStorage();
+  const { upsert, remove } = useOrderStorage();
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [orderData, setOrderData] = useState<CreateOrderResponse | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
@@ -61,8 +66,8 @@ export function usePayment({
   const pollingInterval = useRef<NodeJS.Timeout | null>(null);
   const paidOrderIds = useRef<Set<string>>(new Set()); // Track paid orders to prevent duplicate saves
 
-  // Check if payment is required - ALL modes now require payment
-  const isPaymentRequired = true;
+  // Payment is now disabled - users can play freely
+  const isPaymentRequired = false;
 
   // Create order
   const createOrder = useCallback(async () => {
@@ -141,7 +146,7 @@ export function usePayment({
             setPaymentSuccess(true);
             setPaymentError(null);
             setError(null);
-            
+
             // Prevent duplicate saves - only save once per orderId
             if (!paidOrderIds.current.has(orderId)) {
               paidOrderIds.current.add(orderId);
@@ -158,7 +163,9 @@ export function usePayment({
             setIsPaymentModalOpen(false);
           } else if (status === 'expired') {
             clearPolling();
-            const expiredError = classifyPaymentError(new Error('Mã thanh toán đã hết hạn'));
+            const expiredError = classifyPaymentError(
+              new Error('Mã thanh toán đã hết hạn')
+            );
             setPaymentError(expiredError);
             const { message } = getPaymentErrorMessage(expiredError);
             setError(message);
@@ -171,8 +178,12 @@ export function usePayment({
           const classifiedError = classifyPaymentError(err);
           setPaymentError(classifiedError);
           // Don't clear polling for network errors - let it retry
-          if (classifiedError.type === 'NETWORK_ERROR' || classifiedError.type === 'TIMEOUT') {
+          if (
+            classifiedError.type === 'NETWORK_ERROR' ||
+            classifiedError.type === 'TIMEOUT'
+          ) {
             // Continue polling - might be temporary
+            // eslint-disable-next-line no-console
             console.warn('Payment status check error, will retry:', err);
           } else {
             // For other errors, stop polling
@@ -211,10 +222,10 @@ export function usePayment({
   // Retry payment check
   const retryPayment = useCallback(async () => {
     if (!orderData) return;
-    
+
     setError(null);
     setPaymentError(null);
-    
+
     try {
       const status = await checkOrderStatus(orderData.orderId);
       if (status === 'paid') {
