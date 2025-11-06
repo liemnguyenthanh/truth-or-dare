@@ -6,9 +6,18 @@ import { useCallback, useEffect, useState } from 'react';
 import { useDonate } from '@/hooks';
 import { useHideNavigation } from '@/hooks/useHideNavigation';
 
-import { DRINK_QUESTIONS, DrinkCategoryId } from '@/data/questions/drink';
+import {
+  DRINK_CATEGORIES,
+  DRINK_QUESTIONS,
+  DrinkCategoryId,
+} from '@/data/questions/drink';
 
-import { DonateModal, DonateTicker, PageHeader } from '@/components/shared';
+import {
+  DonateModal,
+  DonateTicker,
+  PageHeader,
+  ViewQuestionsModal,
+} from '@/components/shared';
 import RatingModal from '@/components/shared/RatingModal';
 
 import {
@@ -23,6 +32,8 @@ export default function DrinkPage() {
   const router = useRouter();
   const [showRatingModal, setShowRatingModal] = useState(false);
   const [selectedCategory, setSelectedCategory] =
+    useState<DrinkCategoryId | null>(null);
+  const [viewQuestionsCategory, setViewQuestionsCategory] =
     useState<DrinkCategoryId | null>(null);
 
   // Auto scroll to top when page loads (fix mobile scroll position issue)
@@ -64,6 +75,22 @@ export default function DrinkPage() {
     donate.openDonateModal();
   }, [donate]);
 
+  // Handle view questions
+  const handleViewQuestions = useCallback((categoryId: DrinkCategoryId) => {
+    setViewQuestionsCategory(categoryId);
+  }, []);
+
+  // Get questions for selected category
+  const viewQuestions = viewQuestionsCategory
+    ? DRINK_QUESTIONS.filter((q) => q.category === viewQuestionsCategory)
+    : [];
+
+  // Get category name
+  const categoryName =
+    (viewQuestionsCategory &&
+      DRINK_CATEGORIES.find((cat) => cat.id === viewQuestionsCategory)?.name) ||
+    '';
+
   // Chưa chọn category - hiển thị category selector
   if (!selectedCategory) {
     return (
@@ -75,8 +102,22 @@ export default function DrinkPage() {
             onSelectCategory={(categoryId) => {
               setSelectedCategory(categoryId);
             }}
+            onViewQuestions={handleViewQuestions}
           />
         </div>
+
+        <ViewQuestionsModal
+          isOpen={viewQuestionsCategory !== null}
+          onClose={() => setViewQuestionsCategory(null)}
+          categoryName={categoryName}
+          questions={viewQuestions}
+          onSelectCategory={() => {
+            if (viewQuestionsCategory) {
+              setSelectedCategory(viewQuestionsCategory);
+              setViewQuestionsCategory(null);
+            }
+          }}
+        />
       </div>
     );
   }

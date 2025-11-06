@@ -25,3 +25,4 @@ export * from './SuccessToast';
 export * from './ThemeToggle';
 export * from './Typography';
 export * from './ViewCodesButton';
+export * from './ViewQuestionsModal';

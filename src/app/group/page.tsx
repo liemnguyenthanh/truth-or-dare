@@ -6,6 +6,9 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { useDonate } from '@/hooks';
 
+import { EighteenQuestions } from '@/data/questions/18';
+import { PartyQuestions } from '@/data/questions/party';
+
 import {
   DonateModal,
   DonateTicker,
@@ -14,6 +17,7 @@ import {
   PrimaryButton,
   SecondaryButton,
   Text,
+  ViewQuestionsModal,
 } from '@/components/shared';
 import { CategoryCard } from '@/components/shared/CategoryCard';
 import RatingModal from '@/components/shared/RatingModal';
@@ -21,6 +25,18 @@ import RatingModal from '@/components/shared/RatingModal';
 import { ParticipantQueue, ParticipantsManager } from './components';
 import { useGroupGame } from './hooks';
 import { QuestionCard, TruthDareButtons } from '../quick/components';
+
+// Helper để lấy questions theo category
+function getQuestionsForCategory(category: string) {
+  switch (category) {
+    case '18':
+      return EighteenQuestions;
+    case 'party':
+      return PartyQuestions;
+    default:
+      return [];
+  }
+}
 
 interface Participant {
   id: string;
@@ -33,6 +49,9 @@ export default function GroupPage() {
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [showParticipantsManager, setShowParticipantsManager] = useState(true);
   const [localSelectedCategory, setLocalSelectedCategory] = useState<
+    string | null
+  >(null);
+  const [viewQuestionsCategory, setViewQuestionsCategory] = useState<
     string | null
   >(null);
 
@@ -70,6 +89,22 @@ export default function GroupPage() {
   const handleDonateClick = useCallback(() => {
     donate.openDonateModal();
   }, [donate]);
+
+  // Handle view questions
+  const handleViewQuestions = useCallback((categoryId: string) => {
+    setViewQuestionsCategory(categoryId);
+  }, []);
+
+  // Get questions for selected category
+  const viewQuestions = viewQuestionsCategory
+    ? getQuestionsForCategory(viewQuestionsCategory)
+    : [];
+
+  // Get category name
+  const categoryName =
+    (viewQuestionsCategory &&
+      game.categories.find((cat) => cat.id === viewQuestionsCategory)?.name) ||
+    '';
 
   const handleParticipantsChange = useCallback(
     (newParticipants: Participant[]) => {
@@ -137,6 +172,7 @@ export default function GroupPage() {
                       index={index}
                       onClick={() => handleCategorySelect(category.id)}
                       isSelected={localSelectedCategory === category.id}
+                      onViewQuestions={() => handleViewQuestions(category.id)}
                     />
                   ))}
                 </div>
@@ -159,6 +195,19 @@ export default function GroupPage() {
             </div>
           </div>
         </div>
+
+        <ViewQuestionsModal
+          isOpen={viewQuestionsCategory !== null}
+          onClose={() => setViewQuestionsCategory(null)}
+          categoryName={categoryName}
+          questions={viewQuestions}
+          onSelectCategory={() => {
+            if (viewQuestionsCategory) {
+              handleCategorySelect(viewQuestionsCategory);
+              setViewQuestionsCategory(null);
+            }
+          }}
+        />
       </div>
     );
   }

@@ -5,11 +5,15 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { useDonate } from '@/hooks';
 
+import { EighteenQuestions } from '@/data/questions/18';
+import { PartyQuestions } from '@/data/questions/party';
+
 import {
   DonateModal,
   DonateTicker,
   Heading,
   PageHeader,
+  ViewQuestionsModal,
 } from '@/components/shared';
 import RatingModal from '@/components/shared/RatingModal';
 
@@ -21,9 +25,24 @@ import {
 } from './components';
 import { useQuickGame } from './hooks';
 
+// Helper để lấy questions theo category
+function getQuestionsForCategory(category: string) {
+  switch (category) {
+    case '18':
+      return EighteenQuestions;
+    case 'party':
+      return PartyQuestions;
+    default:
+      return [];
+  }
+}
+
 export default function QuickPage() {
   const router = useRouter();
   const [showRatingModal, setShowRatingModal] = useState(false);
+  const [viewQuestionsCategory, setViewQuestionsCategory] = useState<
+    string | null
+  >(null);
 
   // Auto scroll to top when page loads (fix mobile scroll position issue)
   useEffect(() => {
@@ -58,6 +77,22 @@ export default function QuickPage() {
   const handleDonateClick = useCallback(() => {
     donate.openDonateModal();
   }, [donate]);
+
+  // Handle view questions
+  const handleViewQuestions = useCallback((categoryId: string) => {
+    setViewQuestionsCategory(categoryId);
+  }, []);
+
+  // Get questions for selected category
+  const viewQuestions = viewQuestionsCategory
+    ? getQuestionsForCategory(viewQuestionsCategory)
+    : [];
+
+  // Get category name
+  const categoryName =
+    (viewQuestionsCategory &&
+      game.categories.find((cat) => cat.id === viewQuestionsCategory)?.name) ||
+    '';
 
   if (game.gameStarted && game.selectedCategory) {
     return (
@@ -138,9 +173,25 @@ export default function QuickPage() {
   }
 
   return (
-    <CategorySelection
-      categories={game.categories}
-      onCategorySelect={game.selectCategory}
-    />
+    <>
+      <CategorySelection
+        categories={game.categories}
+        onCategorySelect={game.selectCategory}
+        onViewQuestions={handleViewQuestions}
+      />
+
+      <ViewQuestionsModal
+        isOpen={viewQuestionsCategory !== null}
+        onClose={() => setViewQuestionsCategory(null)}
+        categoryName={categoryName}
+        questions={viewQuestions}
+        onSelectCategory={() => {
+          if (viewQuestionsCategory) {
+            game.selectCategory(viewQuestionsCategory);
+            setViewQuestionsCategory(null);
+          }
+        }}
+      />
+    </>
   );
 }

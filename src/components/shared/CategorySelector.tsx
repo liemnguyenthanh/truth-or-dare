@@ -1,7 +1,8 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { CategoryCard, Category } from './CategoryCard';
+
+import { Category, CategoryCard } from './CategoryCard';
 import { Heading, Text } from './Typography';
 
 interface CategorySelectorProps {
@@ -9,6 +10,7 @@ interface CategorySelectorProps {
   description?: string;
   categories: Category[];
   onCategorySelect: (categoryId: string) => void;
+  onViewQuestions?: (categoryId: string) => void;
 }
 
 export function CategorySelector({
@@ -16,6 +18,7 @@ export function CategorySelector({
   description,
   categories,
   onCategorySelect,
+  onViewQuestions,
 }: CategorySelectorProps) {
   return (
     <div className='w-full max-w-4xl mx-auto px-4'>
@@ -26,11 +29,17 @@ export function CategorySelector({
         transition={{ duration: 0.5 }}
         className='text-center mb-8 sm:mb-12'
       >
-        <Heading level={1} className='text-3xl sm:text-4xl md:text-5xl font-bold mb-4'>
+        <Heading
+          level={1}
+          className='text-3xl sm:text-4xl md:text-5xl font-bold mb-4'
+        >
           {title}
         </Heading>
         {description && (
-          <Text variant='large' className='text-gray-600 dark:text-gray-300 max-w-2xl mx-auto'>
+          <Text
+            variant='large'
+            className='text-gray-600 dark:text-gray-300 max-w-2xl mx-auto'
+          >
             {description}
           </Text>
         )}
@@ -44,10 +53,12 @@ export function CategorySelector({
             category={category}
             index={index}
             onClick={() => onCategorySelect(category.id)}
+            onViewQuestions={
+              onViewQuestions ? () => onViewQuestions(category.id) : undefined
+            }
           />
         ))}
       </div>
     </div>
   );
 }
-

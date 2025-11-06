@@ -7,6 +7,9 @@ import { useCallback, useEffect, useState } from 'react';
 import { useDonate } from '@/hooks';
 import { useHideNavigation } from '@/hooks/useHideNavigation';
 
+import { EighteenQuestions } from '@/data/questions/18';
+import { PartyQuestions } from '@/data/questions/party';
+
 import { SpinWheel } from '@/components/game/SpinWheel';
 import {
   DonateModal,
@@ -16,6 +19,7 @@ import {
   PageHeader,
   PrimaryButton,
   Text,
+  ViewQuestionsModal,
 } from '@/components/shared';
 import RatingModal from '@/components/shared/RatingModal';
 
@@ -24,11 +28,26 @@ import { useSpinWheelCategories, useSpinWheelGame } from './hooks';
 
 import { QuestionType } from '@/types';
 
+// Helper để lấy questions theo category
+function getQuestionsForCategory(category: string) {
+  switch (category) {
+    case '18':
+      return EighteenQuestions;
+    case 'party':
+      return PartyQuestions;
+    default:
+      return [];
+  }
+}
+
 export default function SpinWheelPage() {
   const router = useRouter();
   const [questionsPlayed, setQuestionsPlayed] = useState(0);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [showRatingModal, setShowRatingModal] = useState(false);
+  const [viewQuestionsCategory, setViewQuestionsCategory] = useState<
+    string | null
+  >(null);
 
   // Auto scroll to top when page loads (fix mobile scroll position issue)
   useEffect(() => {
@@ -82,6 +101,23 @@ export default function SpinWheelPage() {
     donate.openDonateModal();
   }, [donate]);
 
+  // Handle view questions
+  const handleViewQuestions = useCallback((categoryId: string) => {
+    setViewQuestionsCategory(categoryId);
+  }, []);
+
+  // Get questions for selected category
+  const viewQuestions = viewQuestionsCategory
+    ? getQuestionsForCategory(viewQuestionsCategory)
+    : [];
+
+  // Get category name
+  const categoryName =
+    (viewQuestionsCategory &&
+      categories.categories.find((cat) => cat.id === viewQuestionsCategory)
+        ?.name) ||
+    '';
+
   // Handle spin end
   const handleSpinEnd = useCallback(
     (type: QuestionType) => {
@@ -121,11 +157,27 @@ export default function SpinWheelPage() {
   // Show category selection first
   if (!categories.selectedCategory) {
     return (
-      <CategorySelection
-        categories={categories.categories}
-        onCategorySelect={categories.selectCategory}
-        onBack={() => router.push('/')}
-      />
+      <>
+        <CategorySelection
+          categories={categories.categories}
+          onCategorySelect={categories.selectCategory}
+          onBack={() => router.push('/')}
+          onViewQuestions={handleViewQuestions}
+        />
+
+        <ViewQuestionsModal
+          isOpen={viewQuestionsCategory !== null}
+          onClose={() => setViewQuestionsCategory(null)}
+          categoryName={categoryName}
+          questions={viewQuestions}
+          onSelectCategory={() => {
+            if (viewQuestionsCategory) {
+              categories.selectCategory(viewQuestionsCategory);
+              setViewQuestionsCategory(null);
+            }
+          }}
+        />
+      </>
     );
   }
 

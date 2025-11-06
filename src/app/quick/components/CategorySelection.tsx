@@ -15,11 +15,13 @@ interface Category {
 interface CategorySelectionProps {
   categories: Category[];
   onCategorySelect: (category: string) => void;
+  onViewQuestions?: (categoryId: string) => void;
 }
 
 export function CategorySelection({
   categories,
   onCategorySelect,
+  onViewQuestions,
 }: CategorySelectionProps) {
   const router = useRouter();
 
@@ -39,6 +41,7 @@ export function CategorySelection({
           description='Chọn category và bắt đầu chơi ngay!'
           categories={transformedCategories}
           onCategorySelect={onCategorySelect}
+          onViewQuestions={onViewQuestions}
         />
 
         <div className='mt-8 text-center'>
