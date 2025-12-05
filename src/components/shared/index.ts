@@ -13,6 +13,7 @@ export * from './Footer';
 export * from './icons';
 export * from './JsonLd';
 export * from './LoadingSpinner';
+export * from './Monetag';
 export * from './Navigation';
 export * from './PageHeader';
 export * from './ParticipantManager';
