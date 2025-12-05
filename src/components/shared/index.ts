@@ -14,6 +14,8 @@ export * from './icons';
 export * from './JsonLd';
 export * from './LoadingSpinner';
 export * from './Monetag';
+export * from './Monetag';
+export * from './MonetagOnClick';
 export * from './Navigation';
 export * from './PageHeader';
 export * from './ParticipantManager';
