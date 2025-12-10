@@ -1,16 +1,9 @@
-import { useCallback, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { useCallback, useState } from 'react';
 
 import { GameMode, GameModeOption } from '@/types';
 
 export const GAME_MODE_OPTIONS: GameModeOption[] = [
-  {
-    id: 'couples',
-    name: 'Thẻ Bài Cặp Đôi',
-    description: 'Lật bài chọn tư thế dành cho cặp đôi (18+) - Cập nhật mới!',
-    icon: '❤️',
-    isNew: true,
-  },
   {
     id: 'drink',
     name: 'Drink',
@@ -43,7 +36,9 @@ interface UseGameModeSelectionProps {
   onModeSelected?: (mode: GameMode) => void;
 }
 
-export function useGameModeSelection({ onModeSelected }: UseGameModeSelectionProps = {}) {
+export function useGameModeSelection({
+  onModeSelected,
+}: UseGameModeSelectionProps = {}) {
   const router = useRouter();
   const [showRatingModal, setShowRatingModal] = useState(false);
 
@@ -63,9 +58,6 @@ export function useGameModeSelection({ onModeSelected }: UseGameModeSelectionPro
           case 'spin_wheel':
             router.push('/spin-wheel');
             break;
-          case 'couples':
-            router.push('/couples');
-            break;
           case 'drink':
             router.push('/drink');
             break;
@@ -75,30 +67,29 @@ export function useGameModeSelection({ onModeSelected }: UseGameModeSelectionPro
     [onModeSelected, router]
   );
 
-  const handleRatingSubmit = useCallback(async (data: {
-    rating: number;
-    comment: string;
-    emoji?: string;
-  }) => {
-    try {
-      const { createFeedback } = await import('@/lib/feedback');
+  const handleRatingSubmit = useCallback(
+    async (data: { rating: number; comment: string; emoji?: string }) => {
+      try {
+        const { createFeedback } = await import('@/lib/feedback');
 
-      const result = await createFeedback({
-        type: 'rating',
-        title: `Đánh giá ${data.rating} sao`,
-        description: data.comment,
-        rating: data.rating,
-        category: 'homepage',
-        priority: 'medium',
-      });
+        const result = await createFeedback({
+          type: 'rating',
+          title: `Đánh giá ${data.rating} sao`,
+          description: data.comment,
+          rating: data.rating,
+          category: 'homepage',
+          priority: 'medium',
+        });
 
-      if (result.success) {
-        // Rating submitted successfully
+        if (result.success) {
+          // Rating submitted successfully
+        }
+      } catch (error) {
+        // Error submitting rating - could add toast notification here
       }
-    } catch (error) {
-      // Error submitting rating - could add toast notification here
-    }
-  }, []);
+    },
+    []
+  );
 
   return {
     gameModeOptions: GAME_MODE_OPTIONS,
@@ -108,4 +99,3 @@ export function useGameModeSelection({ onModeSelected }: UseGameModeSelectionPro
     handleRatingSubmit,
   };
 }
-

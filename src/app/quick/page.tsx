@@ -73,10 +73,9 @@ export default function QuickPage() {
     router.push('/');
   }, [game, router]);
 
-  // Handle donate button click
-  const handleDonateClick = useCallback(() => {
-    donate.openDonateModal();
-  }, [donate]);
+  const handleDonateClick = donate.isEnabled
+    ? donate.openDonateModal
+    : undefined;
 
   // Handle view questions
   const handleViewQuestions = useCallback((categoryId: string) => {
@@ -97,7 +96,7 @@ export default function QuickPage() {
   if (game.gameStarted && game.selectedCategory) {
     return (
       <div className='min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 transition-colors duration-200'>
-        <DonateTicker />
+        {donate.isEnabled && <DonateTicker />}
         <div className='p-2'>
           <PageHeader onDonate={handleDonateClick} />
 
@@ -148,10 +147,12 @@ export default function QuickPage() {
             />
           </div>
 
-          <DonateModal
-            isOpen={donate.isDonateModalOpen}
-            onClose={donate.closeDonateModal}
-          />
+          {donate.isEnabled && (
+            <DonateModal
+              isOpen={donate.isDonateModalOpen}
+              onClose={donate.closeDonateModal}
+            />
+          )}
 
           <RatingModal
             isOpen={showRatingModal}

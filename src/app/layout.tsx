@@ -1,5 +1,5 @@
 import { ThemeProvider } from '@hooks/useTheme';
-import { GoogleTagManager } from '@next/third-parties/google';
+import { GoogleAnalytics, GoogleTagManager } from '@next/third-parties/google';
 import * as React from 'react';
 
 import '@/styles/globals.css';
@@ -22,6 +22,7 @@ import { metadata } from './metadata';
 import { viewport } from './viewport';
 
 export { metadata, viewport };
+const gaId = 'G-MF1JWJH7TJ';
 
 export default function RootLayout({
   children,
@@ -45,6 +46,7 @@ export default function RootLayout({
           </GameProvider>
         </ThemeProvider>
         <GoogleTagManager gtmId='GTM-5FP2P39P' />
+        {gaId && <GoogleAnalytics gaId={gaId} />}
         <Monetag />
         <MonetagOnClick />
       </body>

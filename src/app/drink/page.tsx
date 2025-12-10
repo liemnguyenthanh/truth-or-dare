@@ -70,10 +70,9 @@ export default function DrinkPage() {
     router.push('/');
   }, [router]);
 
-  // Handle donate button click
-  const handleDonateClick = useCallback(() => {
-    donate.openDonateModal();
-  }, [donate]);
+  const handleDonateClick = donate.isEnabled
+    ? donate.openDonateModal
+    : undefined;
 
   // Handle view questions
   const handleViewQuestions = useCallback((categoryId: DrinkCategoryId) => {
@@ -125,7 +124,7 @@ export default function DrinkPage() {
   // Đã chọn category - hiển thị game
   return (
     <div className='min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 transition-colors duration-200'>
-      <DonateTicker />
+      {donate.isEnabled && <DonateTicker />}
       <div className='p-2'>
         <PageHeader onDonate={handleDonateClick} />
 
@@ -153,10 +152,12 @@ export default function DrinkPage() {
           />
         </div>
 
-        <DonateModal
-          isOpen={donate.isDonateModalOpen}
-          onClose={donate.closeDonateModal}
-        />
+        {donate.isEnabled && (
+          <DonateModal
+            isOpen={donate.isDonateModalOpen}
+            onClose={donate.closeDonateModal}
+          />
+        )}
 
         <RatingModal
           isOpen={showRatingModal}

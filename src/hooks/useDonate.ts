@@ -7,6 +7,7 @@ interface UseDonateOptions {
 }
 
 interface UseDonateReturn {
+  isEnabled: boolean;
   isDonateModalOpen: boolean;
   openDonateModal: () => void;
   closeDonateModal: () => void;
@@ -15,6 +16,7 @@ interface UseDonateReturn {
 // Hiển thị donate modal sau mỗi 10-15 cards (random)
 const DONATE_INTERVAL_MIN = 10;
 const DONATE_INTERVAL_MAX = 15;
+const DONATE_ENABLED = process.env.NEXT_PUBLIC_ENABLE_DONATE === 'true';
 
 export function useDonate({ cardsPlayed }: UseDonateOptions): UseDonateReturn {
   const [isDonateModalOpen, setIsDonateModalOpen] = useState(false);
@@ -27,6 +29,8 @@ export function useDonate({ cardsPlayed }: UseDonateOptions): UseDonateReturn {
 
   // Tự động hiển thị donate modal sau mỗi interval
   useEffect(() => {
+    if (!DONATE_ENABLED) return;
+
     if (
       cardsPlayed > 0 &&
       cardsPlayed >= nextDonateCardRef.current &&
@@ -46,6 +50,7 @@ export function useDonate({ cardsPlayed }: UseDonateOptions): UseDonateReturn {
   }, [cardsPlayed, isDonateModalOpen]);
 
   const openDonateModal = useCallback(() => {
+    if (!DONATE_ENABLED) return;
     setIsDonateModalOpen(true);
   }, []);
 
@@ -54,6 +59,7 @@ export function useDonate({ cardsPlayed }: UseDonateOptions): UseDonateReturn {
   }, []);
 
   return {
+    isEnabled: DONATE_ENABLED,
     isDonateModalOpen,
     openDonateModal,
     closeDonateModal,
