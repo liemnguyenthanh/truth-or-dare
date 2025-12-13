@@ -1,7 +1,19 @@
+'use client';
+
 import Link from 'next/link';
-import React from 'react';
+import { usePathname } from 'next/navigation';
+import React, { useMemo } from 'react';
+
+import { useTranslation } from '@/hooks/useTranslation';
+
+import { getLocaleFromPath, getLocalizedPath } from '@/i18n/config';
 
 export function Footer() {
+  const pathname = usePathname();
+  const locale = useMemo(() => getLocaleFromPath(pathname), [pathname]);
+  const { t } = useTranslation({
+    namespaces: ['common'],
+  });
   const currentYear = new Date().getFullYear();
 
   return (
@@ -12,32 +24,23 @@ export function Footer() {
           <div className='flex flex-col items-center'>
             <div className='flex items-center space-x-2 mb-4'>
               <span className='text-2xl'>🎯</span>
-              <span className='text-xl font-bold'>Thật Hay Thách</span>
+              <span className='text-xl font-bold'>{t('app.name')}</span>
             </div>
             <p className='text-gray-400 text-sm text-center'>
-              Trò chơi Thật Hay Thách online miễn phí hàng đầu Việt Nam. Tạo kỷ
-              niệm đẹp cùng bạn bè với hơn 500+ câu hỏi thú vị.
+              {t('footer.description')}
             </p>
           </div>
 
           {/* Quick Links */}
           <div className='flex flex-col items-center'>
-            <h3 className='font-semibold mb-4'>Liên Kết Nhanh</h3>
+            <h3 className='font-semibold mb-4'>{t('footer.quickLinks')}</h3>
             <ul className='space-y-3 text-sm text-center'>
               <li>
                 <Link
-                  href='/'
+                  href={getLocalizedPath('/', locale)}
                   className='text-gray-400 hover:text-white transition-colors'
                 >
-                  Chơi Game
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href='/huong-dan'
-                  className='text-gray-400 hover:text-white transition-colors'
-                >
-                  Hướng Dẫn Chơi
+                  {t('footer.playGame')}
                 </Link>
               </li>
             </ul>
@@ -45,7 +48,7 @@ export function Footer() {
 
           {/* Contact & Social */}
           <div className='flex flex-col items-center'>
-            <h3 className='font-semibold mb-4'>Kết Nối</h3>
+            <h3 className='font-semibold mb-4'>{t('footer.connect')}</h3>
             <div className='space-y-3 text-sm text-center'>
               <p className='text-gray-400'>Email: berallyone@gmail.com</p>
               <div className='flex items-center justify-center space-x-4 mt-4'>
@@ -93,7 +96,7 @@ export function Footer() {
         <div className='border-t border-gray-800 mt-8 pt-8'>
           <div className='flex flex-col md:flex-row justify-between items-center'>
             <p className='text-gray-400 text-sm'>
-              © {currentYear} Thật Hay Thách Online. Tất cả quyền được bảo lưu.
+              {t('footer.copyright', { year: currentYear.toString() })}
             </p>
           </div>
         </div>

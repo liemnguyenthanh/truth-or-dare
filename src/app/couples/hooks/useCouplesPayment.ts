@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
-import { useRouter } from 'next/navigation';
 
+import { useLocalizedRouter } from '@/hooks/useLocalizedRouter';
 import { usePayment } from '@/hooks/usePayment';
 
 interface UseCouplesPaymentOptions {
@@ -31,7 +31,7 @@ export function useCouplesPayment({
   cardsFlipped,
   onPaymentSuccess,
 }: UseCouplesPaymentOptions): UseCouplesPaymentReturn {
-  const router = useRouter();
+  const router = useLocalizedRouter();
   const [isCodeInputOpen, setIsCodeInputOpen] = useState(false);
   const [isSavedCodesOpen, setIsSavedCodesOpen] = useState(false);
 

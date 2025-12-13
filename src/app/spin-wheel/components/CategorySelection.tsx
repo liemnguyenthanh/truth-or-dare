@@ -2,6 +2,8 @@
 
 import { motion } from 'framer-motion';
 
+import { useTranslation } from '@/hooks/useTranslation';
+
 import { SecondaryButton } from '@/components/shared';
 import { Heading, Text } from '@/components/shared/Typography';
 
@@ -25,6 +27,8 @@ export function CategorySelection({
   onBack,
   onViewQuestions,
 }: CategorySelectionProps) {
+  const { t } = useTranslation({ namespaces: ['pages'] });
+
   return (
     <div className='min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 p-4'>
       <div className='max-w-4xl mx-auto'>
@@ -36,9 +40,9 @@ export function CategorySelection({
           <div className='text-center mb-8'>
             <div className='text-6xl mb-4'>🎡</div>
             <Heading level={1} className='mb-2'>
-              Vòng Quay May Mắn
+              {t('spinWheel.title')}
             </Heading>
-            <Text>Chọn category và bắt đầu quay</Text>
+            <Text>{t('spinWheel.selectCategoryDescription')}</Text>
           </div>
 
           <div className='grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6'>
@@ -74,7 +78,7 @@ export function CategorySelection({
                     }}
                     className='absolute top-4 right-4 px-3 py-1.5 text-xs font-medium text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/30 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-900/50 transition-colors'
                   >
-                    👁️ Xem trước
+                    {t('spinWheel.previewQuestions')}
                   </button>
                 )}
               </motion.div>
@@ -83,7 +87,7 @@ export function CategorySelection({
 
           <div className='mt-8 text-center'>
             <SecondaryButton onClick={onBack}>
-              Quay lại trang chủ
+              {t('spinWheel.backToHome')}
             </SecondaryButton>
           </div>
         </motion.div>

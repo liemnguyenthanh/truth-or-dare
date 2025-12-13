@@ -1,0 +1,131 @@
+{
+  "app": {
+    "name": "Thật Hay Thách",
+    "subtitle": "Online Game",
+    "description": "Trò chơi vui nhộn cùng bạn bè"
+  },
+  "navigation": {
+    "home": "Trang Chủ",
+    "feedback": "Góp Ý"
+  },
+  "buttons": {
+    "back": "Quay lại",
+    "donate": "Donate",
+    "continue": "Tiếp tục",
+    "submit": "Gửi",
+    "cancel": "Hủy",
+    "close": "Đóng",
+    "save": "Lưu",
+    "delete": "Xóa",
+    "edit": "Chỉnh sửa",
+    "view": "Xem",
+    "select": "Chọn",
+    "draw": "Rút bài",
+    "drawCard": "Rút bài",
+    "next": "Tiếp theo",
+    "previous": "Trước đó",
+    "finish": "Hoàn thành",
+    "start": "Bắt đầu",
+    "restart": "Chơi lại",
+    "rating": "Đánh giá trò chơi",
+    "share": "Chia sẻ",
+    "processing": "Đang xử lý...",
+    "creatingOrder": "Đang tạo đơn hàng...",
+    "paymentRequired": "Thanh toán {{amount}} để tiếp tục",
+    "hasCode": "Có mã code?",
+    "flipped": "Đã lật: {{flipped}}/{{max}}",
+    "remaining": "Còn {{remaining}}",
+    "continueNext": "Quay tiếp",
+    "viewPreview": "👁️ Xem trước"
+  },
+  "badges": {
+    "new": "MỚI ✨",
+    "newQuestions": "CÂU HỎI MỚI"
+  },
+  "footer": {
+    "description": "Trò chơi Thật Hay Thách online miễn phí hàng đầu Việt Nam. Tạo kỷ niệm đẹp cùng bạn bè với hơn 500+ câu hỏi thú vị.",
+    "quickLinks": "Liên Kết Nhanh",
+    "playGame": "Chơi Game",
+    "howToPlay": "Hướng Dẫn Chơi",
+    "connect": "Kết Nối",
+    "copyright": "© {{year}} Thật Hay Thách Online. Tất cả quyền được bảo lưu.",
+    "version": "Phiên bản 1.0.0"
+  },
+  "modals": {
+    "gameComplete": {
+      "title": "🎉 Hoàn thành game!",
+      "description": "Bạn đã chơi hết tất cả câu hỏi. Hãy đánh giá trải nghiệm của bạn!",
+      "ratingTitle": "Đánh giá Thật Hay Thách",
+      "ratingDescription": "Bạn cảm thấy trò chơi thế nào?"
+    },
+    "rating": {
+      "title": "Đánh giá trò chơi",
+      "description": "Chia sẻ cảm nhận của bạn về trò chơi"
+    },
+    "viewQuestions": {
+      "title": "Xem trước",
+      "questionsCount": "{{count}} câu hỏi",
+      "selectCategory": "Chọn category này",
+      "close": "Đóng"
+    }
+  },
+  "stats": {
+    "used": "Đã dùng",
+    "total": "Tổng cộng",
+    "remaining": "Còn lại",
+    "truth": "Thật",
+    "dare": "Thách"
+  },
+  "messages": {
+    "loading": "Đang tải...",
+    "error": "Đã xảy ra lỗi",
+    "success": "Thành công",
+    "noData": "Không có dữ liệu",
+    "selectCategory": "Chọn danh mục",
+    "selectType": "Chọn loại câu hỏi",
+    "changeMode": "Bạn có thể thay đổi chế độ chơi bất kỳ lúc nào"
+  },
+  "game": {
+    "selectQuestionType": "Chọn loại câu hỏi",
+    "selectTruthOrDare": "Chọn Thật hoặc Thách để nhận câu hỏi ngẫu nhiên",
+    "selectNextType": "Chọn loại câu hỏi tiếp theo",
+    "completeTitle": "🎉 Hoàn thành game!",
+    "completeDescription": "Bạn đã chơi hết tất cả câu hỏi. Hãy đánh giá trải nghiệm của bạn!",
+    "outOfQuestions": "Hết",
+    "spinning": "QUAY...",
+    "spin": "QUAY",
+    "continueSpin": "Quay tiếp",
+    "processingPayment": "Đang tạo đơn thanh toán...",
+    "payToContinue": "Thanh toán để tiếp tục"
+  },
+  "comments": {
+    "reply": "Trả lời",
+    "cancel": "Hủy",
+    "writeComment": "Viết bình luận của bạn...",
+    "yourName": "Tên của bạn (tùy chọn)",
+    "submit": "Gửi"
+  },
+  "feedback": {
+    "types": {
+      "bug": "Báo lỗi",
+      "feature": "Tính năng",
+      "general": "Góp ý chung",
+      "rating": "Đánh giá"
+    },
+    "priorities": {
+      "low": "Thấp",
+      "medium": "Trung bình",
+      "high": "Cao",
+      "critical": "Nghiêm trọng"
+    }
+  },
+  "rating": {
+    "title": "Đánh giá {{rating}} sao"
+  },
+  "language": {
+    "vi": "Tiếng Việt",
+    "en": "English",
+    "select": "Chọn ngôn ngữ"
+  }
+}
+

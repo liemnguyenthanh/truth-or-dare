@@ -1,25 +1,29 @@
 import { useCallback, useState } from 'react';
 
-import { EighteenQuestions } from '@/data/questions/18';
-import { PartyQuestions } from '@/data/questions/party';
+import { getQuickQuestions } from '@/lib/questions';
+
+import type { Locale } from '@/i18n/config';
 
 import { Question, QuestionType } from '@/types';
 
-export function useQuestionLogic(selectedCategory: string | null) {
+export function useQuestionLogic(
+  selectedCategory: string | null,
+  locale: Locale = 'vi'
+) {
   const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
   const [usedQuestions, setUsedQuestions] = useState<Set<string>>(new Set());
-  const [usedTruthQuestions, setUsedTruthQuestions] = useState<Set<string>>(new Set());
-  const [usedDareQuestions, setUsedDareQuestions] = useState<Set<string>>(new Set());
+  const [usedTruthQuestions, setUsedTruthQuestions] = useState<Set<string>>(
+    new Set()
+  );
+  const [usedDareQuestions, setUsedDareQuestions] = useState<Set<string>>(
+    new Set()
+  );
 
   const getQuestionsForCategory = (category: string) => {
-    switch (category) {
-      case '18':
-        return EighteenQuestions;
-      case 'party':
-        return PartyQuestions;
-      default:
-        return [];
+    if (category === '18' || category === 'party') {
+      return getQuickQuestions(category as '18' | 'party', locale);
     }
+    return [];
   };
 
   const getRandomQuestion = useCallback(
@@ -27,11 +31,12 @@ export function useQuestionLogic(selectedCategory: string | null) {
       if (!selectedCategory) return null;
 
       const allQuestions = getQuestionsForCategory(selectedCategory);
-      
+
       // Sử dụng Set riêng cho từng loại
       const usedSet = type === 'truth' ? usedTruthQuestions : usedDareQuestions;
-      const setUsedFunction = type === 'truth' ? setUsedTruthQuestions : setUsedDareQuestions;
-      
+      const setUsedFunction =
+        type === 'truth' ? setUsedTruthQuestions : setUsedDareQuestions;
+
       const availableQuestions = allQuestions.filter(
         (q) => q.type === type && !usedSet.has(q.id || '')
       );
@@ -59,7 +64,7 @@ export function useQuestionLogic(selectedCategory: string | null) {
   const drawNewQuestion = useCallback(
     (type: QuestionType, setIsDrawingCard: (value: boolean) => void) => {
       setIsDrawingCard(true);
-      
+
       // Animation delay để tạo hiệu ứng rút bài
       setTimeout(() => {
         const question = getRandomQuestion(type);
@@ -99,14 +104,20 @@ export function useQuestionLogic(selectedCategory: string | null) {
     const allQuestions = getQuestionsForCategory(selectedCategory);
     const totalTruth = allQuestions.filter((q) => q.type === 'truth').length;
     const totalDare = allQuestions.filter((q) => q.type === 'dare').length;
-    
+
     // Game hoàn thành khi đã chơi HẾT cả Truth VÀ Dare
-    return usedTruthQuestions.size >= totalTruth && usedDareQuestions.size >= totalDare;
+    return (
+      usedTruthQuestions.size >= totalTruth &&
+      usedDareQuestions.size >= totalDare
+    );
   }, [selectedCategory, usedTruthQuestions.size, usedDareQuestions.size]);
 
   return {
     currentQuestion,
-    usedQuestions: new Set([...Array.from(usedTruthQuestions), ...Array.from(usedDareQuestions)]),
+    usedQuestions: new Set([
+      ...Array.from(usedTruthQuestions),
+      ...Array.from(usedDareQuestions),
+    ]),
     drawNewQuestion,
     getTotalQuestions,
     hasAvailableTruth,

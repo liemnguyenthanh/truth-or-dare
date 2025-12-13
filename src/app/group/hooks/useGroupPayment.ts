@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
-import { useRouter } from 'next/navigation';
 
+import { useLocalizedRouter } from '@/hooks/useLocalizedRouter';
 import { usePayment } from '@/hooks/usePayment';
 
 interface UseGroupPaymentOptions {
@@ -31,7 +31,7 @@ export function useGroupPayment({
   questionsPlayed,
   onPaymentSuccess,
 }: UseGroupPaymentOptions): UseGroupPaymentReturn {
-  const router = useRouter();
+  const router = useLocalizedRouter();
   const [isCodeInputOpen, setIsCodeInputOpen] = useState(false);
   const [isSavedCodesOpen, setIsSavedCodesOpen] = useState(false);
   const [isGameUnlocked, setIsGameUnlocked] = useState(false);
@@ -75,4 +75,3 @@ export function useGroupPayment({
     setIsSavedCodesOpen,
   };
 }
-

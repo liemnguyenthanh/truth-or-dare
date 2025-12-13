@@ -1,6 +1,9 @@
 'use client';
 
 import { motion } from 'framer-motion';
+
+import { useTranslation } from '@/hooks/useTranslation';
+
 import { GameModeOption } from '@/types';
 
 interface GameModeCardProps {
@@ -16,6 +19,8 @@ export function GameModeCard({
   onClick,
   shouldSpanFull = false,
 }: GameModeCardProps) {
+  const { t } = useTranslation({ namespaces: ['common'] });
+
   return (
     <div
       key={option.id}
@@ -42,7 +47,7 @@ export function GameModeCard({
               ease: 'easeInOut',
             }}
           >
-            MỚI ✨
+            {t('badges.new')}
           </motion.span>
         </motion.div>
       )}
@@ -70,7 +75,7 @@ export function GameModeCard({
             className='inline-flex items-center gap-1'
           >
             <span>📝</span>
-            <span>CÂU HỎI MỚI</span>
+            <span>{t('badges.newQuestions')}</span>
             <span>✨</span>
           </motion.span>
         </motion.div>
@@ -107,9 +112,7 @@ export function GameModeCard({
         }
       >
         <div className='text-center flex-1 flex flex-col justify-center'>
-          <div className='text-5xl sm:text-6xl mb-3 sm:mb-4'>
-            {option.icon}
-          </div>
+          <div className='text-5xl sm:text-6xl mb-3 sm:mb-4'>{option.icon}</div>
           <h3 className='text-xl sm:text-2xl font-bold text-purple-800 dark:text-purple-300 mb-2 sm:mb-3'>
             {option.name}
           </h3>
@@ -121,4 +124,3 @@ export function GameModeCard({
     </div>
   );
 }
-

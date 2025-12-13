@@ -1,0 +1,19 @@
+{
+  "drink": {
+    "name": "Drink",
+    "description": "Draw a card and complete the challenge. If you can't do it, drink!"
+  },
+  "quick": {
+    "name": "Quick Mode",
+    "description": "Play immediately without entering names. Choose a category and start!"
+  },
+  "group": {
+    "name": "Group Mode",
+    "description": "Add player names and play in turns"
+  },
+  "spinWheel": {
+    "name": "Spin Wheel",
+    "description": "Spin the wheel to get random questions"
+  }
+}
+

@@ -10,8 +10,6 @@ import {
   AddToHomeScreenBanner,
   gameSchema,
   JsonLd,
-  Monetag,
-  MonetagOnClick,
   Navigation,
   organizationSchema,
   websiteSchema,
@@ -47,8 +45,8 @@ export default function RootLayout({
         </ThemeProvider>
         <GoogleTagManager gtmId='GTM-5FP2P39P' />
         {gaId && <GoogleAnalytics gaId={gaId} />}
-        <Monetag />
-        <MonetagOnClick />
+        {/* <Monetag />
+        <MonetagOnClick /> */}
       </body>
       {/* Google tag (gtag.js) - Using next/script instead */}
     </html>

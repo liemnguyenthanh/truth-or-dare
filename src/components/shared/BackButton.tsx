@@ -1,25 +1,30 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { useRouter } from 'next/navigation';
+
+import { useLocalizedRouter } from '@/hooks/useLocalizedRouter';
+import { useTranslation } from '@/hooks/useTranslation';
 
 interface BackButtonProps {
   /** Route để quay lại, mặc định là '/' */
   href?: string;
-  /** Text hiển thị, mặc định là 'Quay lại' */
+  /** Text hiển thị, mặc định sẽ dùng translation */
   label?: string;
   /** Custom className */
   className?: string;
 }
 
-export function BackButton({ 
-  href = '/', 
-  label = 'Quay lại',
-  className = ''
+export function BackButton({
+  href = '/',
+  label,
+  className = '',
 }: BackButtonProps) {
-  const router = useRouter();
+  const router = useLocalizedRouter();
+  const { t } = useTranslation({ namespaces: ['common'] });
+  const displayLabel = label || t('buttons.back');
 
   const handleBack = () => {
+    // Use localized router to preserve locale in the URL
     router.push(href);
   };
 
@@ -43,8 +48,7 @@ export function BackButton({
           d='M15 19l-7-7 7-7'
         />
       </svg>
-      <span className='font-medium'>{label}</span>
+      <span className='font-medium'>{displayLabel}</span>
     </motion.button>
   );
 }
-

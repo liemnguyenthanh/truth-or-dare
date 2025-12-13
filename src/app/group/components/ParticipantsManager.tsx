@@ -1,7 +1,9 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
+
+import { useTranslation } from '@/hooks/useTranslation';
 
 const STORAGE_KEY = 'truth-or-dare-participants';
 
@@ -19,6 +21,7 @@ export function ParticipantsManager({
   onParticipantsChange,
   minParticipants = 2,
 }: ParticipantsManagerProps) {
+  const { t } = useTranslation({ namespaces: ['pages'] });
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [newParticipant, setNewParticipant] = useState('');
   const [editingId, setEditingId] = useState<string | null>(null);
@@ -91,7 +94,7 @@ export function ParticipantsManager({
       {/* Add Participant */}
       <div className='mb-6'>
         <label className='block text-sm font-medium text-gray-800 dark:text-gray-200 mb-3'>
-          Thêm người chơi
+          {t('group.addParticipants')}
         </label>
         <div className='flex gap-3'>
           <input
@@ -99,7 +102,7 @@ export function ParticipantsManager({
             value={newParticipant}
             onChange={(e) => setNewParticipant(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && addParticipant()}
-            placeholder='Nhập tên người chơi...'
+            placeholder={t('group.participants.placeholder')}
             className='flex-1 px-4 py-3 border-2 border-gray-200 dark:border-gray-700 rounded-xl focus:ring-2 focus:ring-purple-500 focus:border-purple-500 dark:bg-gray-700 dark:text-white dark:focus:border-purple-400 transition-all duration-200 shadow-sm'
           />
           <motion.button
@@ -109,7 +112,7 @@ export function ParticipantsManager({
             whileTap={{ scale: 0.98 }}
             className='px-6 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 disabled:from-gray-400 disabled:to-gray-400 disabled:cursor-not-allowed text-white rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl font-medium'
           >
-            Thêm
+            {t('group.participants.add')}
           </motion.button>
         </div>
       </div>
@@ -117,7 +120,8 @@ export function ParticipantsManager({
       {/* Participants List */}
       <div>
         <h3 className='text-lg font-semibold text-gray-900 dark:text-white mb-4'>
-          Người chơi ({participants.length}/{minParticipants}+)
+          {t('group.participants.title')} ({participants.length}/
+          {minParticipants}+)
         </h3>
         {participants.length === 0 ? (
           <motion.div
@@ -126,9 +130,9 @@ export function ParticipantsManager({
             className='text-center py-12 text-gray-500 dark:text-gray-400 bg-gray-50 dark:bg-gray-800/50 rounded-xl border-2 border-dashed border-gray-200 dark:border-gray-700'
           >
             <div className='text-5xl mb-3'>👤</div>
-            <p className='font-medium'>Chưa có người chơi nào</p>
+            <p className='font-medium'>{t('group.participants.empty')}</p>
             <p className='text-sm mt-2'>
-              Cần ít nhất {minParticipants} người chơi để bắt đầu
+              {t('group.participants.minRequired', { min: minParticipants })}
             </p>
           </motion.div>
         ) : (
@@ -173,7 +177,7 @@ export function ParticipantsManager({
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                       className='text-purple-600 hover:text-purple-700 dark:text-purple-400 dark:hover:text-purple-300 transition-colors p-2 rounded-lg hover:bg-purple-50 dark:hover:bg-purple-900/20'
-                      title='Sửa'
+                      title={t('group.participants.edit')}
                     >
                       {editingId === participant.id ? '✓' : '✎'}
                     </motion.button>
@@ -182,7 +186,7 @@ export function ParticipantsManager({
                       whileHover={{ scale: 1.1 }}
                       whileTap={{ scale: 0.9 }}
                       className='text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300 transition-colors p-2 rounded-lg hover:bg-red-50 dark:hover:bg-red-900/20'
-                      title='Xóa'
+                      title={t('group.participants.delete')}
                     >
                       ✕
                     </motion.button>
@@ -203,11 +207,12 @@ export function ParticipantsManager({
         >
           <p className='text-sm font-medium text-yellow-800 dark:text-yellow-200 flex items-center gap-2'>
             <span className='text-lg'>⚠️</span>
-            Cần ít nhất {minParticipants} người chơi để bắt đầu
+            {t('group.participants.minRequiredWarning', {
+              min: minParticipants,
+            })}
           </p>
         </motion.div>
       )}
     </div>
   );
 }
-

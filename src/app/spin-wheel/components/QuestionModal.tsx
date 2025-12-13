@@ -4,9 +4,12 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { X } from 'lucide-react';
 import { useEffect } from 'react';
 
-import { Question, QuestionType } from '@/types';
-import { Heading, Text } from '@/components/shared/Typography';
+import { useTranslation } from '@/hooks/useTranslation';
+
 import { PrimaryButton } from '@/components/shared';
+import { Heading, Text } from '@/components/shared/Typography';
+
+import { Question, QuestionType } from '@/types';
 
 interface QuestionModalProps {
   isOpen: boolean;
@@ -41,10 +44,12 @@ export function QuestionModal({
     };
   }, [isOpen]);
 
+  const { t } = useTranslation({ namespaces: ['common'] });
+
   if (!question || !spinResult) return null;
 
   const icon = spinResult === 'truth' ? '💭' : '💖';
-  const typeLabel = spinResult === 'truth' ? 'Thật' : 'Thách';
+  const typeLabel = spinResult === 'truth' ? t('stats.truth') : t('stats.dare');
   const typeColor =
     spinResult === 'truth'
       ? 'text-blue-600 dark:text-blue-400'
@@ -80,10 +85,7 @@ export function QuestionModal({
               <div className='sticky top-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4 flex items-center justify-between rounded-t-2xl'>
                 <div className='flex items-center gap-3'>
                   <div className='text-3xl'>{icon}</div>
-                  <Heading
-                    level={3}
-                    className={`${typeColor} !mb-0`}
-                  >
+                  <Heading level={3} className={`${typeColor} !mb-0`}>
                     {typeLabel}
                   </Heading>
                 </div>
@@ -117,10 +119,10 @@ export function QuestionModal({
                       {isProcessing ? (
                         <span className='flex items-center justify-center gap-2'>
                           <div className='w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin' />
-                          Đang tạo đơn thanh toán...
+                          {t('game.processingPayment')}
                         </span>
                       ) : (
-                        'Thanh toán để tiếp tục'
+                        t('game.payToContinue')
                       )}
                     </PrimaryButton>
                   ) : (
@@ -130,7 +132,7 @@ export function QuestionModal({
                       size='md'
                       className='w-full'
                     >
-                      Quay tiếp
+                      {t('game.continueSpin')}
                     </PrimaryButton>
                   )}
                 </div>
@@ -142,4 +144,3 @@ export function QuestionModal({
     </AnimatePresence>
   );
 }
-

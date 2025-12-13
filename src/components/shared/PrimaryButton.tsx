@@ -3,6 +3,8 @@
 import { motion } from 'framer-motion';
 import { ReactNode } from 'react';
 
+import { useTranslation } from '@/hooks/useTranslation';
+
 interface PrimaryButtonProps {
   children: ReactNode;
   onClick?: () => void;
@@ -32,6 +34,7 @@ export function PrimaryButton({
   className = '',
   type = 'button',
 }: PrimaryButtonProps) {
+  const { t } = useTranslation({ namespaces: ['common'] });
   const isDisabled = disabled || isLoading;
 
   return (
@@ -58,7 +61,7 @@ export function PrimaryButton({
       {isLoading ? (
         <>
           <div className='w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin' />
-          <span>{loadingText || 'Đang xử lý...'}</span>
+          <span>{loadingText || t('buttons.processing')}</span>
         </>
       ) : (
         children
@@ -66,4 +69,3 @@ export function PrimaryButton({
     </motion.button>
   );
 }
-

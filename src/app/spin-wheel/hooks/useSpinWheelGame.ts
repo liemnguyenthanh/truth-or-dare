@@ -1,7 +1,8 @@
 import { useCallback, useMemo, useState } from 'react';
 
-import { EighteenQuestions } from '@/data/questions/18';
-import { PartyQuestions } from '@/data/questions/party';
+import { getQuickQuestions } from '@/lib/questions';
+
+import type { Locale } from '@/i18n/config';
 
 import { Question, QuestionType } from '@/types';
 
@@ -22,7 +23,8 @@ interface UseSpinWheelGameReturn {
 }
 
 export function useSpinWheelGame(
-  selectedCategory: string | null
+  selectedCategory: string | null,
+  locale: Locale = 'vi'
 ): UseSpinWheelGameReturn {
   const [currentQuestion, setCurrentQuestion] = useState<Question | null>(null);
   const [usedQuestions, setUsedQuestions] = useState<Set<string>>(new Set());
@@ -32,15 +34,11 @@ export function useSpinWheelGame(
   const allQuestions = useMemo(() => {
     if (!selectedCategory) return [];
 
-    switch (selectedCategory) {
-      case '18':
-        return EighteenQuestions;
-      case 'party':
-        return PartyQuestions;
-      default:
-        return [];
+    if (selectedCategory === '18' || selectedCategory === 'party') {
+      return getQuickQuestions(selectedCategory as '18' | 'party', locale);
     }
-  }, [selectedCategory]);
+    return [];
+  }, [selectedCategory, locale]);
 
   // Get total questions count
   const totalQuestions = useMemo(() => allQuestions.length, [allQuestions]);

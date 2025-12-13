@@ -1,0 +1,45 @@
+{
+  "metadata": {
+    "title": {
+      "default": "Thật Hay Thách Online - Trò Chơi Vui Nhộn Cùng Bạn Bè | Truth or Dare",
+      "template": "%s | Thật Hay Thách Online"
+    },
+    "description": "Chơi trò chơi Thật Hay Thách online miễn phí! Hơn 500+ câu hỏi thú vị và thử thách táo bạo. Trò chơi nhóm hoàn hảo cho tiệc tùng, sinh nhật, và các buổi gặp mặt bạn bè.",
+    "keywords": [
+      "thật hay thách",
+      "thật hay thách online",
+      "trò chơi thật hay thách",
+      "truth or dare",
+      "truth or dare tiếng việt",
+      "trò chơi vui",
+      "trò chơi nhóm",
+      "trò chơi bạn bè",
+      "trò chơi tiệc tùng",
+      "party game",
+      "game vui nhộn",
+      "trò chơi sinh nhật",
+      "câu hỏi thật hay thách",
+      "thử thách vui",
+      "trò chơi tương tác",
+      "game online miễn phí",
+      "trò chơi giải trí",
+      "hoạt động nhóm",
+      "ice breaker game",
+      "trò chơi làm quen"
+    ],
+    "openGraph": {
+      "title": "Thật Hay Thách Online - Trò Chơi Vui Nhộn Cùng Bạn Bè",
+      "description": "Chơi trò chơi Thật Hay Thách online miễn phí! Hơn 500+ câu hỏi thú vị và thử thách táo bạo. Trò chơi nhóm hoàn hảo cho tiệc tùng và gặp mặt bạn bè.",
+      "siteName": "Thật Hay Thách Online",
+      "alt": "Thật Hay Thách - Trò chơi vui nhộn cùng bạn bè"
+    },
+    "twitter": {
+      "title": "Thật Hay Thách Online - Trò Chơi Vui Nhộn Cùng Bạn Bè",
+      "description": "Chơi trò chơi Thật Hay Thách online miễn phí! Hơn 500+ câu hỏi thú vị và thử thách táo bạo."
+    },
+    "appleWebApp": {
+      "title": "Thật Hay Thách"
+    }
+  }
+}
+

@@ -1,5 +1,7 @@
 'use client';
 
+import { useTranslation } from '@/hooks/useTranslation';
+
 import { PrimaryButton } from './PrimaryButton';
 
 interface ContinueButtonProps {
@@ -13,12 +15,13 @@ export function ContinueButton({
   disabled = false,
   className = '',
 }: ContinueButtonProps) {
+  const { t } = useTranslation({ namespaces: ['common'] });
+
   return (
     <div className={`${className || 'mt-8'} text-center`}>
       <PrimaryButton onClick={onClick} disabled={disabled} size='lg'>
-        Quay tiếp
+        {t('buttons.continueNext')}
       </PrimaryButton>
     </div>
   );
 }
-

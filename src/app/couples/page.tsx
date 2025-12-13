@@ -1,10 +1,11 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
+import { useLocalizedRouter } from '@/hooks/useLocalizedRouter';
+
 export default function CouplesRedirectPage() {
-  const router = useRouter();
+  const router = useLocalizedRouter();
 
   useEffect(() => {
     router.replace('/');

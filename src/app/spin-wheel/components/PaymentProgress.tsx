@@ -2,6 +2,8 @@
 
 import { motion } from 'framer-motion';
 
+import { useTranslation } from '@/hooks/useTranslation';
+
 interface PaymentProgressProps {
   cardsDrawn: number;
   maxCards: number;
@@ -13,6 +15,7 @@ export function PaymentProgress({
   maxCards,
   onCodeInputClick,
 }: PaymentProgressProps) {
+  const { t } = useTranslation({ namespaces: ['pages'] });
   const progressPercentage = (cardsDrawn / maxCards) * 100;
 
   const remaining = maxCards - cardsDrawn;
@@ -21,7 +24,12 @@ export function PaymentProgress({
     <div className='w-full max-w-md mx-auto'>
       <div className='bg-black/60 backdrop-blur-sm rounded-full px-4 py-2'>
         <div className='flex items-center justify-between text-white text-sm'>
-          <span>Đã rút: {cardsDrawn}/{maxCards}</span>
+          <span>
+            {t('spinWheel.paymentProgress.drawn', {
+              drawn: cardsDrawn,
+              total: maxCards,
+            })}
+          </span>
           <div className='flex-1 mx-3'>
             <div className='w-full bg-white/20 rounded-full h-2'>
               <motion.div
@@ -39,16 +47,18 @@ export function PaymentProgress({
                 onClick={onCodeInputClick}
                 className='text-xs text-blue-400 hover:text-blue-300 underline'
               >
-                Có mã code?
+                {t('spinWheel.paymentProgress.hasCode')}
               </button>
             ) : (
               <>
-                <span className='text-xs'>Còn {remaining}</span>
+                <span className='text-xs'>
+                  {t('spinWheel.paymentProgress.remaining', { remaining })}
+                </span>
                 <button
                   onClick={onCodeInputClick}
                   className='text-xs text-blue-400 hover:text-blue-300 underline'
                 >
-                  Có mã code?
+                  {t('spinWheel.paymentProgress.hasCode')}
                 </button>
               </>
             )}
@@ -58,4 +68,3 @@ export function PaymentProgress({
     </div>
   );
 }
-

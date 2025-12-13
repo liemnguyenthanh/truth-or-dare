@@ -2,8 +2,11 @@
 
 import { motion } from 'framer-motion';
 
-import { Question, QuestionType } from '@/types';
+import { useTranslation } from '@/hooks/useTranslation';
+
 import { Heading, Text } from '@/components/shared/Typography';
+
+import { Question, QuestionType } from '@/types';
 
 interface QuestionCardProps {
   selectedType: QuestionType | null;
@@ -16,6 +19,8 @@ export function QuestionCard({
   currentQuestion,
   isDrawingCard,
 }: QuestionCardProps) {
+  const { t } = useTranslation({ namespaces: ['common'] });
+
   if (!selectedType) return null;
 
   const cardColor =
@@ -24,13 +29,13 @@ export function QuestionCard({
       : 'from-pink-400 to-pink-600';
 
   const icon = selectedType === 'truth' ? '💭' : '💖';
-  const typeLabel = selectedType === 'truth' ? 'Thật' : 'Thách';
+  const typeLabel =
+    selectedType === 'truth' ? t('stats.truth') : t('stats.dare');
 
   return (
     <motion.div
-      key={currentQuestion?.text}
       initial={{ opacity: 0, x: 100 }}
-      animate={{ opacity: isDrawingCard ? 0 : 1, x: isDrawingCard ? -100 : 0 }}
+      animate={{ opacity: 1, x: 0 }}
       exit={{ opacity: 0, x: -100 }}
       transition={{ duration: 0.4, ease: 'easeInOut' }}
       className='w-full max-w-lg'
@@ -46,7 +51,10 @@ export function QuestionCard({
           className='mb-3 sm:mb-4 md:mb-6 flex items-center justify-center gap-2'
         >
           <div className='text-3xl sm:text-4xl md:text-5xl'>{icon}</div>
-          <Heading level={3} className='text-xl sm:text-2xl md:text-3xl tracking-wider text-white drop-shadow-lg'>
+          <Heading
+            level={3}
+            className='text-xl sm:text-2xl md:text-3xl tracking-wider text-white drop-shadow-lg'
+          >
             {typeLabel}
           </Heading>
         </motion.div>
@@ -58,7 +66,10 @@ export function QuestionCard({
           transition={{ delay: 0.2, duration: 0.3 }}
           className='text-white text-center px-2 sm:px-4'
         >
-          <Text variant='large' className='text-base sm:text-lg md:text-2xl font-bold leading-relaxed text-white'>
+          <Text
+            variant='large'
+            className='text-base sm:text-lg md:text-2xl font-bold leading-relaxed text-white'
+          >
             {currentQuestion?.text}
           </Text>
         </motion.div>

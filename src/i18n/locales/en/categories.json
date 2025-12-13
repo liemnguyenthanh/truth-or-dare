@@ -1,0 +1,31 @@
+{
+  "drink": {
+    "18+": {
+      "name": "18+",
+      "description": "Questions for people over 18 years old"
+    },
+    "18+_tao_bao": {
+      "name": "Bold",
+      "description": "Bolder and more intense questions"
+    },
+    "tinh_ban": {
+      "name": "Friendship",
+      "description": "Fun questions to bond with friends"
+    },
+    "cong_so": {
+      "name": "Office",
+      "description": "Fun office drinking questions"
+    }
+  },
+  "quick": {
+    "18": {
+      "name": "18+",
+      "description": "Questions for people over 18 years old"
+    },
+    "party": {
+      "name": "Party",
+      "description": "Fun questions for parties"
+    }
+  }
+}
+

@@ -18,13 +18,22 @@ interface UseDrinkGameReturn {
   resetGame: () => void;
 }
 
+interface UseDrinkGameProps {
+  categoryId: DrinkCategoryId | null;
+  isPaymentRequired: boolean;
+  isGameUnlocked: boolean;
+  onGameComplete: () => void;
+  questions?: DrinkQuestion[]; // Optional: pass translated questions
+}
+
 const FLIP_ANIMATION_DELAY = 300;
 
 export function useDrinkGame(
   categoryId: DrinkCategoryId | null,
   isPaymentRequired: boolean,
   isGameUnlocked: boolean,
-  onGameComplete: () => void
+  onGameComplete: () => void,
+  questions?: DrinkQuestion[] // Optional translated questions
 ): UseDrinkGameReturn {
   const [currentQuestion, setCurrentQuestion] = useState<DrinkQuestion | null>(
     null
@@ -34,11 +43,19 @@ export function useDrinkGame(
   const [isGameComplete, setIsGameComplete] = useState(false);
   const hasAutoDrawnRef = useRef(false);
 
-  // Lấy bộ câu hỏi theo category trực tiếp từ mapping
+  // Lấy bộ câu hỏi theo category
+  // Nếu có questions prop (translated), dùng nó; nếu không, dùng fallback
   const categoryQuestions = useMemo(() => {
     if (!categoryId) return [];
+
+    // Nếu có questions prop (đã được translate), filter theo category
+    if (questions && questions.length > 0) {
+      return questions.filter((q) => q.category === categoryId);
+    }
+
+    // Fallback: dùng data tiếng Việt cố định
     return DRINK_QUESTIONS_BY_CATEGORY[categoryId] || [];
-  }, [categoryId]);
+  }, [categoryId, questions]);
 
   // Lấy câu hỏi ngẫu nhiên
   const getRandomQuestion = useCallback((): {

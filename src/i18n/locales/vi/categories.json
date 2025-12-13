@@ -1,0 +1,31 @@
+{
+  "drink": {
+    "18+": {
+      "name": "18+",
+      "description": "Những câu hỏi dành cho người trên 18 tuổi"
+    },
+    "18+_tao_bao": {
+      "name": "Táo Bạo",
+      "description": "Những câu hỏi táo bạo và mạnh mẽ hơn"
+    },
+    "tinh_ban": {
+      "name": "Tình Bạn",
+      "description": "Câu hỏi gắn kết bạn bè, vui vẻ"
+    },
+    "cong_so": {
+      "name": "Công Sở",
+      "description": "Câu hỏi nhậu công sở vui vẻ"
+    }
+  },
+  "quick": {
+    "18": {
+      "name": "18+",
+      "description": "Câu hỏi dành cho người trên 18 tuổi"
+    },
+    "party": {
+      "name": "Party",
+      "description": "Câu hỏi vui nhộn cho bữa tiệc"
+    }
+  }
+}
+

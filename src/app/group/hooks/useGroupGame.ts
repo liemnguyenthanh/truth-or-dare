@@ -1,8 +1,11 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+
+import { getQuickCategories } from '@/lib/questions';
 
 import { useGameState } from '@/app/quick/hooks/useGameState';
 import { useGameStats } from '@/app/quick/hooks/useGameStats';
 import { useQuestionLogic } from '@/app/quick/hooks/useQuestionLogic';
+import type { Locale } from '@/i18n/config';
 
 import { QuestionType } from '@/types';
 
@@ -11,10 +14,13 @@ interface Participant {
   name: string;
 }
 
-export function useGroupGame(participants: Participant[]) {
+export function useGroupGame(
+  participants: Participant[],
+  locale: Locale = 'vi'
+) {
   const gameState = useGameState();
   const gameStats = useGameStats();
-  const questionLogic = useQuestionLogic(gameState.selectedCategory);
+  const questionLogic = useQuestionLogic(gameState.selectedCategory, locale);
 
   const [currentParticipantIndex, setCurrentParticipantIndex] = useState(0);
   const [isFirstQuestion, setIsFirstQuestion] = useState(true);
@@ -32,12 +38,12 @@ export function useGroupGame(participants: Participant[]) {
         // Chuyển sang người tiếp theo
         setCurrentParticipantIndex((prev) => (prev + 1) % participants.length);
       }
-      
+
       // Rút câu hỏi mới
       questionLogic.drawNewQuestion(type, gameState.setIsDrawingCard);
       gameState.setSelectedType(type);
       gameStats.incrementCount(type);
-      
+
       // Mark đã không còn là lần đầu nữa
       setIsFirstQuestion(false);
     },
@@ -53,22 +59,15 @@ export function useGroupGame(participants: Participant[]) {
     gameState.setSelectedType(null);
   }, [gameState]);
 
-  const categories = [
-    {
-      id: '18',
-      name: '18+',
-      description: 'Câu hỏi dành cho người lớn',
-      icon: '💜',
-      color: '#9b59b6',
-    },
-    {
-      id: 'party',
-      name: 'Party',
-      description: 'Câu hỏi vui nhộn cho bữa tiệc',
-      icon: '🎉',
-      color: '#3498db',
-    },
-  ];
+  const categories = useMemo(() => {
+    const translatedCategories = getQuickCategories(locale);
+    // Add icon and color to translated categories
+    return translatedCategories.map((cat) => ({
+      ...cat,
+      icon: cat.id === '18' ? '💜' : '🎉',
+      color: cat.id === '18' ? '#9b59b6' : '#3498db',
+    }));
+  }, [locale]);
 
   return {
     // Game State
@@ -98,4 +97,3 @@ export function useGroupGame(participants: Participant[]) {
     participants,
   };
 }
-

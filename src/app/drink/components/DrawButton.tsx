@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 
 import { formatPaymentAmount, PAYMENT_CONFIG } from '@/lib/config/payment';
+import { useTranslation } from '@/hooks/useTranslation';
 
 interface DrawButtonProps {
   isFlipping: boolean;
@@ -25,8 +26,11 @@ export function DrawButton({
   onCreateOrder,
   onDrawCard,
 }: DrawButtonProps) {
-  const isPaymentBlocked = isPaymentRequired && !isGameUnlocked && cardsDrawn >= 5;
-  const isDisabled = isFlipping || isGameComplete || (isPaymentBlocked && isProcessing);
+  const { t } = useTranslation({ namespaces: ['pages'] });
+  const isPaymentBlocked =
+    isPaymentRequired && !isGameUnlocked && cardsDrawn >= 5;
+  const isDisabled =
+    isFlipping || isGameComplete || (isPaymentBlocked && isProcessing);
 
   const handleClick = () => {
     if (isPaymentBlocked) {
@@ -41,13 +45,13 @@ export function DrawButton({
       return (
         <div className='flex items-center gap-2'>
           <div className='animate-spin rounded-full h-5 w-5 border-b-2 border-white'></div>
-          Đang rút bài...
+          {t('drink.drawingCard')}
         </div>
       );
     }
 
     if (isGameComplete) {
-      return '🎉 Đã hoàn thành!';
+      return t('drink.gameCompleteTitle');
     }
 
     if (isPaymentBlocked) {
@@ -55,14 +59,16 @@ export function DrawButton({
         return (
           <div className='flex items-center gap-2'>
             <div className='animate-spin rounded-full h-5 w-5 border-b-2 border-white'></div>
-            Đang tạo đơn hàng...
+            {t('drink.creatingOrder')}
           </div>
         );
       }
-      return `Thanh toán ${formatPaymentAmount(PAYMENT_CONFIG.AMOUNT)} để tiếp tục`;
+      return t('drink.paymentRequired', {
+        amount: formatPaymentAmount(PAYMENT_CONFIG.AMOUNT),
+      });
     }
 
-    return '🎲 Rút bài mới';
+    return t('drink.drawNewCard');
   };
 
   return (
@@ -76,4 +82,3 @@ export function DrawButton({
     </motion.button>
   );
 }
-

@@ -1,0 +1,111 @@
+{
+  "home": {
+    "title": "Truth or Dare",
+    "subtitle": "Online Game",
+    "changeMode": "You can change game mode anytime",
+    "ratingButton": "Rate Game",
+    "ratingDescription": "Share your thoughts about the game"
+  },
+  "drink": {
+    "selectCategory": "Select Category",
+    "selectCategoryTitle": "🎯 Select Question Set",
+    "selectCategoryDescription": "Select a question set to start playing",
+    "drawCard": "Draw Card",
+    "drawNewCard": "🎲 Draw New Card",
+    "drawingCard": "Drawing card...",
+    "gameComplete": "Game Complete!",
+    "gameCompleteTitle": "🎉 Completed!",
+    "gameCompleteDescription": "You've played all the questions. Please rate your experience!",
+    "gameCompleteAll": "🎉 Completed all questions!",
+    "creatingOrder": "Creating order...",
+    "paymentRequired": "Pay {{amount}} to continue",
+    "stats": {
+      "used": "Used",
+      "total": "Total",
+      "drawn": "Drawn: {{used}}/{{total}} cards"
+    }
+  },
+  "quick": {
+    "title": "Quick Mode",
+    "description": "Select a category and start playing right away!",
+    "selectCategory": "Select Category",
+    "selectType": "Select Question Type",
+    "gameComplete": "Game Complete!",
+    "gameCompleteDescription": "You've played all the questions. Please rate your experience!",
+    "backToHome": "Back to Home"
+  },
+  "group": {
+    "title": "Group Mode",
+    "addParticipants": "Add Participants",
+    "addParticipantsDescription": "Add participants and select a category to start",
+    "selectCategory": "Select Category",
+    "backToHome": "Back to Home",
+    "startGame": "Start Game",
+    "startGameWithCount": "Start Game ({{count}} players)",
+    "selectQuestionType": "Select Question Type",
+    "gameComplete": "Game Complete!",
+    "gameCompleteDescription": "The whole group has played all the questions. Please rate your experience!",
+    "participants": {
+      "title": "Participants",
+      "add": "Add",
+      "edit": "Edit",
+      "delete": "Delete",
+      "placeholder": "Enter player name...",
+      "empty": "No participants yet",
+      "minRequired": "At least {{min}} participants required to start",
+      "minRequiredWarning": "At least {{min}} participants required to start"
+    }
+  },
+  "spinWheel": {
+    "title": "Spin Wheel",
+    "spin": "Spin",
+    "spinDescription": "Spin to select question type",
+    "selectCategoryDescription": "Select a category and start spinning",
+    "previewQuestions": "👁️ Preview",
+    "backToHome": "Back to Home",
+    "back": "Back",
+    "noQuestions": "No more \"{{type}}\" questions in this category. Please select another category or try again.",
+    "noQuestionsTitle": "No Questions",
+    "noQuestionsDescription": "This category has no questions yet. Please select another category.",
+    "selectAnotherCategory": "Select Another Category",
+    "congratulations": "🎉 Congratulations!",
+    "milestoneDescription": "You've played many questions! Please rate your experience!",
+    "categories": {
+      "18": {
+        "description": "Questions for adults"
+      },
+      "party": {
+        "description": "Fun questions for parties"
+      }
+    },
+    "paymentProgress": {
+      "drawn": "Drawn: {{drawn}}/{{total}}",
+      "remaining": "{{remaining}} left",
+      "hasCode": "Have a code?"
+    }
+  },
+  "couples": {
+    "title": "Couples Mode"
+  },
+  "feedback": {
+    "title": "Feedback & Discussion",
+    "subtitle": "Share your thoughts or join the community discussion",
+    "recent": "Recent Feedback",
+    "submit": "Submit Feedback",
+    "hideForm": "Hide Form",
+    "list": {
+      "title": "Feedback List",
+      "subtitle": "Total {{total}} feedbacks from the community",
+      "loading": "Loading feedback list...",
+      "error": "Unable to load feedback list",
+      "errorRetry": "An error occurred while loading feedback list",
+      "empty": "No feedback yet",
+      "emptyDescription": "Be the first to send us feedback!",
+      "search": "Search feedback...",
+      "allTypes": "All Types",
+      "retry": "Retry",
+      "previous": "Previous",
+      "next": "Next"
+    }
+  }
+}

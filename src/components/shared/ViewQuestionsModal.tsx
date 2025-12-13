@@ -3,6 +3,8 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { Eye, X } from 'lucide-react';
 
+import { useTranslation } from '@/hooks/useTranslation';
+
 interface Question {
   text: string;
   category?: string;
@@ -23,6 +25,7 @@ export function ViewQuestionsModal({
   questions,
   onSelectCategory,
 }: ViewQuestionsModalProps) {
+  const { t } = useTranslation({ namespaces: ['common'] });
   return (
     <AnimatePresence>
       {isOpen && (
@@ -56,17 +59,19 @@ export function ViewQuestionsModal({
                   </div>
                   <div>
                     <h2 className='text-xl font-bold text-gray-900 dark:text-white'>
-                      Xem trước: {categoryName}
+                      {t('modals.viewQuestions.title')}: {categoryName}
                     </h2>
                     <p className='text-sm text-gray-500 dark:text-gray-400 mt-1'>
-                      {questions.length} câu hỏi
+                      {t('modals.viewQuestions.questionsCount', {
+                        count: questions.length,
+                      })}
                     </p>
                   </div>
                 </div>
                 <button
                   onClick={onClose}
                   className='p-2 hover:bg-gray-100 dark:hover:bg-gray-800 rounded-full transition-colors'
-                  aria-label='Đóng'
+                  aria-label={t('buttons.close')}
                 >
                   <X className='w-5 h-5 text-gray-500 dark:text-gray-400' />
                 </button>
@@ -75,24 +80,31 @@ export function ViewQuestionsModal({
               {/* Content - Scrollable */}
               <div className='flex-1 overflow-y-auto p-6'>
                 <div className='space-y-3'>
-                  {questions.map((question, index) => (
-                    <motion.div
-                      key={index}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ delay: index * 0.02 }}
-                      className='bg-gray-50 dark:bg-gray-800/50 rounded-xl p-4 border border-gray-200 dark:border-gray-700 hover:border-purple-300 dark:hover:border-purple-600 transition-colors'
-                    >
-                      <div className='flex items-start gap-3'>
-                        <div className='flex-shrink-0 w-6 h-6 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white text-xs font-bold mt-0.5'>
-                          {index + 1}
+                  {questions.map((question, index) => {
+                    // Use stable key: id if available, otherwise use index with text
+                    const stableKey =
+                      (question as any).id ||
+                      `${index}-${question.text?.substring(0, 20)}` ||
+                      index;
+                    return (
+                      <motion.div
+                        key={stableKey}
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.02 }}
+                        className='bg-gray-50 dark:bg-gray-800/50 rounded-xl p-4 border border-gray-200 dark:border-gray-700 hover:border-purple-300 dark:hover:border-purple-600 transition-colors'
+                      >
+                        <div className='flex items-start gap-3'>
+                          <div className='flex-shrink-0 w-6 h-6 bg-gradient-to-br from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white text-xs font-bold mt-0.5'>
+                            {index + 1}
+                          </div>
+                          <p className='flex-1 text-gray-800 dark:text-gray-200 leading-relaxed'>
+                            {question.text}
+                          </p>
                         </div>
-                        <p className='flex-1 text-gray-800 dark:text-gray-200 leading-relaxed'>
-                          {question.text}
-                        </p>
-                      </div>
-                    </motion.div>
-                  ))}
+                      </motion.div>
+                    );
+                  })}
                 </div>
               </div>
 
@@ -107,14 +119,14 @@ export function ViewQuestionsModal({
                       }}
                       className='flex-1 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl active:scale-95'
                     >
-                      Chọn category này
+                      {t('modals.viewQuestions.selectCategory')}
                     </button>
                   )}
                   <button
                     onClick={onClose}
                     className='flex-1 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-gray-700 dark:text-gray-300 font-semibold py-3 px-4 rounded-xl transition-all duration-200 active:scale-95'
                   >
-                    Đóng
+                    {t('modals.viewQuestions.close')}
                   </button>
                 </div>
               </div>

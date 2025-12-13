@@ -1,0 +1,19 @@
+{
+  "drink": {
+    "name": "Drink",
+    "description": "Rút bài và thực hiện thử thách. Ai không làm được thì uống!"
+  },
+  "quick": {
+    "name": "Chế Độ Nhanh",
+    "description": "Chơi ngay không cần nhập tên. Chọn category và bắt đầu!"
+  },
+  "group": {
+    "name": "Chế Độ Nhóm",
+    "description": "Thêm tên người chơi và chơi theo lượt"
+  },
+  "spinWheel": {
+    "name": "Vòng Quay May Mắn",
+    "description": "Quay vòng may mắn để nhận câu hỏi ngẫu nhiên"
+  }
+}
+

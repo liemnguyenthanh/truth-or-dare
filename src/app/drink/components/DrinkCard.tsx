@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 
 import { DrinkQuestion } from '@/data/questions/drink';
+
 import { Text } from '@/components/shared/Typography';
 
 interface DrinkCardProps {
@@ -13,7 +14,11 @@ interface DrinkCardProps {
 export function DrinkCard({ question, isFlipping }: DrinkCardProps) {
   return (
     <motion.div
-      key={question?.text}
+      key={
+        question?.text
+          ? `${question.category}-${question.text.substring(0, 30)}`
+          : 'no-question'
+      }
       initial={{ rotateY: 180, scale: 0.8 }}
       animate={{
         rotateY: isFlipping ? 180 : 0,
@@ -31,7 +36,10 @@ export function DrinkCard({ question, isFlipping }: DrinkCardProps) {
         {question && !isFlipping ? (
           <>
             <div className='text-4xl mb-4'>🃏</div>
-            <Text variant='large' className='text-gray-800 dark:text-white leading-relaxed'>
+            <Text
+              variant='large'
+              className='text-gray-800 dark:text-white leading-relaxed'
+            >
               {question.text}
             </Text>
           </>
@@ -45,4 +53,3 @@ export function DrinkCard({ question, isFlipping }: DrinkCardProps) {
     </motion.div>
   );
 }
-

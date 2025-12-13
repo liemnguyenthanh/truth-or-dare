@@ -3,16 +3,38 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
-const navigationItems = [
-  { href: '/', label: 'Trang Chủ', icon: '🏠' },
-  { href: '/feedback', label: 'Góp Ý', icon: '💬' },
-];
+import { useTranslation } from '@/hooks/useTranslation';
+
+import { getLocaleFromPath, getLocalizedPath } from '@/i18n/config';
+
+import { LanguageSwitcher } from './LanguageSwitcher';
+import { LocalizedLink } from './LocalizedLink';
 
 export function Navigation() {
   const pathname = usePathname();
+  const locale = useMemo(() => getLocaleFromPath(pathname), [pathname]);
+  const { t } = useTranslation({
+    namespaces: ['common'],
+  });
   const [isOpen, setIsOpen] = useState(false);
+
+  const navigationItems = useMemo(
+    () => [
+      {
+        href: getLocalizedPath('/', locale),
+        label: t('navigation.home'),
+        icon: '🏠',
+      },
+      {
+        href: getLocalizedPath('/feedback', locale),
+        label: t('navigation.feedback'),
+        icon: '💬',
+      },
+    ],
+    [locale, t]
+  );
 
   useEffect(() => {
     // Close drawer when route changes
@@ -49,7 +71,10 @@ export function Navigation() {
         <div className='container mx-auto px-4'>
           <div className='flex justify-between items-center h-16'>
             {/* Logo */}
-            <Link href='/' className='flex items-center space-x-3 z-50 group'>
+            <LocalizedLink
+              href='/'
+              className='flex items-center space-x-3 z-50 group'
+            >
               <div className='relative'>
                 <span className='text-3xl group-hover:scale-110 transition-transform duration-200'>
                   🎯
@@ -58,16 +83,16 @@ export function Navigation() {
               </div>
               <div>
                 <span className='text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent'>
-                  Thật Hay Thách
+                  {t('app.name')}
                 </span>
                 <p className='text-xs text-gray-500 dark:text-gray-400 -mt-1'>
-                  Online Game
+                  {t('app.subtitle')}
                 </p>
               </div>
-            </Link>
+            </LocalizedLink>
 
             {/* Desktop Navigation */}
-            <div className='hidden md:flex items-center space-x-1'>
+            <div className='hidden md:flex items-center space-x-2'>
               {navigationItems.map((item) => (
                 <Link
                   key={item.label}
@@ -101,6 +126,7 @@ export function Navigation() {
                   )}
                 </Link>
               ))}
+              <LanguageSwitcher />
             </div>
 
             {/* Mobile menu button */}
@@ -171,10 +197,10 @@ export function Navigation() {
                     </div>
                     <div>
                       <h2 className='text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent'>
-                        Thật Hay Thách
+                        {t('app.name')}
                       </h2>
                       <p className='text-sm text-gray-500 dark:text-gray-400'>
-                        Trò chơi vui nhộn cùng bạn bè
+                        {t('app.description')}
                       </p>
                     </div>
                   </div>
@@ -228,9 +254,10 @@ export function Navigation() {
 
                 {/* Footer */}
                 <div className='p-6 border-t border-gray-200/50 dark:border-gray-700/50'>
-                  <div className='text-center'>
+                  <div className='text-center space-y-4'>
+                    <LanguageSwitcher />
                     <p className='text-sm text-gray-500 dark:text-gray-400 mb-4'>
-                      Phiên bản 1.0.0
+                      {t('footer.version')}
                     </p>
                     <div className='flex justify-center space-x-6'>
                       <motion.a

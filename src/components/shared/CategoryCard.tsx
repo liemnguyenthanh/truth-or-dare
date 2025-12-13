@@ -2,6 +2,8 @@
 
 import { motion } from 'framer-motion';
 
+import { useTranslation } from '@/hooks/useTranslation';
+
 import { Heading, Text } from './Typography';
 
 export interface Category {
@@ -28,6 +30,7 @@ export function CategoryCard({
   isSelected = false,
   onViewQuestions,
 }: CategoryCardProps) {
+  const { t } = useTranslation({ namespaces: ['common'] });
   // Default colors cho từng category nếu không có color
   const defaultColor = category.color || '#9b59b6';
   const icon = category.icon || '🎯';
@@ -60,7 +63,7 @@ export function CategoryCard({
               ease: 'easeInOut',
             }}
           >
-            MỚI ✨
+            {t('badges.new')}
           </motion.span>
         </motion.div>
       )}
@@ -126,7 +129,7 @@ export function CategoryCard({
                 }}
                 className='flex-shrink-0 px-3 py-1.5 text-xs font-medium text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-900/30 rounded-lg hover:bg-purple-100 dark:hover:bg-purple-900/50 transition-colors'
               >
-                👁️ Xem trước
+                {t('buttons.viewPreview')}
               </button>
             )}
 

@@ -1,0 +1,131 @@
+{
+  "app": {
+    "name": "Truth or Dare",
+    "subtitle": "Online Game",
+    "description": "Fun game with friends"
+  },
+  "navigation": {
+    "home": "Home",
+    "feedback": "Feedback"
+  },
+  "buttons": {
+    "back": "Back",
+    "donate": "Donate",
+    "continue": "Continue",
+    "continueNext": "Continue",
+    "submit": "Submit",
+    "cancel": "Cancel",
+    "close": "Close",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "view": "View",
+    "viewPreview": "👁️ Preview",
+    "select": "Select",
+    "draw": "Draw",
+    "drawCard": "Draw Card",
+    "next": "Next",
+    "previous": "Previous",
+    "finish": "Finish",
+    "start": "Start",
+    "restart": "Restart",
+    "rating": "Rate Game",
+    "share": "Share",
+    "processing": "Processing...",
+    "creatingOrder": "Creating order...",
+    "paymentRequired": "Pay {{amount}} to continue",
+    "hasCode": "Have a code?",
+    "flipped": "Flipped: {{flipped}}/{{max}}",
+    "remaining": "{{remaining}} left"
+  },
+  "badges": {
+    "new": "NEW ✨",
+    "newQuestions": "NEW QUESTIONS"
+  },
+  "footer": {
+    "description": "Vietnam's leading free online Truth or Dare game. Create beautiful memories with friends with over 500+ interesting questions.",
+    "quickLinks": "Quick Links",
+    "playGame": "Play Game",
+    "howToPlay": "How to Play",
+    "connect": "Connect",
+    "copyright": "© {{year}} Truth or Dare Online. All rights reserved.",
+    "version": "Version 1.0.0"
+  },
+  "modals": {
+    "gameComplete": {
+      "title": "🎉 Game Complete!",
+      "description": "You've played all the questions. Please rate your experience!",
+      "ratingTitle": "Rate Truth or Dare",
+      "ratingDescription": "How do you feel about the game?"
+    },
+    "rating": {
+      "title": "Rate Game",
+      "description": "Share your thoughts about the game"
+    },
+    "viewQuestions": {
+      "title": "Preview",
+      "questionsCount": "{{count}} questions",
+      "selectCategory": "Select this category",
+      "close": "Close"
+    }
+  },
+  "stats": {
+    "used": "Used",
+    "total": "Total",
+    "remaining": "Remaining",
+    "truth": "Truth",
+    "dare": "Dare"
+  },
+  "messages": {
+    "loading": "Loading...",
+    "error": "An error occurred",
+    "success": "Success",
+    "noData": "No data",
+    "selectCategory": "Select Category",
+    "selectType": "Select Question Type",
+    "changeMode": "You can change game mode anytime"
+  },
+  "game": {
+    "selectQuestionType": "Select Question Type",
+    "selectTruthOrDare": "Choose Truth or Dare to get a random question",
+    "selectNextType": "Select next question type",
+    "completeTitle": "🎉 Game Complete!",
+    "completeDescription": "You've played all the questions. Please rate your experience!",
+    "outOfQuestions": "Out",
+    "spinning": "SPINNING...",
+    "spin": "SPIN",
+    "continueSpin": "Continue Spin",
+    "processingPayment": "Processing payment...",
+    "payToContinue": "Pay to Continue"
+  },
+  "comments": {
+    "reply": "Reply",
+    "cancel": "Cancel",
+    "writeComment": "Write your comment...",
+    "yourName": "Your name (optional)",
+    "submit": "Submit"
+  },
+  "feedback": {
+    "types": {
+      "bug": "Bug Report",
+      "feature": "Feature",
+      "general": "General Feedback",
+      "rating": "Rating"
+    },
+    "priorities": {
+      "low": "Low",
+      "medium": "Medium",
+      "high": "High",
+      "critical": "Critical"
+    }
+  },
+  "rating": {
+    "title": "{{rating}} star rating"
+  },
+  "language": {
+    "vi": "Tiếng Việt",
+    "en": "English",
+    "select": "Select Language"
+  }
+}
+

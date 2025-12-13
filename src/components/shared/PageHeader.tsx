@@ -1,5 +1,7 @@
 'use client';
 
+import { useTranslation } from '@/hooks/useTranslation';
+
 import { BackButton } from './BackButton';
 import { DonateButton } from './DonateButton';
 
@@ -10,9 +12,9 @@ interface PageHeaderProps {
   backHref?: string;
   /** Custom back handler - Nếu có sẽ override backHref */
   onBack?: () => void;
-  /** Text hiển thị cho back button, mặc định là 'Quay lại' */
+  /** Text hiển thị cho back button, mặc định sẽ dùng translation */
   backLabel?: string;
-  /** Text hiển thị cho donate button, mặc định là 'Donate' */
+  /** Text hiển thị cho donate button, mặc định sẽ dùng translation */
   donateLabel?: string;
   /** Custom className cho container */
   className?: string;
@@ -22,10 +24,13 @@ export function PageHeader({
   onDonate,
   backHref = '/',
   onBack,
-  backLabel = 'Quay lại',
-  donateLabel = 'Donate',
+  backLabel,
+  donateLabel,
   className = '',
 }: PageHeaderProps) {
+  const { t } = useTranslation({ namespaces: ['common'] });
+  const defaultBackLabel = backLabel || t('buttons.back');
+  const defaultDonateLabel = donateLabel || t('buttons.donate');
   return (
     <div className={`flex items-center justify-between mb-6 pt-4 ${className}`}>
       {onBack ? (
@@ -46,12 +51,14 @@ export function PageHeader({
               d='M15 19l-7-7 7-7'
             />
           </svg>
-          <span className='font-medium'>{backLabel}</span>
+          <span className='font-medium'>{defaultBackLabel}</span>
         </button>
       ) : (
-        <BackButton href={backHref} label={backLabel} />
+        <BackButton href={backHref} label={defaultBackLabel} />
       )}
-      {onDonate && <DonateButton onClick={onDonate} label={donateLabel} />}
+      {onDonate && (
+        <DonateButton onClick={onDonate} label={defaultDonateLabel} />
+      )}
     </div>
   );
 }

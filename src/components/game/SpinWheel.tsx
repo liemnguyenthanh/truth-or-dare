@@ -2,6 +2,7 @@ import { motion, useAnimation } from 'framer-motion';
 import React, { useMemo, useState } from 'react';
 
 import { gtmEvents } from '@/lib/gtm';
+import { useTranslation } from '@/hooks/useTranslation';
 
 import { DEGREES_PER_SEGMENT, SEGMENT_COUNT } from '@/app/spin-wheel/constants';
 
@@ -11,24 +12,22 @@ interface SpinWheelProps {
   onSpinEnd: (type: QuestionType) => void;
 }
 
-// Create segments array: 10 truth, 10 dare, alternating
-const createSegments = (): Array<{ type: QuestionType; label: string }> => {
-  const segments: Array<{ type: QuestionType; label: string }> = [];
-  for (let i = 0; i < SEGMENT_COUNT; i++) {
-    segments.push({
-      type: i % 2 === 0 ? 'truth' : 'dare',
-      label: i % 2 === 0 ? 'Thật' : 'Thách',
-    });
-  }
-  return segments;
-};
-
 export function SpinWheel({ onSpinEnd }: SpinWheelProps) {
+  const { t } = useTranslation({ namespaces: ['common'] });
   const [isSpinning, setIsSpinning] = useState(false);
   const controls = useAnimation();
 
-  // Memoize segments to avoid recalculation
-  const segments = useMemo(() => createSegments(), []);
+  // Create segments array: 10 truth, 10 dare, alternating
+  const segments = useMemo(() => {
+    const segments: Array<{ type: QuestionType; label: string }> = [];
+    for (let i = 0; i < SEGMENT_COUNT; i++) {
+      segments.push({
+        type: i % 2 === 0 ? 'truth' : 'dare',
+        label: i % 2 === 0 ? t('stats.truth') : t('stats.dare'),
+      });
+    }
+    return segments;
+  }, [t]);
 
   const handleSpin = async () => {
     if (isSpinning) return;
@@ -146,7 +145,7 @@ export function SpinWheel({ onSpinEnd }: SpinWheelProps) {
         disabled={isSpinning}
         className='absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 w-16 h-16 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white shadow-xl hover:shadow-2xl disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 font-bold text-xs flex items-center justify-center transform hover:scale-105 active:scale-95'
       >
-        {isSpinning ? 'QUAY...' : 'QUAY'}
+        {isSpinning ? t('game.spinning') : t('game.spin')}
       </button>
     </div>
   );

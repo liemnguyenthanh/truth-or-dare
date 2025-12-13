@@ -2,8 +2,11 @@
 
 import { motion } from 'framer-motion';
 
-import { Question, QuestionType } from '@/types';
+import { useTranslation } from '@/hooks/useTranslation';
+
 import { Heading, Text } from '@/components/shared/Typography';
+
+import { Question, QuestionType } from '@/types';
 
 interface QuestionCardProps {
   question: Question;
@@ -11,8 +14,9 @@ interface QuestionCardProps {
 }
 
 export function QuestionCard({ question, spinResult }: QuestionCardProps) {
+  const { t } = useTranslation({ namespaces: ['common'] });
   const icon = spinResult === 'truth' ? '💭' : '💖';
-  const typeLabel = spinResult === 'truth' ? 'Thật' : 'Thách';
+  const typeLabel = spinResult === 'truth' ? t('stats.truth') : t('stats.dare');
 
   return (
     <motion.div
@@ -28,10 +32,16 @@ export function QuestionCard({ question, spinResult }: QuestionCardProps) {
     >
       <div className='bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6 sm:p-8 border-2 border-purple-200 dark:border-purple-800 min-h-[300px] flex flex-col justify-center items-center text-center'>
         <div className='text-4xl mb-4'>{icon}</div>
-        <Heading level={3} className='text-purple-800 dark:text-purple-300 mb-4'>
+        <Heading
+          level={3}
+          className='text-purple-800 dark:text-purple-300 mb-4'
+        >
           {typeLabel}
         </Heading>
-        <Text variant='large' className='text-gray-800 dark:text-white leading-relaxed'>
+        <Text
+          variant='large'
+          className='text-gray-800 dark:text-white leading-relaxed'
+        >
           {question.text}
         </Text>
       </div>
