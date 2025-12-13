@@ -1,7 +1,7 @@
 'use client';
 
 import { AnimatePresence, motion } from 'framer-motion';
-import { ChevronDown, Globe } from 'lucide-react';
+import { ChevronDown } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { useEffect, useMemo, useRef, useState } from 'react';
 
@@ -91,7 +91,6 @@ export function LanguageSwitcher() {
         aria-expanded={isOpen}
         aria-haspopup='true'
       >
-        <Globe className='w-4 h-4 text-gray-500 dark:text-gray-400' />
         <span className='hidden sm:inline'>
           {currentOption.flag} {currentOption.label}
         </span>

@@ -129,39 +129,42 @@ export function Navigation() {
               <LanguageSwitcher />
             </div>
 
-            {/* Mobile menu button */}
-            <motion.button
-              whileTap={{ scale: 0.95 }}
-              onClick={() => setIsOpen(!isOpen)}
-              className='md:hidden relative z-50 inline-flex items-center justify-center p-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/25 hover:shadow-xl hover:shadow-purple-500/30 transition-all duration-200'
-            >
-              <motion.div
-                animate={isOpen ? 'open' : 'closed'}
-                className='w-6 h-6 flex flex-col justify-center items-center'
+            {/* Mobile: Language Switcher and Menu Button */}
+            <div className='md:hidden flex items-center gap-2'>
+              <LanguageSwitcher />
+              <motion.button
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setIsOpen(!isOpen)}
+                className='relative z-50 inline-flex items-center justify-center p-3 rounded-full bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/25 hover:shadow-xl hover:shadow-purple-500/30 transition-all duration-200'
               >
-                <motion.span
-                  variants={{
-                    closed: { rotate: 0, y: 0 },
-                    open: { rotate: 45, y: 6 },
-                  }}
-                  className='w-6 h-0.5 bg-current block transition-all'
-                />
-                <motion.span
-                  variants={{
-                    closed: { opacity: 1 },
-                    open: { opacity: 0 },
-                  }}
-                  className='w-6 h-0.5 bg-current block mt-1.5 transition-all'
-                />
-                <motion.span
-                  variants={{
-                    closed: { rotate: 0, y: 0 },
-                    open: { rotate: -45, y: -6 },
-                  }}
-                  className='w-6 h-0.5 bg-current block mt-1.5 transition-all'
-                />
-              </motion.div>
-            </motion.button>
+                <motion.div
+                  animate={isOpen ? 'open' : 'closed'}
+                  className='w-6 h-6 flex flex-col justify-center items-center'
+                >
+                  <motion.span
+                    variants={{
+                      closed: { rotate: 0, y: 0 },
+                      open: { rotate: 45, y: 6 },
+                    }}
+                    className='w-6 h-0.5 bg-current block transition-all'
+                  />
+                  <motion.span
+                    variants={{
+                      closed: { opacity: 1 },
+                      open: { opacity: 0 },
+                    }}
+                    className='w-6 h-0.5 bg-current block mt-1.5 transition-all'
+                  />
+                  <motion.span
+                    variants={{
+                      closed: { rotate: 0, y: 0 },
+                      open: { rotate: -45, y: -6 },
+                    }}
+                    className='w-6 h-0.5 bg-current block mt-1.5 transition-all'
+                  />
+                </motion.div>
+              </motion.button>
+            </div>
           </div>
         </div>
       </nav>
@@ -255,7 +258,6 @@ export function Navigation() {
                 {/* Footer */}
                 <div className='p-6 border-t border-gray-200/50 dark:border-gray-700/50'>
                   <div className='text-center space-y-4'>
-                    <LanguageSwitcher />
                     <p className='text-sm text-gray-500 dark:text-gray-400 mb-4'>
                       {t('footer.version')}
                     </p>
