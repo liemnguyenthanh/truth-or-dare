@@ -26,11 +26,15 @@ export function Navigation() {
         href: getLocalizedPath('/', locale),
         label: t('navigation.home'),
         icon: '🏠',
+        target: '_self',
+        rel: 'noopener noreferrer',
       },
       {
         href: getLocalizedPath('/feedback', locale),
         label: t('navigation.feedback'),
         icon: '💬',
+        target: '_blank',
+        rel: 'noopener noreferrer',
       },
     ],
     [locale, t]
@@ -102,6 +106,8 @@ export function Navigation() {
                       ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg shadow-purple-500/25'
                       : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-purple-600 dark:hover:text-purple-400'
                   }`}
+                  target={item.target}
+                  rel={item.rel}
                 >
                   <span
                     className={`text-lg transition-transform duration-200 ${
