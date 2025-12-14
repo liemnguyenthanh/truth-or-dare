@@ -4,18 +4,23 @@
       "default": "Truth or Dare Online - Fun Party Game with Friends | Free to Play",
       "template": "%s | Truth or Dare Online"
     },
-    "description": "Play Truth or Dare online for free! Over 500+ fun questions and daring challenges. Perfect party game for gatherings, birthdays, and friend meetups.",
+    "description": "Play Truth or Dare online for free! Over 500+ fun questions and daring challenges. Perfect party game for gatherings, birthdays, and friend meetups. No download required - play instantly in your browser!",
     "keywords": [
       "truth or dare",
       "truth or dare online",
       "truth or dare game",
+      "truth or dare online free",
+      "play truth or dare",
+      "truth or dare questions",
+      "truth or dare challenges",
       "party game",
+      "party games",
       "fun game",
       "group game",
       "friends game",
-      "party games",
       "online game",
       "free game",
+      "free online game",
       "ice breaker game",
       "social game",
       "interactive game",
@@ -25,17 +30,27 @@
       "birthday game",
       "truth questions",
       "dare challenges",
-      "drinking game"
+      "drinking game",
+      "never have i ever",
+      "would you rather",
+      "party games online",
+      "online party games",
+      "browser game",
+      "web game",
+      "multiplayer game",
+      "couples game",
+      "teen party game",
+      "adult party game"
     ],
     "openGraph": {
       "title": "Truth or Dare Online - Fun Party Game with Friends",
-      "description": "Play Truth or Dare online for free! Over 500+ fun questions and daring challenges. Perfect party game for gatherings and friend meetups.",
+      "description": "Play Truth or Dare online for free! Over 500+ fun questions and daring challenges. Perfect party game for gatherings and friend meetups. No download required!",
       "siteName": "Truth or Dare Online",
       "alt": "Truth or Dare - Fun game with friends"
     },
     "twitter": {
       "title": "Truth or Dare Online - Fun Party Game with Friends",
-      "description": "Play Truth or Dare online for free! Over 500+ fun questions and daring challenges."
+      "description": "Play Truth or Dare online for free! Over 500+ fun questions and daring challenges. Perfect for parties and gatherings!"
     },
     "appleWebApp": {
       "title": "Truth or Dare"

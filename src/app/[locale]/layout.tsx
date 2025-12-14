@@ -9,12 +9,12 @@ import { GameProvider } from '@/hooks/GameProvider';
 
 import {
   AddToHomeScreenBanner,
-  gameSchema,
+  getGameSchema,
+  getOrganizationSchema,
+  getWebsiteSchema,
   JsonLd,
   Navigation,
-  organizationSchema,
   ScrollToTop,
-  websiteSchema,
 } from '@/components/shared';
 import { Footer } from '@/components/shared/Footer';
 
@@ -42,6 +42,10 @@ export default function LocaleLayout({
   params: { locale: string };
 }) {
   const locale: Locale = isValidLocale(params.locale) ? params.locale : 'vi';
+
+  const gameSchema = getGameSchema(locale);
+  const websiteSchema = getWebsiteSchema(locale);
+  const organizationSchema = getOrganizationSchema(locale);
 
   return (
     <html lang={locale}>
