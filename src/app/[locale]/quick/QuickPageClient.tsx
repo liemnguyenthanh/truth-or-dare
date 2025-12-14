@@ -5,6 +5,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { getQuickQuestions } from '@/lib/questions';
 import { useDonate } from '@/hooks';
+import { useHideNavigation } from '@/hooks/useHideNavigation';
 import { useTranslation } from '@/hooks/useTranslation';
 
 import {
@@ -51,6 +52,9 @@ export function QuickPageClient({ locale }: { locale: string }) {
 
   // Game hook
   const game = useQuickGame(validLocale);
+
+  // Hide navigation when playing game
+  useHideNavigation();
 
   // Track total questions played
   const questionsPlayed = game.truthCount + game.dareCount;

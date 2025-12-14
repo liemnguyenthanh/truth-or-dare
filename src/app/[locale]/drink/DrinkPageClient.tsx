@@ -5,7 +5,6 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { getDrinkCategories, getDrinkQuestions } from '@/lib/questions';
 import { useDonate } from '@/hooks';
-import { useHideNavigation } from '@/hooks/useHideNavigation';
 import { useTranslation } from '@/hooks/useTranslation';
 
 import type { DrinkCategoryId } from '@/data/questions/drink';
@@ -54,8 +53,39 @@ export function DrinkPageClient({ params }: { params: { locale: string } }) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);
 
-  // Hide navigation when entering this page
-  useHideNavigation();
+  // Hide navigation when category is selected or playing game
+  useEffect(() => {
+    const nav = document.querySelector('#navigation') as HTMLElement | null;
+    const main = document.querySelector('main') as HTMLElement | null;
+
+    if (selectedCategory) {
+      // Ẩn navigation khi đã chọn category hoặc đang chơi
+      if (nav) {
+        nav.style.display = 'none';
+      }
+      if (main) {
+        main.style.paddingTop = '0';
+      }
+    } else {
+      // Hiện navigation khi chưa chọn category
+      if (nav) {
+        nav.style.display = '';
+      }
+      if (main) {
+        main.style.paddingTop = '';
+      }
+    }
+
+    // Cleanup
+    return () => {
+      if (nav) {
+        nav.style.display = '';
+      }
+      if (main) {
+        main.style.paddingTop = '';
+      }
+    };
+  }, [selectedCategory]);
 
   // Game hook - no payment restrictions
   // Pass translated questions to the hook

@@ -74,7 +74,14 @@
     "total": "Total",
     "remaining": "Remaining",
     "truth": "Truth",
-    "dare": "Dare"
+    "dare": "Dare",
+    "drawn": "Drawn: {{used}}/{{total}} questions",
+    "truthCount": "💭 Truth: {{used}}/{{total}}",
+    "dareCount": "💖 Dare: {{used}}/{{total}}",
+    "totalCards": "Total: {{used}}/{{total}} cards",
+    "reset": "🔄 Question set has been reset",
+    "completed": "🎉 Congratulations! You've completed all questions!",
+    "resetToContinue": "🔄 The deck has been reset to continue playing"
   },
   "messages": {
     "loading": "Loading...",

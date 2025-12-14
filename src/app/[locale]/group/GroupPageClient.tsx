@@ -80,6 +80,40 @@ export function GroupPageClient({ locale }: { locale: string }) {
   // Game hook
   const game = useGroupGame(participants, validLocale);
 
+  // Hide navigation when playing game
+  useEffect(() => {
+    const nav = document.querySelector('#navigation') as HTMLElement | null;
+    const main = document.querySelector('main') as HTMLElement | null;
+
+    if (game.gameStarted) {
+      // Ẩn navigation khi đang chơi
+      if (nav) {
+        nav.style.display = 'none';
+      }
+      if (main) {
+        main.style.paddingTop = '0';
+      }
+    } else {
+      // Hiện navigation khi chưa chơi
+      if (nav) {
+        nav.style.display = '';
+      }
+      if (main) {
+        main.style.paddingTop = '';
+      }
+    }
+
+    // Cleanup
+    return () => {
+      if (nav) {
+        nav.style.display = '';
+      }
+      if (main) {
+        main.style.paddingTop = '';
+      }
+    };
+  }, [game.gameStarted]);
+
   // Track total questions played
   const questionsPlayed = game.truthCount + game.dareCount;
 

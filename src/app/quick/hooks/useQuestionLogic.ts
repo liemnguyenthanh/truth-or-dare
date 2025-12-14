@@ -65,12 +65,10 @@ export function useQuestionLogic(
     (type: QuestionType, setIsDrawingCard: (value: boolean) => void) => {
       setIsDrawingCard(true);
 
-      // Animation delay để tạo hiệu ứng rút bài
-      setTimeout(() => {
-        const question = getRandomQuestion(type);
-        setCurrentQuestion(question);
-        setIsDrawingCard(false);
-      }, 600); // 600ms animation để match với flip duration
+      // Set question ngay lập tức, không delay
+      const question = getRandomQuestion(type);
+      setCurrentQuestion(question);
+      setIsDrawingCard(false);
     },
     [getRandomQuestion]
   );

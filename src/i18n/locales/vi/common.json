@@ -74,7 +74,14 @@
     "total": "Tổng cộng",
     "remaining": "Còn lại",
     "truth": "Thật",
-    "dare": "Thách"
+    "dare": "Thách",
+    "drawn": "Đã rút: {{used}}/{{total}} câu hỏi",
+    "truthCount": "💭 Thật: {{used}}/{{total}}",
+    "dareCount": "💖 Thách: {{used}}/{{total}}",
+    "totalCards": "Tổng: {{used}}/{{total}} bài",
+    "reset": "🔄 Đã reset bộ câu hỏi",
+    "completed": "🎉 Chúc mừng! Bạn đã hoàn thành tất cả câu hỏi!",
+    "resetToContinue": "🔄 Bộ bài đã được reset để chơi tiếp"
   },
   "messages": {
     "loading": "Đang tải...",

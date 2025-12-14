@@ -5,18 +5,25 @@ import { useEffect } from 'react';
  */
 export function useHideNavigation() {
   useEffect(() => {
-    // Ẩn navigation
-    const nav = document.querySelector('nav');
-    const main = document.querySelector('main');
-    
-    if (nav) nav.style.display = 'none';
-    if (main) main.style.paddingTop = '0';
+    // Ẩn navigation - sử dụng id selector để chắc chắn tìm đúng element
+    const nav = document.querySelector('#navigation') as HTMLElement | null;
+    const main = document.querySelector('main') as HTMLElement | null;
+
+    if (nav) {
+      nav.style.display = 'none';
+    }
+    if (main) {
+      main.style.paddingTop = '0';
+    }
 
     // Cleanup khi rời trang
     return () => {
-      if (nav) nav.style.display = '';
-      if (main) main.style.paddingTop = '';
+      if (nav) {
+        nav.style.display = '';
+      }
+      if (main) {
+        main.style.paddingTop = '';
+      }
     };
   }, []);
 }
-
