@@ -3,7 +3,6 @@
 import type { Locale } from '@/i18n/config';
 
 import { Monetag } from './Monetag';
-import { MonetagOnClick } from './MonetagOnClick';
 
 interface ConditionalAdsProps {
   locale: Locale;
@@ -58,10 +57,5 @@ export function ConditionalAds({
     return null;
   }
 
-  return (
-    <>
-      <Monetag locale={locale} />
-      <MonetagOnClick />
-    </>
-  );
+  return <Monetag locale={locale} />;
 }
