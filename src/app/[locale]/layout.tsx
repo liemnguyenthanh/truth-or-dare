@@ -9,6 +9,7 @@ import { GameProvider } from '@/hooks/GameProvider';
 
 import {
   AddToHomeScreenBanner,
+  ConditionalAds,
   getGameSchema,
   getOrganizationSchema,
   getWebsiteSchema,
@@ -66,8 +67,7 @@ export default function LocaleLayout({
         </ThemeProvider>
         <GoogleTagManager gtmId='GTM-5FP2P39P' />
         {gaId && <GoogleAnalytics gaId={gaId} />}
-        {/* <Monetag />
-        <MonetagOnClick /> */}
+        <ConditionalAds locale={locale} />
       </body>
     </html>
   );
