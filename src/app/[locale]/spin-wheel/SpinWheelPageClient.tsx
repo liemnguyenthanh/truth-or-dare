@@ -69,8 +69,22 @@ export function SpinWheelPageClient({ locale }: { locale: string }) {
   // Hide navigation when category is selected or playing game
   useHideNavigation(!!categories.selectedCategory);
 
+  // Auto scroll to top when category is selected
+  useEffect(() => {
+    if (categories.selectedCategory) {
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    }
+  }, [categories.selectedCategory]);
+
   // Game logic
   const game = useSpinWheelGame(categories.selectedCategory, validLocale);
+
+  // Auto scroll to top when game starts (when first question appears)
+  useEffect(() => {
+    if (game.currentQuestion) {
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    }
+  }, [game.currentQuestion]);
 
   // Track questions played
   useEffect(() => {

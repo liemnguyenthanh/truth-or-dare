@@ -1,7 +1,9 @@
 'use client';
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { useMemo } from 'react';
+
+import { useTranslation } from '@/hooks/useTranslation';
 
 interface Participant {
   id: string;
@@ -17,6 +19,8 @@ export function ParticipantQueue({
   participants,
   currentIndex,
 }: ParticipantQueueProps) {
+  const { t } = useTranslation({ namespaces: ['common'] });
+
   // Memoize the calculations for efficiency and clarity
   const { firstItem, restItems } = useMemo(() => {
     if (participants.length === 0) {
@@ -54,7 +58,7 @@ export function ParticipantQueue({
     <div className='fixed bottom-0 left-0 right-0 bg-gradient-to-t from-gray-900 via-gray-800 p-4 z-40 border-t border-purple-800/30'>
       <div className='max-w-7xl mx-auto'>
         <p className='text-white/60 text-xs mb-3 text-center font-medium'>
-          Người chơi tiếp theo:
+          {t('game.nextPlayer')}
         </p>
         <div className='flex justify-center items-center'>
           <div className='flex items-center max-w-[375px] gap-2 w-full overflow-hidden'>

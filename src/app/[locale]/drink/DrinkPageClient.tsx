@@ -56,6 +56,13 @@ export function DrinkPageClient({ params }: { params: { locale: string } }) {
   // Hide navigation when category is selected or playing game
   useHideNavigation(!!selectedCategory);
 
+  // Auto scroll to top when category is selected
+  useEffect(() => {
+    if (selectedCategory) {
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    }
+  }, [selectedCategory]);
+
   // Game hook - no payment restrictions
   // Pass translated questions to the hook
   const game = useDrinkGame(

@@ -29,6 +29,12 @@ export function CategorySelection({
 }: CategorySelectionProps) {
   const { t } = useTranslation({ namespaces: ['pages'] });
 
+  const handleCategorySelect = (categoryId: string) => {
+    // Scroll to top when category is selected
+    window.scrollTo({ top: 0, behavior: 'auto' });
+    onCategorySelect(categoryId);
+  };
+
   return (
     <div className='min-h-screen bg-gradient-to-br from-purple-50 to-pink-50 dark:from-gray-900 dark:to-gray-800 p-4'>
       <div className='max-w-4xl mx-auto'>
@@ -55,7 +61,7 @@ export function CategorySelection({
               >
                 <div
                   className='cursor-pointer'
-                  onClick={() => onCategorySelect(category.id)}
+                  onClick={() => handleCategorySelect(category.id)}
                 >
                   <div className='text-center'>
                     <div className='text-4xl mb-3'>{category.icon}</div>

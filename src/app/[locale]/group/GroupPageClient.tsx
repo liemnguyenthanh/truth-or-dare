@@ -143,6 +143,13 @@ export function GroupPageClient({ locale }: { locale: string }) {
     setLocalSelectedCategory(categoryId);
   }, []);
 
+  // Auto scroll to top when game starts (when user clicks start game)
+  useEffect(() => {
+    if (game.gameStarted) {
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    }
+  }, [game.gameStarted]);
+
   const startGame = useCallback(() => {
     if (participants.length >= 2 && localSelectedCategory) {
       game.selectCategory(localSelectedCategory);

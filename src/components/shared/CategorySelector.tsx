@@ -20,6 +20,12 @@ export function CategorySelector({
   onCategorySelect,
   onViewQuestions,
 }: CategorySelectorProps) {
+  const handleCategorySelect = (categoryId: string) => {
+    // Scroll to top when category is selected
+    window.scrollTo({ top: 0, behavior: 'auto' });
+    onCategorySelect(categoryId);
+  };
+
   return (
     <div className='w-full max-w-4xl mx-auto px-4'>
       {/* Header */}
@@ -52,7 +58,7 @@ export function CategorySelector({
             key={category.id}
             category={category}
             index={index}
-            onClick={() => onCategorySelect(category.id)}
+            onClick={() => handleCategorySelect(category.id)}
             onViewQuestions={
               onViewQuestions ? () => onViewQuestions(category.id) : undefined
             }

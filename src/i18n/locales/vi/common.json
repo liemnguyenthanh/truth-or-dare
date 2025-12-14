@@ -103,7 +103,8 @@
     "spin": "QUAY",
     "continueSpin": "Quay tiếp",
     "processingPayment": "Đang tạo đơn thanh toán...",
-    "payToContinue": "Thanh toán để tiếp tục"
+    "payToContinue": "Thanh toán để tiếp tục",
+    "nextPlayer": "Người chơi tiếp theo:"
   },
   "comments": {
     "reply": "Trả lời",

@@ -26,6 +26,7 @@ export * from './ParticipantQueue';
 export * from './PaymentButton';
 export * from './PrimaryButton';
 export * from './RatingModal';
+export * from './ScrollToTop';
 export * from './SecondaryButton';
 export * from './SuccessToast';
 export * from './ThemeToggle';

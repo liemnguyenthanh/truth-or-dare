@@ -103,7 +103,8 @@
     "spin": "SPIN",
     "continueSpin": "Continue Spin",
     "processingPayment": "Processing payment...",
-    "payToContinue": "Pay to Continue"
+    "payToContinue": "Pay to Continue",
+    "nextPlayer": "Next player:"
   },
   "comments": {
     "reply": "Reply",

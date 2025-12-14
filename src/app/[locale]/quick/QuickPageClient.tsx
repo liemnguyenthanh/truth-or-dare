@@ -56,6 +56,20 @@ export function QuickPageClient({ locale }: { locale: string }) {
   // Hide navigation when category is selected or playing game
   useHideNavigation(!!(game.gameStarted && game.selectedCategory));
 
+  // Auto scroll to top when category is selected
+  useEffect(() => {
+    if (game.selectedCategory) {
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    }
+  }, [game.selectedCategory]);
+
+  // Auto scroll to top when game starts
+  useEffect(() => {
+    if (game.gameStarted) {
+      window.scrollTo({ top: 0, behavior: 'auto' });
+    }
+  }, [game.gameStarted]);
+
   // Track total questions played
   const questionsPlayed = game.truthCount + game.dareCount;
 

@@ -12,6 +12,7 @@ import {
   JsonLd,
   Navigation,
   organizationSchema,
+  ScrollToTop,
   websiteSchema,
 } from '@/components/shared';
 import { Footer } from '@/components/shared/Footer';
@@ -37,6 +38,7 @@ export default function RootLayout({
       <body className='min-h-screen bg-gray-50 dark:bg-gray-900 transition-colors duration-200'>
         <ThemeProvider>
           <GameProvider>
+            <ScrollToTop />
             <Navigation />
             <main className='min-h-screen pt-16'>{children}</main>
             <Footer />
