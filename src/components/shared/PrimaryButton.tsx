@@ -46,12 +46,13 @@ export function PrimaryButton({
         ${sizeClasses[size]}
         bg-gradient-to-r from-purple-600 to-pink-600
         hover:from-purple-700 hover:to-pink-700
-        disabled:from-gray-400 disabled:to-gray-500
-        text-white rounded-full shadow-lg
+        disabled:from-gray-300 disabled:to-gray-400
+        disabled:hover:from-gray-300 disabled:hover:to-gray-400
+        text-white rounded-xl shadow-lg hover:shadow-xl
         font-bold
-        transition-all duration-200
-        transform hover:scale-105 disabled:scale-100
-        disabled:cursor-not-allowed
+        transition-all duration-300
+        transform hover:scale-[1.02] active:scale-[0.98] disabled:scale-100
+        disabled:cursor-not-allowed disabled:opacity-60
         flex items-center justify-center space-x-2
         ${fullWidth ? 'w-full' : ''}
         ${className}

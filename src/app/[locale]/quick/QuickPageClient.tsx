@@ -53,8 +53,8 @@ export function QuickPageClient({ locale }: { locale: string }) {
   // Game hook
   const game = useQuickGame(validLocale);
 
-  // Hide navigation when playing game
-  useHideNavigation();
+  // Hide navigation when category is selected or playing game
+  useHideNavigation(!!(game.gameStarted && game.selectedCategory));
 
   // Track total questions played
   const questionsPlayed = game.truthCount + game.dareCount;

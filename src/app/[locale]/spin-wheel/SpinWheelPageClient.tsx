@@ -6,7 +6,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 // Translations are now loaded automatically via useTranslation hook
 import { getQuickQuestions } from '@/lib/questions';
-import { useDonate } from '@/hooks';
+import { useDonate, useHideNavigation } from '@/hooks';
 import { useTranslation } from '@/hooks/useTranslation';
 
 import { SpinWheel } from '@/components/game/SpinWheel';
@@ -67,38 +67,7 @@ export function SpinWheelPageClient({ locale }: { locale: string }) {
   const categories = useSpinWheelCategories();
 
   // Hide navigation when category is selected or playing game
-  useEffect(() => {
-    const nav = document.querySelector('#navigation') as HTMLElement | null;
-    const main = document.querySelector('main') as HTMLElement | null;
-
-    if (categories.selectedCategory) {
-      // Ẩn navigation khi đã chọn category hoặc đang chơi
-      if (nav) {
-        nav.style.display = 'none';
-      }
-      if (main) {
-        main.style.paddingTop = '0';
-      }
-    } else {
-      // Hiện navigation khi chưa chọn category
-      if (nav) {
-        nav.style.display = '';
-      }
-      if (main) {
-        main.style.paddingTop = '';
-      }
-    }
-
-    // Cleanup
-    return () => {
-      if (nav) {
-        nav.style.display = '';
-      }
-      if (main) {
-        main.style.paddingTop = '';
-      }
-    };
-  }, [categories.selectedCategory]);
+  useHideNavigation(!!categories.selectedCategory);
 
   // Game logic
   const game = useSpinWheelGame(categories.selectedCategory, validLocale);

@@ -6,7 +6,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 // Translations are now loaded automatically via useTranslation hook
 import { getQuickQuestions } from '@/lib/questions';
-import { useDonate } from '@/hooks';
+import { useDonate, useHideNavigation } from '@/hooks';
 import { useTranslation } from '@/hooks/useTranslation';
 
 import {
@@ -81,38 +81,7 @@ export function GroupPageClient({ locale }: { locale: string }) {
   const game = useGroupGame(participants, validLocale);
 
   // Hide navigation when playing game
-  useEffect(() => {
-    const nav = document.querySelector('#navigation') as HTMLElement | null;
-    const main = document.querySelector('main') as HTMLElement | null;
-
-    if (game.gameStarted) {
-      // Ẩn navigation khi đang chơi
-      if (nav) {
-        nav.style.display = 'none';
-      }
-      if (main) {
-        main.style.paddingTop = '0';
-      }
-    } else {
-      // Hiện navigation khi chưa chơi
-      if (nav) {
-        nav.style.display = '';
-      }
-      if (main) {
-        main.style.paddingTop = '';
-      }
-    }
-
-    // Cleanup
-    return () => {
-      if (nav) {
-        nav.style.display = '';
-      }
-      if (main) {
-        main.style.paddingTop = '';
-      }
-    };
-  }, [game.gameStarted]);
+  useHideNavigation(game.gameStarted);
 
   // Track total questions played
   const questionsPlayed = game.truthCount + game.dareCount;
@@ -230,22 +199,75 @@ export function GroupPageClient({ locale }: { locale: string }) {
             )}
 
             {/* Actions */}
-            <div className='flex gap-4 mt-8'>
-              <SecondaryButton
-                onClick={() => router.push(getLocalizedPath('/', validLocale))}
-                fullWidth
-              >
-                {t('buttons.back')} {t('navigation.home')}
-              </SecondaryButton>
-              <PrimaryButton
-                onClick={startGame}
-                disabled={participants.length < 2 || !localSelectedCategory}
-                fullWidth
-                size='md'
-              >
-                {t('buttons.start')} ({participants.length}{' '}
-                {getGameModesTranslation('group.players')})
-              </PrimaryButton>
+            <div className='mt-10 pt-6 border-t border-gray-200 dark:border-gray-700'>
+              <div className='flex flex-col sm:flex-row gap-3 sm:gap-4'>
+                <SecondaryButton
+                  onClick={() =>
+                    router.push(getLocalizedPath('/', validLocale))
+                  }
+                  fullWidth
+                  variant='outline'
+                  size='lg'
+                  className='group'
+                >
+                  <span className='flex items-center justify-center gap-2'>
+                    <svg
+                      className='w-5 h-5 transition-transform group-hover:-translate-x-1'
+                      fill='none'
+                      stroke='currentColor'
+                      viewBox='0 0 24 24'
+                    >
+                      <path
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                        strokeWidth={2}
+                        d='M10 19l-7-7m0 0l7-7m-7 7h18'
+                      />
+                    </svg>
+                    <span>{t('buttons.back')}</span>
+                  </span>
+                </SecondaryButton>
+                <PrimaryButton
+                  onClick={startGame}
+                  disabled={participants.length < 2 || !localSelectedCategory}
+                  fullWidth
+                  size='lg'
+                  className='relative overflow-hidden group'
+                >
+                  <span className='flex items-center justify-center gap-2 relative z-10'>
+                    {participants.length >= 2 && localSelectedCategory ? (
+                      <>
+                        <motion.span
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          transition={{ type: 'spring', stiffness: 500 }}
+                          className='text-xl'
+                        >
+                          🚀
+                        </motion.span>
+                        <span>
+                          {t('buttons.start')} ({participants.length}
+                        </span>
+                      </>
+                    ) : (
+                      <>
+                        <span className='text-lg'>⏸️</span>
+                        <span>
+                          {t('buttons.start')} ({participants.length})
+                        </span>
+                      </>
+                    )}
+                  </span>
+                  {participants.length >= 2 && localSelectedCategory && (
+                    <motion.div
+                      className='absolute inset-0 bg-gradient-to-r from-purple-400 to-pink-400 opacity-0 group-hover:opacity-20'
+                      initial={{ x: '-100%' }}
+                      whileHover={{ x: '100%' }}
+                      transition={{ duration: 0.6 }}
+                    />
+                  )}
+                </PrimaryButton>
+              </div>
             </div>
           </div>
         </div>

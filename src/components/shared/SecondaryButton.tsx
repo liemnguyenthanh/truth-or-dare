@@ -21,9 +21,9 @@ const sizeClasses = {
 };
 
 const variantClasses = {
-  gray: 'bg-gray-500 hover:bg-gray-600 dark:bg-gray-600 dark:hover:bg-gray-500 text-white',
+  gray: 'bg-gray-500 hover:bg-gray-600 dark:bg-gray-600 dark:hover:bg-gray-500 text-white shadow-md hover:shadow-lg',
   outline:
-    'bg-transparent border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-gray-400 dark:hover:border-gray-500',
+    'bg-white dark:bg-gray-800 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-purple-400 dark:hover:border-purple-500 hover:text-purple-600 dark:hover:text-purple-400 shadow-sm hover:shadow-md',
 };
 
 export function SecondaryButton({
@@ -44,10 +44,10 @@ export function SecondaryButton({
       className={`
         ${sizeClasses[size]}
         ${variantClasses[variant]}
-        rounded-lg shadow-md
-        font-medium
-        transition-colors duration-200
-        disabled:bg-gray-400 disabled:cursor-not-allowed
+        rounded-xl
+        font-semibold
+        transition-all duration-300
+        disabled:bg-gray-300 dark:disabled:bg-gray-700 disabled:text-gray-500 dark:disabled:text-gray-500 disabled:border-gray-300 dark:disabled:border-gray-700 disabled:cursor-not-allowed disabled:shadow-none
         ${fullWidth ? 'w-full' : ''}
         ${className}
       `}
@@ -57,4 +57,3 @@ export function SecondaryButton({
     </motion.button>
   );
 }
-
