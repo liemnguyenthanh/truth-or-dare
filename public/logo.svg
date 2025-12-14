@@ -1,0 +1,43 @@
+<svg width="120" height="120" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" fill="none">
+  <defs>
+    <linearGradient id="backgroundGradient" x1="0" y1="0" x2="120" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EC4899"/>
+      <stop offset="1" stop-color="#9333EA"/>
+    </linearGradient>
+    <linearGradient id="whiteGradient" x1="0" y1="0" x2="120" y2="120" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" stop-opacity="1"/>
+      <stop offset="1" stop-color="#F0F0F0" stop-opacity="0.95"/>
+    </linearGradient>
+    <!-- Shadow filter for depth -->
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2"/>
+      <feOffset dx="0" dy="1" result="offsetblur"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.3"/>
+      </feComponentTransfer>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- Background circle with gradient -->
+  <circle cx="60" cy="60" r="58" fill="url(#backgroundGradient)" />
+  
+  <!-- Heart for Truth - Larger and more prominent -->
+  <path d="M30 45C30 37 36 30 44 30C52 30 56 37 56 37C56 37 60 30 68 30C76 30 82 37 82 45C82 60 56 72 56 72C56 72 30 60 30 45Z" 
+    fill="url(#whiteGradient)" 
+    stroke="#FFFFFF" 
+    stroke-width="2" 
+    stroke-opacity="0.8"
+    filter="url(#shadow)" />
+  
+  <!-- Lightning bolt for Dare - Larger and more prominent -->
+  <path d="M65 30 L85 30 L72 58 H88 L58 90 L70 58 H55 L65 30 Z" 
+    fill="url(#whiteGradient)" 
+    stroke="#FFFFFF" 
+    stroke-width="2" 
+    stroke-opacity="0.8"
+    filter="url(#shadow)" />
+</svg>

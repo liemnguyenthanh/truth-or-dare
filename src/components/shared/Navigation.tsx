@@ -1,10 +1,12 @@
 'use client';
 
 import { AnimatePresence, motion } from 'framer-motion';
+import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import React, { useEffect, useMemo, useState } from 'react';
 
+import { useTheme } from '@/hooks/useTheme';
 import { useTranslation } from '@/hooks/useTranslation';
 
 import { getLocaleFromPath, getLocalizedPath } from '@/i18n/config';
@@ -18,6 +20,7 @@ export function Navigation() {
   const { t } = useTranslation({
     namespaces: ['common'],
   });
+  const { isDarkMode, toggleDarkMode } = useTheme();
   const [isOpen, setIsOpen] = useState(false);
 
   const navigationItems = useMemo(
@@ -75,25 +78,55 @@ export function Navigation() {
         <div className='container mx-auto px-4'>
           <div className='flex justify-between items-center h-16'>
             {/* Logo */}
-            <LocalizedLink
-              href='/'
-              className='flex items-center space-x-3 z-50 group'
-            >
-              <div className='relative'>
-                <span className='text-3xl group-hover:scale-110 transition-transform duration-200'>
-                  🎯
-                </span>
-                <div className='absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full animate-pulse'></div>
-              </div>
-              <div>
-                <span className='text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent'>
-                  {t('app.name')}
-                </span>
-                <p className='text-xs text-gray-500 dark:text-gray-400 -mt-1'>
-                  {t('app.subtitle')}
-                </p>
-              </div>
-            </LocalizedLink>
+            <div className='flex items-center space-x-3 z-50'>
+              {/* Desktop: Link to home */}
+              <LocalizedLink
+                href='/'
+                className='hidden md:flex items-center space-x-3 group'
+              >
+                <div className='relative'>
+                  <motion.div
+                    whileHover={{ scale: 1.1 }}
+                    className='relative w-10 h-10'
+                  >
+                    <Image
+                      src='/favicon.svg'
+                      alt='Logo'
+                      width={40}
+                      height={40}
+                      className='transition-transform duration-200'
+                    />
+                  </motion.div>
+                </div>
+                <div>
+                  <span className='text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent'>
+                    {t('app.name')}
+                  </span>
+                  <p className='text-xs text-gray-500 dark:text-gray-400 -mt-1'>
+                    {t('app.subtitle')}
+                  </p>
+                </div>
+              </LocalizedLink>
+              {/* Mobile: Logo only */}
+              <LocalizedLink
+                href='/'
+                className='md:hidden flex items-center group'
+              >
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  className='relative w-10 h-10'
+                >
+                  <Image
+                    src='/favicon.svg'
+                    alt='Logo'
+                    width={40}
+                    height={40}
+                    className='transition-transform duration-200'
+                  />
+                </motion.div>
+              </LocalizedLink>
+            </div>
 
             {/* Desktop Navigation */}
             <div className='hidden md:flex items-center space-x-2'>
@@ -132,12 +165,35 @@ export function Navigation() {
                   )}
                 </Link>
               ))}
+              {/* Theme Toggle Button */}
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={toggleDarkMode}
+                className='w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200'
+                aria-label={
+                  isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'
+                }
+              >
+                <span className='text-lg'>{isDarkMode ? '☀️' : '🌙'}</span>
+              </motion.button>
               <LanguageSwitcher />
             </div>
 
-            {/* Mobile: Language Switcher and Menu Button */}
+            {/* Mobile: Language Switcher, Theme Toggle and Menu Button */}
             <div className='md:hidden flex items-center gap-2'>
               <LanguageSwitcher />
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={toggleDarkMode}
+                className='w-10 h-10 flex items-center justify-center rounded-full bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700 transition-all duration-200'
+                aria-label={
+                  isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'
+                }
+              >
+                <span className='text-lg'>{isDarkMode ? '☀️' : '🌙'}</span>
+              </motion.button>
               <motion.button
                 whileTap={{ scale: 0.95 }}
                 onClick={() => setIsOpen(!isOpen)}
@@ -201,8 +257,12 @@ export function Navigation() {
                 <div className='p-6 border-b border-gray-200/50 dark:border-gray-700/50'>
                   <div className='flex items-center space-x-3'>
                     <div className='relative'>
-                      <span className='text-3xl'>🎯</span>
-                      <div className='absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-pink-500 to-purple-500 rounded-full animate-pulse'></div>
+                      <Image
+                        src='/favicon.svg'
+                        alt='Logo'
+                        width={48}
+                        height={48}
+                      />
                     </div>
                     <div>
                       <h2 className='text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent'>
@@ -258,6 +318,23 @@ export function Navigation() {
                         </Link>
                       </motion.div>
                     ))}
+                    {/* Theme Toggle in Mobile Drawer */}
+                    <motion.div
+                      initial={{ opacity: 0, x: 50 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: navigationItems.length * 0.1 }}
+                    >
+                      <motion.button
+                        whileTap={{ scale: 0.95 }}
+                        onClick={toggleDarkMode}
+                        className='group relative flex items-center space-x-4 px-6 py-4 rounded-2xl text-base font-medium transition-all duration-300 w-full text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-purple-600 dark:hover:text-purple-400'
+                      >
+                        <span className='text-2xl transition-transform duration-200 group-hover:scale-110'>
+                          {isDarkMode ? '☀️' : '🌙'}
+                        </span>
+                        <span>{isDarkMode ? 'Light Mode' : 'Dark Mode'}</span>
+                      </motion.button>
+                    </motion.div>
                   </nav>
                 </div>
 
