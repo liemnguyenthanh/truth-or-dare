@@ -30,7 +30,7 @@ export function getGameSchema(locale: Locale) {
         'Truth or Dare Online Game',
       ],
       description:
-        'Play Truth or Dare online for free! Over 500+ fun questions and daring challenges. Perfect party game for gatherings, birthdays, and friend meetups. No download required.',
+        "Vietnam's leading free online Truth or Dare game. Create beautiful memories with friends with over 500+ interesting questions. Perfect party game for gatherings, birthdays, and friend meetups.",
       url: `${baseUrl}/en`,
       image: `${baseUrl}/images/og.png`,
       genre: ['Party Game', 'Social Game', 'Entertainment', 'Interactive Game'],
@@ -67,7 +67,7 @@ export function getGameSchema(locale: Locale) {
     name: 'Thật Hay Thách Online',
     alternateName: ['Truth or Dare', 'Truth or Dare Tiếng Việt'],
     description:
-      'Trò chơi Thật Hay Thách online miễn phí với hơn 500+ câu hỏi thú vị và thử thách táo bạo. Hoàn hảo cho tiệc tùng và gặp mặt bạn bè.',
+      'Trò chơi Thật Hay Thách online miễn phí hàng đầu Việt Nam. Tạo kỷ niệm đẹp cùng bạn bè với hơn 500+ câu hỏi thú vị. Hoàn hảo cho tiệc tùng và gặp mặt bạn bè.',
     url: baseUrl,
     image: `${baseUrl}/images/og.png`,
     genre: ['Party Game', 'Social Game', 'Entertainment'],
@@ -109,7 +109,7 @@ export function getWebsiteSchema(locale: Locale) {
       name: 'Truth or Dare Online',
       url: `${baseUrl}${localePath}`,
       description:
-        'Free online Truth or Dare game with 500+ questions and challenges',
+        "Vietnam's leading free online Truth or Dare game. Create beautiful memories with friends with over 500+ interesting questions.",
       inLanguage: 'en-US',
       potentialAction: {
         '@type': 'SearchAction',
@@ -125,7 +125,8 @@ export function getWebsiteSchema(locale: Locale) {
     '@type': 'WebSite',
     name: 'Thật Hay Thách Online',
     url: baseUrl,
-    description: 'Website chơi trò chơi Thật Hay Thách online miễn phí',
+    description:
+      'Trò chơi Thật Hay Thách online miễn phí hàng đầu Việt Nam. Tạo kỷ niệm đẹp cùng bạn bè với hơn 500+ câu hỏi thú vị.',
     inLanguage: 'vi-VN',
     potentialAction: {
       '@type': 'SearchAction',
