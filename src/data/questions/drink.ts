@@ -11,6 +11,11 @@ export const DRINK_CATEGORIES = [
     description: 'Những câu hỏi dành cho người trên 18 tuổi',
   },
   {
+    id: '18+_tinh_cam',
+    name: '18+ Tình Cảm',
+    description: 'Câu hỏi 18+ nhẹ nhàng, tình cảm cho các cặp đôi',
+  },
+  {
     id: '18+_tao_bao',
     name: 'Táo Bạo',
     description: 'Những câu hỏi táo bạo và mạnh mẽ hơn',
@@ -332,6 +337,566 @@ export const EIGHTEEN_PLUS_QUESTIONS: DrinkQuestion[] = [
   { category: '18+', text: `Người chơi hệ cao su (trễ giờ) thì uống` },
   { category: '18+', text: ` ai đã từng dùng tinder thì uống` },
   { category: '18+', text: ` ai đen bạc đen cả tình thì uống ` },
+];
+
+// Bộ câu hỏi 18+ Tình Cảm (nhẹ nhàng cho cặp đôi)
+export const EIGHTEEN_PLUS_TINH_CAM_QUESTIONS: DrinkQuestion[] = [
+  {
+    category: '18+_tinh_cam',
+    text: ` chia sẻ kỷ niệm ngọt ngào nhất giữa bạn và người yêu hiện tại (hoặc uống 1 ly)`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` nhìn vào mắt người yêu/crush 10 giây không nói gì, nếu thấy ngại quá thì uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` ôm người bạn thích nhất trong bàn trong 10 giây hoặc uống 1 ly`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` nói 3 điều bạn trân trọng nhất ở người yêu (hoặc người bạn thích) hoặc uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` kể về lần bạn cảm thấy được yêu thương nhất (không cần nói tên)`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` gửi một tin nhắn dễ thương cho người bạn đang thích ngay bây giờ hoặc uống 2 ly`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` nếu được hẹn hò lý tưởng cuối tuần này, bạn sẽ chọn đi đâu và làm gì?`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` khen người bên phải bạn bằng 3 câu thật lòng (nếu ngại thì uống 1 ly)`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` kể về lần bạn chủ động vì tình cảm (tỏ tình, nắm tay, rủ đi chơi,...)`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` nắm tay một người khác giới trong bàn 10 giây hoặc uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` viết nhanh một caption lãng mạn cho bức ảnh tưởng tượng của bạn và người yêu`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` kể lần bạn "trộm nhìn" người mình thích mà bị phát hiện`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` nói một điều mà bạn luôn muốn cảm ơn người yêu/cũ hoặc hiện tại (không cần nêu tên)`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` ai đang độc thân mà từng từ chối một người tốt thì uống 1 ly và kể lý do (nếu muốn)`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` chọn một người trong bàn và nói 2 điều tích cực về người đó`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` kể về lần tim bạn "đập loạn xạ" vì một hành động nhỏ của ai đó`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` nếu phải mô tả gu người yêu lý tưởng bằng 3 từ, bạn sẽ chọn gì?`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` đưa ra một lời chúc dễ thương cho người bên trái (hoặc uống nếu bí)`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` kể lần bạn làm điều gì đó lãng mạn "sến súa" nhưng vẫn thấy đáng giá`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` ai từng khóc vì yêu thì uống 1 ly (có thể chia sẻ nếu muốn)`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` nếu phải chọn một bài hát để tặng người yêu cũ/hiện tại, bạn sẽ chọn bài gì?`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` đọc một câu tỏ tình "sến" nhất mà bạn nghĩ ra ngay lúc này hoặc uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` kể về lần bạn cảm thấy "yên bình" nhất khi ở cạnh một người`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` nêu 3 điều bạn nghĩ mình làm rất tốt trong một mối quan hệ`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` gửi reaction "trái tim" cho story gần nhất của một người khác giới trong danh sách story hoặc uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` kể một bí mật nhỏ về chuyện tình cảm của bạn mà ít người biết`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` nếu được quay về quá khứ, có điều gì về tình cảm bạn muốn làm khác đi không?`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` mô tả cái nắm tay hoàn hảo trong tưởng tượng của bạn`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` chọn một người trong bàn để giả vờ diễn cảnh tỏ tình trong 10 giây hoặc uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` kể về lần bạn nhận được một tin nhắn khiến bạn cười cả ngày`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` ai từng "cảm nắng" đồng nghiệp/lớp học chung thì uống 1 ly`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` nếu được dành 1 ngày chỉ để chăm sóc người yêu, bạn sẽ làm gì từ sáng đến tối?`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` kể lần bạn chủ động nắm tay/ôm ai đó vì sợ họ buồn`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` nêu 3 điều bạn mong người yêu tương lai hiểu về bạn`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` hát một câu trong bài hát tình yêu bạn thích nhất (hoặc uống)`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` kể lần bạn được tỏ tình theo cách dễ thương/bất ngờ`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` nếu phải tặng một món quà cho người bạn đang nghĩ tới, đó sẽ là gì?`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` chọn một người trong bàn và nói "cảm ơn vì đã xuất hiện trong cuộc đời mình" (nếu ngại thì uống)`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` kể lần bạn nhận ra mình đã thực sự thích một người hơn mình nghĩ`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` thú nhận lần gần nhất bạn ghen vì người yêu/crush (nếu không dám thì uống 2 ly)`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` mô tả kiểu hẹn hò "táo bạo" nhất bạn từng trải qua (không cần kể quá chi tiết)`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` nếu tối nay được chọn ở cạnh một người đến sáng, bạn sẽ chọn ai trong cuộc đời mình?`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` dám gửi tin nhắn "em/anh nhớ" cho một người cụ thể ngay bây giờ không? nếu không thì uống 2 ly`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` chia sẻ fantasy hẹn hò điên rồ nhất bạn từng nghĩ tới`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` thú nhận lần bạn cố tình "seen mà không rep" người mình thích`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` kể về một lần bạn hôn ai đó mà vẫn nhớ cảm giác tới giờ`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` nếu được chọn hôn, ôm hoặc nắm tay một người trong bàn, bạn sẽ chọn ai và vì sao?`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` đã từng stalk trang cá nhân người mình thích bao nhiêu lần trong 1 ngày? nói thật hoặc uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` kể lần bạn nhắn tin lúc đêm khuya với ai đó mà không dừng lại được`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` ai từng lỡ gọi nhầm tên người này khi đang nhắn tin/ở cạnh người khác thì uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` dám cho người bên phải xem đoạn chat gần đây nhất với người bạn thích không? nếu không thì uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` mô tả cảm giác của bạn sau một cái ôm mà bạn thấy "không muốn buông"`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` kể một lần bạn chủ động xin số, xin facebook, instagram của người lạ`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` ai từng quay lại với người yêu cũ thì uống 2 ly và có thể kể lý do (nếu muốn)`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` nếu người yêu cũ muốn quay lại ngay bây giờ, bạn trả lời thế nào?`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` dám để người chơi bên trái chọn một người bất kỳ để bạn gửi icon trái tim không? nếu không thì uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` kể một bí mật về cơ thể/ngoại hình mà chỉ người yêu (hoặc rất ít người) biết`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` ai từng cố tình chạm nhẹ vào tay/người của người mình thích để "thả thính" thì uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` mô tả lần bạn cảm thấy "hoá học cơ thể" (chemistry) mạnh nhất với một người`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` đã từng tưởng tượng về tương lai sống chung với ai đó chưa? kể sơ qua hoặc uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` chọn một người trong bàn mà bạn nghĩ nếu yêu sẽ "rất dễ cháy" và giải thích`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` dám để người bên trái ôm bạn thật chặt 10 giây không? nếu không thì uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` ai từng hôn người mà không phải người yêu chính thức thì uống 2 ly`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` kể một lần bạn "suýt" làm điều gì đó đi quá giới hạn nhưng đã dừng lại`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` nếu được đổi 1 nụ hôn lấy 3 ly rượu/bia, bạn sẽ chọn cái nào bây giờ?`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` mô tả dáng vẻ/ánh mắt khiến bạn "mất kiểm soát" nhất ở người khác giới`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` kể lần bạn cố tình ăn mặc quyến rũ hơn bình thường để gặp ai đó`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` ai từng trốn gia đình để đi chơi/hẹn hò thì uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` nếu phải hẹn hò bí mật với ai đó trong phòng này, bạn sẽ chọn ai?`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` chia sẻ lần bạn nhận được lời khen về "sự hấp dẫn" mà bạn không ngờ tới`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` dám để người bên phải đặt tay lên vai hoặc eo bạn trong 10 giây không? nếu không thì uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` kể lần bạn nhắn tin kiểu "thả thính" quá đà rồi phải giả vờ nói đùa`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` ai từng lén lưu ảnh người mình thích về máy thì uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` mô tả nụ hôn lý tưởng của bạn mà không dùng từ "hôn"`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` nếu được đổi thân phận với người yêu/cũ trong 24h, bạn sẽ làm gì đầu tiên?`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` kể lần bạn nhận ra ai đó đang "thèm muốn" mình qua ánh mắt hoặc hành động`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` ai từng có cảm giác "body contact" khiến bạn nổi da gà (theo nghĩa tích cực) thì uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` dám cho mọi người xem 3 người top đầu trong lịch sử tìm kiếm facebook/instagram của bạn không? nếu không thì uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` chia sẻ lần bạn cố tình tạo cơ hội ở riêng với người mình thích`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` ai từng giả vờ say để được người khác chăm sóc thì uống 2 ly`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` nếu phải chọn: yêu an toàn nhưng nhạt, hay yêu bùng nổ nhưng đầy rủi ro?`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` kể một tin nhắn bạn từng gõ xong rồi xoá vì "quá liều"`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` ai từng để chế độ "chỉ mình tôi" cho story đăng cho một người xem thì uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` mô tả không gian hẹn hò mà bạn thấy "kích thích cảm xúc" nhất`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` kể về lần bạn không ngủ được vì một cuộc trò chuyện với ai đó`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` ai từng nằm cạnh người mình thích mà "không dám làm gì" thì uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` nếu được gửi một tin nhắn lúc 2h sáng mà người đó chắc chắn trả lời, bạn sẽ gửi cho ai và nói gì?`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` dám để người chơi bên trái chọn một người để bạn gọi điện "nói nhớ" ngay bây giờ không?`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` chia sẻ giới hạn lớn nhất của bạn trong tình yêu mà người khác cần tôn trọng`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` ai từng ghen đến mức kiểm tra điện thoại/ngày của người yêu thì uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` kể lần bạn chủ động kéo người khác lại gần mình hơn (ôm, tựa, nắm tay...)`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` nếu phải mô tả độ "dại vì tình" của mình trên thang 1-10, bạn chọn số mấy? và vì sao?`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` ai từng yêu đơn phương người đã có người yêu thì uống 2 ly`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` mô tả bộ đồ hoặc phong cách khiến bạn tự thấy mình hấp dẫn nhất`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` kể một lần bạn chủ động rủ ai đó về muộn hơn bình thường chỉ để được ở cạnh lâu hơn`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` ai từng hôn ai đó trong một buổi tiệc thì uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` nếu được chọn hẹn hò bí mật 1 tuần ở nơi xa, bạn sẽ chọn đi với ai (có thể không trong bàn) và vì sao?`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` dám cho người bên phải chọn một bức ảnh hơi "thân mật" của bạn để mọi người xem không? nếu không thì uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` chia sẻ lần bạn bị từ chối tình cảm mà đến giờ vẫn còn ấm ức`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` ai từng nói "không có gì" trong khi thật ra rất buồn vì người yêu/crush thì uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` kể lần bạn thấy ai đó quyến rũ hơn rất nhiều khi họ giận hoặc nghiêm túc`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` nếu được chọn một phần trên cơ thể mình để người yêu khen thật nhiều, bạn sẽ chọn gì?`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` ai từng chủ động nhắn "qua chưa?" hoặc "đi chơi không?" lúc khuya thì uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` mô tả một cái chạm vô tình mà bạn nhớ rất rõ đến giờ`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` kể lần bạn cố tình ngồi/đứng gần ai đó hơn mức cần thiết`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` ai từng ghen với người yêu cũ của người yêu hiện tại thì uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` nếu phải nói thật: bạn có hay tưởng tượng cảnh thân mật với người mình thích không? trả lời hoặc uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` chia sẻ lần bạn thấy mình "yếu đuối" nhất trước một người`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` ai từng quay lại nói chuyện với người yêu cũ chỉ vì... cô đơn thì uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` kể về lần bạn hôn ai đó mà xung quanh có nguy cơ bị phát hiện`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` nếu phải chọn một người trong bàn để "trốn cùng" một ngày không mạng, bạn sẽ chọn ai?`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` dám để người bên trái thì thầm vào tai bạn một câu bất kỳ (mọi người không được nghe) không? nếu không thì uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` chia sẻ lần bạn bị ai đó từ chối cái ôm/nắm tay`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` ai từng ghen vô lý rồi sau đó phải xin lỗi thì uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` kể một lần bạn làm điều hơi "liều" chỉ để gây ấn tượng với ai đó`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` mô tả cảm giác bạn muốn người yêu mang lại cho mình khi ở một mình trong phòng cùng nhau`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` ai từng lén hẹn hò với đồng nghiệp/cùng lớp mà không ai biết thì uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` nếu được phép gửi một tấm ảnh hơi "mlem" cho người yêu/crush mà họ chắc chắn thích, bạn sẽ gửi không?`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` kể lần bạn nhận được một cái ôm từ phía sau khiến bạn nhớ mãi`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` ai từng bị người yêu hoặc crush chọc đến đỏ mặt thì uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` mô tả ánh mắt khiến bạn "tan chảy" nhất bạn từng nhận được`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` kể một lần bạn cố giấu cảm xúc nhưng bị người kia nhìn thấu`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` ai từng vì một cái nắm tay/ôm mà tha thứ cho người khác thì uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` nếu phải thú nhận: bạn thích chủ động trong chuyện tình cảm hay bị dẫn dắt?`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` chia sẻ lần bạn lỡ buông một câu nói "quá giới hạn" với người mình thích`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` ai từng ghen với... bạn thân của người yêu thì uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` kể lần bạn thấy tim mình đập nhanh bất thường chỉ vì một cử chỉ rất nhỏ`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` mô tả bầu không khí "hoàn hảo" trước một nụ hôn (ánh sáng, không gian, cảm xúc...)`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` ai từng giả vờ không thích nhưng trong lòng "rụng rời" thì uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` kể một kịch bản hẹn hò táo bạo mà bạn muốn thử ít nhất một lần trong đời`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` ai từng tắt điện thoại/ẩn nick chỉ để né tin nhắn của người mình thích vì quá hồi hộp thì uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` nếu được đổi 1 đêm nói chuyện thật sâu, thật "nặng đô" về mọi chủ đề tình yêu với một người bất kỳ, bạn sẽ chọn ai?`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` chia sẻ lần bạn hạnh phúc đến mức... sợ mất người đó`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` ai từng làm điều mình không thích chỉ để người kia vui thì uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` kể lần bạn "đọc vị" được rằng người kia cũng đang nghĩ bậy giống mình`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` mô tả cảm giác của bạn khi được ôm ngủ (chỉ nói cảm giác, không tả chi tiết hành động)`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` ai từng nhắn hoặc nghe câu "qua đây ôm cái rồi về" thì uống`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` nếu ngay bây giờ phải nói một câu hơi "nặng đô" cho người bên phải, bạn sẽ nói gì? (hoặc uống 3 ly)`,
+  },
+  {
+    category: '18+_tinh_cam',
+    text: ` kể lần bạn nhận ra "mình không còn kiểm soát được trái tim nữa" trong một mối quan hệ`,
+  },
 ];
 
 // Bộ câu hỏi Táo Bạo
@@ -1192,6 +1757,7 @@ export const DRINK_QUESTIONS_BY_CATEGORY: Record<
   DrinkQuestion[]
 > = {
   '18+': EIGHTEEN_PLUS_QUESTIONS,
+  '18+_tinh_cam': EIGHTEEN_PLUS_TINH_CAM_QUESTIONS,
   '18+_tao_bao': TAO_BAO_QUESTIONS,
   tinh_ban: FRIENDSHIP_QUESTIONS,
   cong_so: CONG_SO_QUESTIONS,
@@ -1200,6 +1766,7 @@ export const DRINK_QUESTIONS_BY_CATEGORY: Record<
 // Merge tất cả các bộ câu hỏi lại
 export const DRINK_QUESTIONS: DrinkQuestion[] = [
   ...EIGHTEEN_PLUS_QUESTIONS,
+  ...EIGHTEEN_PLUS_TINH_CAM_QUESTIONS,
   ...TAO_BAO_QUESTIONS,
   ...FRIENDSHIP_QUESTIONS,
   ...CONG_SO_QUESTIONS,

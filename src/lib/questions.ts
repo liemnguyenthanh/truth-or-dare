@@ -36,10 +36,12 @@ export function getDrinkQuestions(locale: Locale): DrinkQuestion[] {
   const questionsData = locale === 'en' ? drinkQuestionsEn : drinkQuestionsVi;
   const fallbackData = locale === 'en' ? drinkQuestionsVi : drinkQuestionsEn;
   const questions: DrinkQuestion[] = [];
+  const categoriesInJson = new Set<string>();
 
   // Convert JSON structure to DrinkQuestion array
   Object.entries(questionsData).forEach(([category, texts]) => {
     if (Array.isArray(texts)) {
+      categoriesInJson.add(category);
       const fallbackTexts = (fallbackData as any)[category] as
         | string[]
         | undefined;
@@ -79,7 +81,14 @@ export function getDrinkQuestions(locale: Locale): DrinkQuestion[] {
     }
   });
 
-  // Fallback to Vietnamese if no questions loaded
+  // Merge with fallback questions for categories not in JSON
+  // This ensures categories like '18+_tinh_cam' are included even if not in JSON
+  const fallbackQuestions = DRINK_QUESTIONS.filter(
+    (q) => !categoriesInJson.has(q.category)
+  );
+  questions.push(...fallbackQuestions);
+
+  // Final fallback: if no questions loaded at all, return all DRINK_QUESTIONS
   return questions.length > 0 ? questions : DRINK_QUESTIONS;
 }
 

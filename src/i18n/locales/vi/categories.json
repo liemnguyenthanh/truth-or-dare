@@ -4,6 +4,10 @@
       "name": "18+",
       "description": "Những câu hỏi dành cho người trên 18 tuổi"
     },
+    "18+_tinh_cam": {
+      "name": "18+ Tình Cảm",
+      "description": "Câu hỏi 18+ nhẹ nhàng, tình cảm cho các cặp đôi"
+    },
     "18+_tao_bao": {
       "name": "Táo Bạo",
       "description": "Những câu hỏi táo bạo và mạnh mẽ hơn"
