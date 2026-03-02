@@ -32,7 +32,27 @@ export async function generateMetadata({
   params: { locale: string };
 }) {
   const locale: Locale = isValidLocale(params.locale) ? params.locale : 'vi';
-  return generateLocaleMetadata(locale);
+  const baseMetadata = await generateLocaleMetadata(locale);
+  const baseUrl = 'https://www.truthordaregame.xyz';
+
+  // Canonical URL luôn có locale prefix
+  const canonicalUrl = `${baseUrl}/${locale}/`;
+
+  // Alternates.languages luôn có locale prefix cho tất cả locales
+  const alternatesLanguages = {
+    vi: `${baseUrl}/vi/`,
+    en: `${baseUrl}/en/`,
+    'x-default': `${baseUrl}/vi/`,
+  };
+
+  return {
+    ...baseMetadata,
+    alternates: {
+      ...baseMetadata.alternates,
+      canonical: canonicalUrl,
+      languages: alternatesLanguages,
+    },
+  };
 }
 
 export default function LocaleLayout({

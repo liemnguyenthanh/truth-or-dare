@@ -4,8 +4,11 @@ import { defaultLocale, locales } from '@/i18n/config';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://www.truthordaregame.xyz';
+  const lastModified = process.env.NEXT_PUBLIC_SITEMAP_LASTMOD
+    ? new Date(process.env.NEXT_PUBLIC_SITEMAP_LASTMOD)
+    : undefined;
 
-  // Static pages (without locale prefix for default locale)
+  // Static pages (without locale prefix - will be added automatically)
   const staticPages = [
     '/',
     '/quick',
@@ -22,9 +25,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   locales.forEach((locale) => {
     staticPages.forEach((path) => {
-      // For default locale, use path as-is
-      // For other locales, add locale prefix
-      const url = locale === defaultLocale ? path : `/${locale}${path}`;
+      // ALWAYS include locale prefix in URL
+      const url = `/${locale}${path}`;
       const fullUrl = `${baseUrl}${url}`;
 
       // Determine priority based on page
@@ -41,7 +43,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
       sitemapEntries.push({
         url: fullUrl,
-        lastModified: new Date(),
+        lastModified,
         changeFrequency:
           path === '/'
             ? 'daily'
@@ -50,14 +52,13 @@ export default function sitemap(): MetadataRoute.Sitemap {
             : 'weekly',
         priority,
         alternates: {
-          languages: Object.fromEntries(
-            locales.map((l) => [
+          languages: Object.fromEntries([
+            ...locales.map((l) => [
               l,
-              l === defaultLocale
-                ? `${baseUrl}${path}`
-                : `${baseUrl}/${l}${path}`,
-            ])
-          ),
+              `${baseUrl}/${l}${path}`, // ALWAYS include locale prefix
+            ]),
+            ['x-default', `${baseUrl}/${defaultLocale}${path}`],
+          ]),
         },
       });
     });

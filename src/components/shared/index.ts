@@ -11,7 +11,6 @@ export { default as DonateModal } from './DonateModal';
 export * from './DonateTicker';
 export * from './ErrorToast';
 export * from './Footer';
-export * from './HreflangTags';
 export * from './icons';
 export * from './JsonLd';
 export * from './LanguageSwitcher';

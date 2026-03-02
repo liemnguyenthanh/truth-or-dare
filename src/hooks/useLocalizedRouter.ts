@@ -60,11 +60,26 @@ export function useLocalizedRouter() {
     router.refresh();
   }, [router]);
 
+  /**
+   * Generate a localized href string
+   * @param path - Path to generate href for (e.g., '/drink', '/group')
+   * @param locale - Optional locale override. If not provided, uses current locale
+   * @returns Localized path string with locale prefix
+   */
+  const href = useCallback(
+    (path: string, locale?: Locale) => {
+      const targetLocale = locale || currentLocale;
+      return getLocalizedPath(path, targetLocale);
+    },
+    [currentLocale]
+  );
+
   return {
     push,
     replace,
     back,
     refresh,
+    href,
     locale: currentLocale,
   };
 }

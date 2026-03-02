@@ -36,7 +36,12 @@ export function LanguageSwitcher() {
       return;
     }
 
-    const newPath = getLocalizedPath(pathname, newLocale);
+    // Remove locale cũ từ pathname: pathname.replace(/^\/(vi|en)/, '') || '/'
+    const currentPath = pathname.replace(/^\/(vi|en)/, '') || '/';
+
+    // Sử dụng getLocalizedPath từ @/i18n/config để generate URL mới
+    // ALWAYS include locale prefix trong URL mới
+    const newPath = getLocalizedPath(currentPath, newLocale);
 
     // First, replace the current history entry using window.history
     // This ensures the browser history is properly updated

@@ -11,8 +11,9 @@ export async function generateMetadata(
   const translations = await loadTranslations(locale, ['seo']);
   const seo = translations['seo'];
   const baseUrl = 'https://www.truthordaregame.xyz';
-  const localePath = locale === defaultLocale ? '' : `/${locale}`;
-  const url = `${baseUrl}${localePath}`;
+  const googleVerification = process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
+  // ALWAYS include locale prefix in URL
+  const url = `${baseUrl}/${locale}/`;
 
   return {
     metadataBase: new URL(baseUrl),
@@ -81,14 +82,14 @@ export async function generateMetadata(
     alternates: {
       canonical: url,
       languages: {
-        vi: `${baseUrl}`,
-        en: `${baseUrl}/en`,
-        'x-default': `${baseUrl}`,
+        vi: `${baseUrl}/vi/`,
+        en: `${baseUrl}/en/`,
+        'x-default': `${baseUrl}/vi/`,
       },
     },
-    other: {
-      'google-site-verification': 'your-google-verification-code',
-    },
+    verification: googleVerification
+      ? { google: googleVerification }
+      : undefined,
   };
 }
 
@@ -100,9 +101,10 @@ export async function generatePageMetadata(
 ): Promise<Metadata> {
   const baseMetadata = await generateMetadata(locale);
   const baseUrl = 'https://www.truthordaregame.xyz';
-  const localePath = locale === defaultLocale ? '' : `/${locale}`;
+  // pagePath should NOT include locale prefix (will be added automatically)
   const path = pagePath || '';
-  const url = `${baseUrl}${localePath}${path}`;
+  // ALWAYS include locale prefix in URL
+  const url = `${baseUrl}/${locale}${path}`;
 
   return {
     ...baseMetadata,
@@ -122,6 +124,11 @@ export async function generatePageMetadata(
     alternates: {
       ...baseMetadata.alternates,
       canonical: url,
+      languages: {
+        vi: `${baseUrl}/vi${path}`,
+        en: `${baseUrl}/en${path}`,
+        'x-default': `${baseUrl}/vi${path}`,
+      },
     },
   };
 }

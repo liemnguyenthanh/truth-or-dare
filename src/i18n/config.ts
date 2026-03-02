@@ -2,6 +2,9 @@ export const locales = ['vi', 'en'] as const;
 export const defaultLocale = 'vi';
 export type Locale = (typeof locales)[number];
 
+// Always show locale in URL (even for default locale)
+export const alwaysShowLocale = true;
+
 export function isValidLocale(locale: string): locale is Locale {
   return locales.includes(locale as Locale);
 }
@@ -22,10 +25,13 @@ export function getLocalizedPath(pathname: string, locale: Locale): string {
     segments.shift();
   }
 
-  // Add new locale
-  if (locale !== defaultLocale) {
-    segments.unshift(locale);
-  }
+  // ALWAYS add locale prefix (even for default locale)
+  segments.unshift(locale);
 
   return '/' + segments.join('/');
+}
+
+// Generate canonical path (always includes locale prefix)
+export function getCanonicalPath(pathname: string, locale: Locale): string {
+  return getLocalizedPath(pathname, locale);
 }
