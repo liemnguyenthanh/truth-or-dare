@@ -14,7 +14,19 @@ export function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Detect locale from Accept-Language header or use default
+  /**
+   * SEO-first behavior for root path `/`
+   *
+   * - Luôn redirect `/` -> `/${defaultLocale}/` (hiện tại là `/vi/`)
+   * - Không phụ thuộc Accept-Language để Googlebot luôn thấy bản tiếng Việt
+   * - Các đường dẫn khác không có prefix locale vẫn có thể dùng Accept-Language
+   */
+  if (pathname === '/') {
+    const newUrl = new URL(`/${defaultLocale}/`, request.url);
+    return NextResponse.redirect(newUrl);
+  }
+
+  // Các path khác: detect locale từ Accept-Language hoặc dùng default
   const locale = getLocaleFromRequest(request) || defaultLocale;
 
   // Redirect to locale-prefixed path
