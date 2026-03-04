@@ -13,7 +13,7 @@ export async function generateMetadata({
 }: {
   params: { locale: string };
 }) {
-  const locale = params.locale as 'vi' | 'en';
+  const locale = params.locale as 'vi' | 'en' | 'es';
   const seoTranslations = {
     vi: {
       title: 'Thật Hay Thách Online - Trò Chơi Vui Nhộn Cùng Bạn Bè',
@@ -24,6 +24,11 @@ export async function generateMetadata({
       title: 'Truth or Dare Online - Fun Party Game with Friends',
       description:
         'Play Truth or Dare online for free! Over 500+ fun questions and daring challenges.',
+    },
+    es: {
+      title: 'Verdad o Reto Online - Juego Divertido con Amigos',
+      description:
+        '¡Juega a Verdad o Reto online gratis! Más de 500+ preguntas divertidas y retos berani.',
     },
   };
 

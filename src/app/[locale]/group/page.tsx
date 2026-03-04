@@ -1,9 +1,11 @@
 import { generatePageMetadata } from '@/lib/metadata';
 
+import { locales } from '@/i18n/config';
+
 import { GroupPageClient } from './GroupPageClient';
 
 export async function generateStaticParams() {
-  return [{ locale: 'vi' }, { locale: 'en' }];
+  return locales.map((locale) => ({ locale }));
 }
 
 export async function generateMetadata({
@@ -11,7 +13,7 @@ export async function generateMetadata({
 }: {
   params: { locale: string };
 }) {
-  const locale = params.locale as 'vi' | 'en';
+  const locale = params.locale as 'vi' | 'en' | 'es';
   const seoTranslations = {
     vi: {
       title: 'Chế Độ Nhóm - Thật Hay Thách Online',
@@ -22,6 +24,11 @@ export async function generateMetadata({
       title: 'Group Mode - Truth or Dare Online',
       description:
         'Add player names and play in turns. Perfect group mode for parties with friends.',
+    },
+    es: {
+      title: 'Modo Grupal - Verdad o Reto Online',
+      description:
+        '¡Añade nombres de jugadores y juega por turnos! Modo grupal perfecto para fiestas con amigos.',
     },
   };
 

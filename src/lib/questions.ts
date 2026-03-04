@@ -1,106 +1,122 @@
-import { EighteenQuestions } from '@/data/questions/18';
-// Import existing question data as fallback
-import {
-  type DrinkCategoryId,
-  type DrinkQuestion,
-  DRINK_CATEGORIES,
-  DRINK_QUESTIONS,
-} from '@/data/questions/drink';
-import { PartyQuestions } from '@/data/questions/party';
-
 import { type Locale } from '@/i18n/config';
 import categoriesEn from '@/i18n/locales/en/categories.json';
-import drinkQuestionsEn from '@/i18n/locales/en/questions/drink.json';
-import quickQuestionsEn from '@/i18n/locales/en/questions/quick.json';
+// Static imports - Next.js will code-split automatically
+import drinkEn from '@/i18n/locales/en/questions/drink.json';
+import quickEn from '@/i18n/locales/en/questions/quick.json';
+import categoriesEs from '@/i18n/locales/es/categories.json';
+import drinkEs from '@/i18n/locales/es/questions/drink.json';
+import quickEs from '@/i18n/locales/es/questions/quick.json';
 import categoriesVi from '@/i18n/locales/vi/categories.json';
-// Import translations
-import drinkQuestionsVi from '@/i18n/locales/vi/questions/drink.json';
-import quickQuestionsVi from '@/i18n/locales/vi/questions/quick.json';
+import drinkVi from '@/i18n/locales/vi/questions/drink.json';
+import quickVi from '@/i18n/locales/vi/questions/quick.json';
 
-import type { Question } from '@/types';
+import type { Question, QuestionType } from '@/types';
 
-// Type for drink category
 export type DrinkCategory = {
-  id: DrinkCategoryId;
+  id: string;
   name: string;
   description: string;
 };
 
-// Type for question loaders
-export type QuestionLoader<T> = (locale: Locale) => T[];
+type DrinkQuestion = {
+  category: string;
+  text: string;
+};
+
+type DefaultCategories = Array<{
+  id: string;
+  name: string;
+  description: string;
+}>;
+
+const DRINK_DEFAULT_CATEGORIES: DefaultCategories = [
+  { id: '18+', name: '18+', description: 'Questions for adults' },
+  {
+    id: '18+_tao_bao',
+    name: 'Bold',
+    description: 'More intense and bold questions',
+  },
+  {
+    id: 'tinh_ban',
+    name: 'Friendship',
+    description: 'Fun questions to bond with friends',
+  },
+  {
+    id: 'cong_so',
+    name: 'Office',
+    description: 'Fun office drinking questions',
+  },
+];
+
+const QUICK_DEFAULT_CATEGORIES = [
+  {
+    id: '18',
+    name: '18+',
+    description: 'Questions for adults',
+    icon: '💜',
+    color: '#9b59b6',
+  },
+  {
+    id: 'party',
+    name: 'Party',
+    description: 'Fun party questions',
+    icon: '🎉',
+    color: '#3498db',
+  },
+];
+
+const drinkDataMap = {
+  en: drinkEn,
+  vi: drinkVi,
+  es: drinkEs,
+};
+
+const quickDataMap = {
+  en: quickEn,
+  vi: quickVi,
+  es: quickEs,
+};
+
+const categoriesDataMap = {
+  en: categoriesEn,
+  vi: categoriesVi,
+  es: categoriesEs,
+};
 
 /**
- * Load drink questions with locale support
+ * Get drink questions for a specific locale
+ * Returns empty array if no translation exists
  */
 export function getDrinkQuestions(locale: Locale): DrinkQuestion[] {
-  const questionsData = locale === 'en' ? drinkQuestionsEn : drinkQuestionsVi;
-  const fallbackData = locale === 'en' ? drinkQuestionsVi : drinkQuestionsEn;
+  const data = drinkDataMap[locale];
+  if (!data) return [];
+
   const questions: DrinkQuestion[] = [];
-  const categoriesInJson = new Set<string>();
 
-  // Convert JSON structure to DrinkQuestion array
-  Object.entries(questionsData).forEach(([category, texts]) => {
+  Object.entries(data).forEach(([category, texts]) => {
     if (Array.isArray(texts)) {
-      categoriesInJson.add(category);
-      const fallbackTexts = (fallbackData as any)[category] as
-        | string[]
-        | undefined;
-
-      texts.forEach(
-        (text: string | { vi?: string; en?: string }, index: number) => {
-          const questionText =
-            typeof text === 'string'
-              ? text
-              : (text as any).vi || (text as any).en || '';
-
-          // If English text is empty, use Vietnamese fallback
-          if (
-            locale === 'en' &&
-            !questionText &&
-            fallbackTexts &&
-            fallbackTexts[index]
-          ) {
-            const fallbackText =
-              typeof fallbackTexts[index] === 'string'
-                ? fallbackTexts[index]
-                : (fallbackTexts[index] as any)?.vi || '';
-            if (fallbackText) {
-              questions.push({
-                category,
-                text: fallbackText,
-              });
-            }
-          } else if (questionText) {
-            questions.push({
-              category,
-              text: questionText,
-            });
-          }
+      texts.forEach((text: string) => {
+        if (text) {
+          questions.push({ category, text });
         }
-      );
+      });
     }
   });
 
-  // Merge with fallback questions for categories not in JSON
-  // This ensures categories like '18+_tinh_cam' are included even if not in JSON
-  const fallbackQuestions = DRINK_QUESTIONS.filter(
-    (q) => !categoriesInJson.has(q.category)
-  );
-  questions.push(...fallbackQuestions);
-
-  // Final fallback: if no questions loaded at all, return all DRINK_QUESTIONS
-  return questions.length > 0 ? questions : DRINK_QUESTIONS;
+  return questions;
 }
 
 /**
- * Get drink categories with locale support
+ * Get drink categories for a specific locale
  */
 export function getDrinkCategories(locale: Locale): DrinkCategory[] {
-  const categoriesData = locale === 'en' ? categoriesEn : categoriesVi;
-  const drinkCategories = categoriesData.drink || {};
+  const data = categoriesDataMap[locale];
+  if (!data) return DRINK_DEFAULT_CATEGORIES;
 
-  return DRINK_CATEGORIES.map((cat) => {
-    const translated = drinkCategories[cat.id];
+  const drinkCategories = data.drink || {};
+
+  return DRINK_DEFAULT_CATEGORIES.map((cat) => {
+    const translated = drinkCategories[cat.id as keyof typeof drinkCategories];
     return {
       id: cat.id,
       name: translated?.name || cat.name,
@@ -110,7 +126,7 @@ export function getDrinkCategories(locale: Locale): DrinkCategory[] {
 }
 
 /**
- * Get quick mode categories (18+ and Party) with locale support
+ * Get quick mode categories for a specific locale
  */
 export function getQuickCategories(locale: Locale): Array<{
   id: string;
@@ -119,100 +135,61 @@ export function getQuickCategories(locale: Locale): Array<{
   icon: string;
   color: string;
 }> {
-  const categoriesData = locale === 'en' ? categoriesEn : categoriesVi;
-  const quickCategories = categoriesData.quick || {};
+  const data = categoriesDataMap[locale];
+  if (!data) return QUICK_DEFAULT_CATEGORIES;
 
-  const baseCategories = [
-    {
-      id: '18',
-      name: '18+',
-      description: 'Câu hỏi dành cho người lớn',
-      icon: '💜',
-      color: '#9b59b6',
-    },
-    {
-      id: 'party',
-      name: 'Party',
-      description: 'Câu hỏi vui nhộn cho bữa tiệc',
-      icon: '🎉',
-      color: '#3498db',
-    },
-  ];
+  const quickCategories = data.quick || {};
 
-  return baseCategories.map((cat) => {
-    const translated = (quickCategories as any)[cat.id];
-    return {
-      ...cat,
-      name: translated?.name || cat.name,
-      description: translated?.description || cat.description,
-    };
-  });
+  return QUICK_DEFAULT_CATEGORIES.map((cat) => ({
+    ...cat,
+    name:
+      (
+        quickCategories as Record<
+          string,
+          { name?: string; description?: string }
+        >
+      )[cat.id]?.name || cat.name,
+    description:
+      (
+        quickCategories as Record<
+          string,
+          { name?: string; description?: string }
+        >
+      )[cat.id]?.description || cat.description,
+  }));
 }
 
 /**
- * Load quick mode questions (18+ and Party)
+ * Get quick questions for a specific category and locale
  */
 export function getQuickQuestions(
   category: '18' | 'party',
   locale: Locale
 ): Question[] {
-  const questionsData = locale === 'en' ? quickQuestionsEn : quickQuestionsVi;
-  const fallbackData = locale === 'en' ? quickQuestionsVi : quickQuestionsEn;
+  const data = quickDataMap[locale];
+  if (!data) return [];
+
   const categoryKey = category === '18' ? '18' : 'party';
-  const questions = questionsData[categoryKey] || [];
-  const fallbackQuestions = fallbackData[categoryKey] || [];
+  const questions = data[categoryKey] || [];
 
-  // Convert JSON structure to Question array
-  const result: Question[] = questions
-    .map((q: any, index: number) => {
-      const text =
-        typeof q.text === 'string'
-          ? q.text
-          : (q.text as any)?.vi || (q.text as any)?.en || '';
-      const fallbackQ = fallbackQuestions[index] as any;
-
-      // If English text is empty, use Vietnamese fallback
-      let finalText = text;
-      if (locale === 'en' && !text && fallbackQ) {
-        const fallbackText =
-          typeof fallbackQ.text === 'string'
-            ? fallbackQ.text
-            : (fallbackQ.text as any)?.vi || (fallbackQ.text as any)?.en || '';
-        finalText = fallbackText || '';
-      }
-
-      return {
-        type: q.type,
-        text: finalText || '',
-        category: q.category,
-        id: q.id,
-      };
-    })
-    .filter((q) => q.text); // Filter out questions with empty text
-
-  // Fallback to Vietnamese if no questions loaded
-  if (result.length === 0) {
-    switch (category) {
-      case '18':
-        return EighteenQuestions;
-      case 'party':
-        return PartyQuestions;
-      default:
-        return [];
-    }
-  }
-
-  return result;
+  return questions
+    .filter((q: { text?: string }) => q.text)
+    .map((q: { type: string; text: string; category: string; id: string }) => ({
+      type: q.type as QuestionType,
+      text: q.text,
+      category: q.category,
+      id: q.id,
+    }));
 }
 
 /**
- * Get all questions for a specific category
+ * Get questions by category
  */
 export function getQuestionsByCategory(
   type: 'drink' | 'quick',
   category: string,
   locale: Locale
-): (DrinkQuestion | Question)[] {
+): Question[] | DrinkQuestion[] {
   if (type === 'drink') {
     const questions = getDrinkQuestions(locale);
     return questions.filter((q) => q.category === category);

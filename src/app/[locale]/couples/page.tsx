@@ -1,9 +1,11 @@
 import { generatePageMetadata } from '@/lib/metadata';
 
+import { locales } from '@/i18n/config';
+
 import { CouplesPageClient } from './CouplesPageClient';
 
 export async function generateStaticParams() {
-  return [{ locale: 'vi' }, { locale: 'en' }];
+  return locales.map((locale) => ({ locale }));
 }
 
 export async function generateMetadata({
@@ -11,7 +13,7 @@ export async function generateMetadata({
 }: {
   params: { locale: string };
 }) {
-  const locale = params.locale as 'vi' | 'en';
+  const locale = params.locale as 'vi' | 'en' | 'es';
   const seoTranslations = {
     vi: {
       title: 'Chế Độ Cặp Đôi - Thật Hay Thách Online',
@@ -22,6 +24,10 @@ export async function generateMetadata({
       title: 'Couples Mode - Truth or Dare Online',
       description:
         'Special mode for couples. Romantic questions and challenges.',
+    },
+    es: {
+      title: 'Modo Parejas - Verdad o Reto Online',
+      description: '¡Modo especial para parejas! Preguntas y retos románticos.',
     },
   };
 

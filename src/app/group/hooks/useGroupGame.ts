@@ -33,18 +33,18 @@ export function useGroupGame(
 
   const drawNewCard = useCallback(
     (type: QuestionType) => {
-      // Nếu không phải lần đầu (có câu hỏi trước đó) → chuyển người chơi trước khi rút câu mới
+      // If not the first time (have previous question) → move to next player before drawing new question
       if (!isFirstQuestion && questionLogic.currentQuestion) {
-        // Chuyển sang người tiếp theo
+        // Move to next participant
         setCurrentParticipantIndex((prev) => (prev + 1) % participants.length);
       }
 
-      // Rút câu hỏi mới
+      // Draw new question
       questionLogic.drawNewQuestion(type, gameState.setIsDrawingCard);
       gameState.setSelectedType(type);
       gameStats.incrementCount(type);
 
-      // Mark đã không còn là lần đầu nữa
+      // Mark no longer first time
       setIsFirstQuestion(false);
     },
     [questionLogic, gameState, gameStats, participants.length, isFirstQuestion]

@@ -1,9 +1,11 @@
 import { generatePageMetadata } from '@/lib/metadata';
 
+import { locales } from '@/i18n/config';
+
 import { FeedbackPageClient } from './FeedbackPageClient';
 
 export async function generateStaticParams() {
-  return [{ locale: 'vi' }, { locale: 'en' }];
+  return locales.map((locale) => ({ locale }));
 }
 
 export async function generateMetadata({
@@ -11,7 +13,7 @@ export async function generateMetadata({
 }: {
   params: { locale: string };
 }) {
-  const locale = params.locale as 'vi' | 'en';
+  const locale = params.locale as 'vi' | 'en' | 'es';
   const seoTranslations = {
     vi: {
       title: 'Góp Ý & Thảo Luận - Thật Hay Thách Online',
@@ -22,6 +24,11 @@ export async function generateMetadata({
       title: 'Feedback & Discussion - Truth or Dare Online',
       description:
         'Share your thoughts or join the community discussion. Your feedback helps us improve the game.',
+    },
+    es: {
+      title: 'Comentarios y Discusión - Verdad o Reto Online',
+      description:
+        'Comparte tus pensamientos o únete a la discusión de la comunidad. Tus comentarios nos ayudan a mejorar el juego.',
     },
   };
 

@@ -15,15 +15,6 @@ export function useQuickGame(locale: Locale = 'vi') {
   const gameStats = useGameStats();
   const questionLogic = useQuestionLogic(gameState.selectedCategory, locale);
 
-  const drawNewCard = useCallback(
-    (type: QuestionType) => {
-      questionLogic.drawNewQuestion(type, gameState.setIsDrawingCard);
-      gameState.setSelectedType(type);
-      gameStats.incrementCount(type);
-    },
-    [questionLogic, gameState, gameStats]
-  );
-
   const categories = useMemo(() => {
     const translatedCategories = getQuickCategories(locale);
     // Add icon and color to translated categories
@@ -33,6 +24,15 @@ export function useQuickGame(locale: Locale = 'vi') {
       color: cat.id === '18' ? '#9b59b6' : '#3498db',
     }));
   }, [locale]);
+
+  const drawNewCard = useCallback(
+    (type: QuestionType) => {
+      questionLogic.drawNewQuestion(type, gameState.setIsDrawingCard);
+      gameState.setSelectedType(type);
+      gameStats.incrementCount(type);
+    },
+    [questionLogic, gameState, gameStats]
+  );
 
   return {
     // Game State

@@ -1,9 +1,11 @@
 import { generatePageMetadata } from '@/lib/metadata';
 
+import { locales } from '@/i18n/config';
+
 import { FeedbackListPageClient } from './FeedbackListPageClient';
 
 export async function generateStaticParams() {
-  return [{ locale: 'vi' }, { locale: 'en' }];
+  return locales.map((locale) => ({ locale }));
 }
 
 export async function generateMetadata({
@@ -11,7 +13,7 @@ export async function generateMetadata({
 }: {
   params: { locale: string };
 }) {
-  const locale = params.locale as 'vi' | 'en';
+  const locale = params.locale as 'vi' | 'en' | 'es';
   const seoTranslations = {
     vi: {
       title: 'Danh Sách Góp Ý - Thật Hay Thách Online',
@@ -22,6 +24,11 @@ export async function generateMetadata({
       title: 'Feedback List - Truth or Dare Online',
       description:
         'View all feedback from the community. Search and filter by feedback type.',
+    },
+    es: {
+      title: 'Lista de Comentarios - Verdad o Reto Online',
+      description:
+        'Ver todos los comentarios de la comunidad. Buscar y filtrar por tipo de comentario.',
     },
   };
 

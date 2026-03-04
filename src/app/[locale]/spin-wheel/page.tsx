@@ -1,9 +1,11 @@
 import { generatePageMetadata } from '@/lib/metadata';
 
+import { locales } from '@/i18n/config';
+
 import { SpinWheelPageClient } from './SpinWheelPageClient';
 
 export async function generateStaticParams() {
-  return [{ locale: 'vi' }, { locale: 'en' }];
+  return locales.map((locale) => ({ locale }));
 }
 
 export async function generateMetadata({
@@ -11,7 +13,7 @@ export async function generateMetadata({
 }: {
   params: { locale: string };
 }) {
-  const locale = params.locale as 'vi' | 'en';
+  const locale = params.locale as 'vi' | 'en' | 'es';
   const seoTranslations = {
     vi: {
       title: 'Vòng Quay May Mắn - Thật Hay Thách Online',
@@ -22,6 +24,11 @@ export async function generateMetadata({
       title: 'Spin Wheel - Truth or Dare Online',
       description:
         'Spin the wheel to get random questions. Have fun with friends!',
+    },
+    es: {
+      title: 'Ruleta de la Suerte - Verdad o Reto Online',
+      description:
+        '¡Gira la ruleta para obtener preguntas aleatorias! Diviértete con tus amigos.',
     },
   };
 

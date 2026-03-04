@@ -1,0 +1,18 @@
+{
+  "drink": {
+    "name": "Beber",
+    "description": "¡Saca una carta y completa el reto! Si no puedes hacerlo, ¡bebe!"
+  },
+  "quick": {
+    "name": "Modo Rápido",
+    "description": "¡Juega inmediatamente sin ingresar nombres. Elige una categoría y comienza!"
+  },
+  "group": {
+    "name": "Modo Grupal",
+    "description": "Añade nombres de jugadores y juega por turnos"
+  },
+  "spinWheel": {
+    "name": "Ruleta",
+    "description": "Gira la ruleta para obtener preguntas aleatorias"
+  }
+}

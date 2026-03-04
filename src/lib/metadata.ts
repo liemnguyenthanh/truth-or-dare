@@ -84,6 +84,7 @@ export async function generateMetadata(
       languages: {
         vi: `${baseUrl}/vi/`,
         en: `${baseUrl}/en/`,
+        es: `${baseUrl}/es/`,
         'x-default': `${baseUrl}/vi/`,
       },
     },
@@ -127,6 +128,7 @@ export async function generatePageMetadata(
       languages: {
         vi: `${baseUrl}/vi${path}`,
         en: `${baseUrl}/en${path}`,
+        es: `${baseUrl}/es${path}`,
         'x-default': `${baseUrl}/vi${path}`,
       },
     },

@@ -60,6 +60,52 @@ export function getGameSchema(locale: Locale) {
     };
   }
 
+  if (locale === 'es') {
+    return {
+      '@context': 'https://schema.org',
+      '@type': 'Game',
+      name: 'Verdad o Reto Online',
+      alternateName: [
+        'Verdad o Reto',
+        'Juego Verdad o Reto',
+        'Verdad o Reto Online',
+      ],
+      description:
+        'Juego de Verdad o Reto online gratuito con más de 500+ preguntas divertidas. Ideal para fiestas, cumpleaños y reuniones con amigos.',
+      url: `${baseUrl}/es`,
+      image: `${baseUrl}/images/og.png`,
+      genre: [
+        'Juego de fiesta',
+        'Juego social',
+        'Entretenimiento',
+        'Juego interactivo',
+      ],
+      numberOfPlayers: '2+',
+      playMode: 'MultiPlayer',
+      applicationCategory: 'Game',
+      operatingSystem: 'Web Browser',
+      offers: {
+        '@type': 'Offer',
+        price: '0',
+        priceCurrency: 'USD',
+        availability: 'https://schema.org/InStock',
+      },
+      publisher: {
+        '@type': 'Organization',
+        name: 'Truth or Dare Game',
+        url: baseUrl,
+      },
+      inLanguage: 'es-ES',
+      audience: {
+        '@type': 'Audience',
+        audienceType: 'Adolescentes y adultos',
+        suggestedMinAge: 13,
+      },
+      keywords:
+        'verdad o reto, verdad o reto online, juego de fiesta, juego con amigos, juego para beber, juego para parejas, preguntas verdad o reto, retos divertidos',
+    };
+  }
+
   // Vietnamese (default)
   return {
     '@context': 'https://schema.org',
@@ -119,6 +165,23 @@ export function getWebsiteSchema(locale: Locale) {
     };
   }
 
+  if (locale === 'es') {
+    return {
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: 'Verdad o Reto Online',
+      url: `${baseUrl}${localePath}`,
+      description:
+        'Juego de Verdad o Reto online gratuito con más de 500+ preguntas divertidas. Ideal para fiestas, cumpleaños y reuniones con amigos.',
+      inLanguage: 'es-ES',
+      potentialAction: {
+        '@type': 'SearchAction',
+        target: `${baseUrl}${localePath}/?q={search_term_string}`,
+        'query-input': 'required name=search_term_string',
+      },
+    };
+  }
+
   // Vietnamese (default)
   return {
     '@context': 'https://schema.org',
@@ -148,6 +211,20 @@ export function getOrganizationSchema(locale: Locale) {
       url: baseUrl,
       logo: `${baseUrl}/favicon.svg`,
       description: 'Leading developer of free online Truth or Dare games',
+      foundingDate: '2024',
+      sameAs: ['https://www.instagram.com/truthordaregame.xyz'],
+    };
+  }
+
+  if (locale === 'es') {
+    return {
+      '@context': 'https://schema.org',
+      '@type': 'Organization',
+      name: 'Truth or Dare Game',
+      url: baseUrl,
+      logo: `${baseUrl}/favicon.svg`,
+      description:
+        'Desarrollador líder de juegos de Verdad o Reto online gratuitos',
       foundingDate: '2024',
       sameAs: ['https://www.instagram.com/truthordaregame.xyz'],
     };

@@ -17,6 +17,7 @@ import {
 const localeOptions: Record<Locale, { flag: string; label: string }> = {
   vi: { flag: '🇻🇳', label: 'Tiếng Việt' },
   en: { flag: '🇬🇧', label: 'English' },
+  es: { flag: '🇪🇸', label: 'Español' },
 };
 
 export function LanguageSwitcher() {
@@ -36,8 +37,8 @@ export function LanguageSwitcher() {
       return;
     }
 
-    // Remove locale cũ từ pathname: pathname.replace(/^\/(vi|en)/, '') || '/'
-    const currentPath = pathname.replace(/^\/(vi|en)/, '') || '/';
+    // Loại bỏ prefix locale hiện tại (bất kỳ trong danh sách locales)
+    const currentPath = pathname.replace(/^\/(vi|en|es)/, '') || '/';
 
     // Sử dụng getLocalizedPath từ @/i18n/config để generate URL mới
     // ALWAYS include locale prefix trong URL mới

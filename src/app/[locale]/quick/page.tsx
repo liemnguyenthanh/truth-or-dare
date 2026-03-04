@@ -1,9 +1,11 @@
 import { generatePageMetadata } from '@/lib/metadata';
 
+import { locales } from '@/i18n/config';
+
 import { QuickPageClient } from './QuickPageClient';
 
 export async function generateStaticParams() {
-  return [{ locale: 'vi' }, { locale: 'en' }];
+  return locales.map((locale) => ({ locale }));
 }
 
 export async function generateMetadata({
@@ -11,7 +13,7 @@ export async function generateMetadata({
 }: {
   params: { locale: string };
 }) {
-  const locale = params.locale as 'vi' | 'en';
+  const locale = params.locale as 'vi' | 'en' | 'es';
   const seoTranslations = {
     vi: {
       title: 'Chế Độ Nhanh - Thật Hay Thách Online',
@@ -22,6 +24,11 @@ export async function generateMetadata({
       title: 'Quick Mode - Truth or Dare Online',
       description:
         'Play immediately without entering names. Choose a category and start! Quick mode with over 500+ fun questions.',
+    },
+    es: {
+      title: 'Modo Rápido - Verdad o Reto Online',
+      description:
+        '¡Juega inmediatamente sin ingresar nombres. Elige una categoría y comienza! Modo rápido con más de 500+ preguntas divertidas.',
     },
   };
 

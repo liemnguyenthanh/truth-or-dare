@@ -17,6 +17,7 @@ const translationCache: Record<
 > = {
   vi: {},
   en: {},
+  es: {},
 };
 
 /**

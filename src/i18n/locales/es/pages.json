@@ -1,0 +1,112 @@
+{
+  "home": {
+    "title": "Verdad o Reto",
+    "subtitle": "Juego Online",
+    "changeMode": "Puedes cambiar el modo de juego en cualquier momento",
+    "ratingButton": "Valorar juego",
+    "ratingDescription": "Comparte tu opinión sobre el juego"
+  },
+  "drink": {
+    "selectCategory": "Selecciona una categoría",
+    "selectCategoryTitle": "🎯 Selecciona el conjunto de preguntas",
+    "selectCategoryDescription": "Elige un conjunto de preguntas para empezar a jugar",
+    "drawCard": "Sacar carta",
+    "drawNewCard": "🎲 Sacar nueva carta",
+    "drawingCard": "Sacando carta...",
+    "gameComplete": "¡Juego completado!",
+    "gameCompleteTitle": "🎉 ¡Completado!",
+    "gameCompleteDescription": "Has jugado todas las preguntas. ¡Por favor valora tu experiencia!",
+    "gameCompleteAll": "🎉 ¡Has completado todas las preguntas!",
+    "creatingOrder": "Creando pedido...",
+    "paymentRequired": "Pagar {{amount}} para continuar",
+    "stats": {
+      "used": "Usadas",
+      "total": "Total",
+      "drawn": "Sacadas: {{used}}/{{total}} cartas"
+    }
+  },
+  "quick": {
+    "title": "Modo Rápido",
+    "description": "Selecciona una categoría y empieza a jugar al instante.",
+    "selectCategory": "Selecciona una categoría",
+    "selectType": "Selecciona el tipo de pregunta",
+    "gameComplete": "¡Juego completado!",
+    "gameCompleteDescription": "Has jugado todas las preguntas. ¡Por favor valora tu experiencia!",
+    "backToHome": "Volver al inicio"
+  },
+  "group": {
+    "title": "Modo Grupal",
+    "addParticipants": "Añadir participantes",
+    "addParticipantsDescription": "Añade participantes y elige una categoría para empezar",
+    "selectCategory": "Selecciona una categoría",
+    "backToHome": "Volver al inicio",
+    "startGame": "Empezar juego",
+    "startGameWithCount": "Empezar juego ({{count}} jugadores)",
+    "selectQuestionType": "Selecciona el tipo de pregunta",
+    "gameComplete": "¡Juego completado!",
+    "gameCompleteDescription": "Todo el grupo ha jugado todas las preguntas. ¡Por favor valora tu experiencia!",
+    "participants": {
+      "title": "Participantes",
+      "add": "Añadir",
+      "edit": "Editar",
+      "delete": "Eliminar",
+      "placeholder": "Escribe el nombre del jugador...",
+      "empty": "Aún no hay participantes",
+      "minRequired": "Se requieren al menos {{min}} participantes para empezar",
+      "minRequiredWarning": "Se requieren al menos {{min}} participantes para empezar"
+    }
+  },
+  "spinWheel": {
+    "title": "Ruleta",
+    "spin": "Girar",
+    "spinDescription": "Gira para seleccionar el tipo de pregunta",
+    "selectCategoryDescription": "Elige una categoría y empieza a girar",
+    "previewQuestions": "👁️ Vista previa",
+    "backToHome": "Volver al inicio",
+    "back": "Atrás",
+    "noQuestions": "No hay más preguntas de \"{{type}}\" en esta categoría. Selecciona otra categoría o inténtalo de nuevo.",
+    "noQuestionsTitle": "Sin preguntas",
+    "noQuestionsDescription": "Esta categoría aún no tiene preguntas. Selecciona otra categoría.",
+    "selectAnotherCategory": "Seleccionar otra categoría",
+    "congratulations": "🎉 ¡Felicidades!",
+    "milestoneDescription": "¡Has jugado muchas preguntas! ¡Por favor valora tu experiencia!",
+    "categories": {
+      "18": {
+        "description": "Preguntas para adultos"
+      },
+      "party": {
+        "description": "Preguntas divertidas para fiestas"
+      }
+    },
+    "paymentProgress": {
+      "drawn": "Sacadas: {{drawn}}/{{total}}",
+      "remaining": "Quedan {{remaining}}",
+      "hasCode": "¿Tienes un código?"
+    }
+  },
+  "couples": {
+    "title": "Modo Parejas"
+  },
+  "feedback": {
+    "title": "Feedback y Discusión",
+    "subtitle": "Comparte tu opinión o únete a la conversación de la comunidad",
+    "recent": "Feedback reciente",
+    "submit": "Enviar feedback",
+    "hideForm": "Ocultar formulario",
+    "list": {
+      "title": "Lista de feedback",
+      "subtitle": "Total {{total}} feedbacks de la comunidad",
+      "loading": "Cargando lista de feedback...",
+      "error": "No se puede cargar la lista de feedback",
+      "errorRetry": "Ocurrió un error al cargar la lista de feedback",
+      "empty": "Aún no hay feedback",
+      "emptyDescription": "¡Sé la primera persona en enviarnos feedback!",
+      "search": "Buscar feedback...",
+      "allTypes": "Todos los tipos",
+      "retry": "Reintentar",
+      "previous": "Anterior",
+      "next": "Siguiente"
+    }
+  }
+}
+

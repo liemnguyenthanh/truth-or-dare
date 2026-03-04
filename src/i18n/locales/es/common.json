@@ -1,0 +1,139 @@
+{
+  "app": {
+    "name": "Verdad o Reto",
+    "subtitle": "Juego Online",
+    "description": "Juego divertido con amigos"
+  },
+  "navigation": {
+    "home": "Inicio",
+    "feedback": "Feedback"
+  },
+  "buttons": {
+    "back": "Atrás",
+    "donate": "Donar",
+    "continue": "Continuar",
+    "continueNext": "Continuar",
+    "submit": "Enviar",
+    "cancel": "Cancelar",
+    "close": "Cerrar",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "view": "Ver",
+    "viewPreview": "👁️ Vista previa",
+    "select": "Seleccionar",
+    "draw": "Sacar",
+    "drawCard": "Sacar carta",
+    "next": "Siguiente",
+    "previous": "Anterior",
+    "finish": "Terminar",
+    "start": "Empezar",
+    "restart": "Reiniciar",
+    "rating": "Valorar juego",
+    "share": "Compartir",
+    "processing": "Procesando...",
+    "creatingOrder": "Creando pedido...",
+    "paymentRequired": "Pagar {{amount}} para continuar",
+    "hasCode": "¿Tienes un código?",
+    "flipped": "Volteadas: {{flipped}}/{{max}}",
+    "remaining": "Quedan {{remaining}}"
+  },
+  "badges": {
+    "new": "NUEVO ✨",
+    "newQuestions": "NUEVAS PREGUNTAS"
+  },
+  "footer": {
+    "description": "El mejor juego de Verdad o Reto online gratuito. Crea recuerdos inolvidables con tus amigos con más de 500+ preguntas divertidas.",
+    "quickLinks": "Enlaces rápidos",
+    "playGame": "Jugar ahora",
+    "howToPlay": "Cómo jugar",
+    "connect": "Conectar",
+    "copyright": "© {{year}} Verdad o Reto Online. Todos los derechos reservados.",
+    "version": "Versión 1.0.0"
+  },
+  "modals": {
+    "gameComplete": {
+      "title": "🎉 ¡Juego completado!",
+      "description": "Has jugado todas las preguntas. ¡Por favor valora tu experiencia!",
+      "ratingTitle": "Valorar Verdad o Reto",
+      "ratingDescription": "¿Qué te ha parecido el juego?"
+    },
+    "rating": {
+      "title": "Valorar juego",
+      "description": "Comparte tu opinión sobre el juego"
+    },
+    "viewQuestions": {
+      "title": "Vista previa",
+      "questionsCount": "{{count}} preguntas",
+      "selectCategory": "Seleccionar esta categoría",
+      "close": "Cerrar"
+    }
+  },
+  "stats": {
+    "used": "Usadas",
+    "total": "Total",
+    "remaining": "Restantes",
+    "truth": "Verdad",
+    "dare": "Reto",
+    "drawn": "Sacadas: {{used}}/{{total}} preguntas",
+    "truthCount": "💭 Verdad: {{used}}/{{total}}",
+    "dareCount": "💖 Reto: {{used}}/{{total}}",
+    "totalCards": "Total: {{used}}/{{total}} cartas",
+    "reset": "🔄 El conjunto de preguntas se ha reiniciado",
+    "completed": "🎉 ¡Felicidades! ¡Has completado todas las preguntas!",
+    "resetToContinue": "🔄 La baraja se ha reiniciado para seguir jugando"
+  },
+  "messages": {
+    "loading": "Cargando...",
+    "error": "Ha ocurrido un error",
+    "success": "Éxito",
+    "noData": "Sin datos",
+    "selectCategory": "Selecciona una categoría",
+    "selectType": "Selecciona el tipo de pregunta",
+    "changeMode": "Puedes cambiar el modo de juego en cualquier momento"
+  },
+  "game": {
+    "selectQuestionType": "Selecciona el tipo de pregunta",
+    "selectTruthOrDare": "Elige Verdad o Reto para recibir una pregunta aleatoria",
+    "selectNextType": "Selecciona el siguiente tipo de pregunta",
+    "completeTitle": "🎉 ¡Juego completado!",
+    "completeDescription": "Has jugado todas las preguntas. ¡Por favor valora tu experiencia!",
+    "outOfQuestions": "Sin preguntas",
+    "spinning": "GIRANDO...",
+    "spin": "GIRAR",
+    "continueSpin": "Seguir girando",
+    "processingPayment": "Procesando pago...",
+    "payToContinue": "Pagar para continuar",
+    "nextPlayer": "Siguiente jugador:"
+  },
+  "comments": {
+    "reply": "Responder",
+    "cancel": "Cancelar",
+    "writeComment": "Escribe tu comentario...",
+    "yourName": "Tu nombre (opcional)",
+    "submit": "Enviar"
+  },
+  "feedback": {
+    "types": {
+      "bug": "Reporte de error",
+      "feature": "Función nueva",
+      "general": "Feedback general",
+      "rating": "Valoración"
+    },
+    "priorities": {
+      "low": "Baja",
+      "medium": "Media",
+      "high": "Alta",
+      "critical": "Crítica"
+    }
+  },
+  "rating": {
+    "title": "Valoración de {{rating}} estrellas"
+  },
+  "language": {
+    "vi": "Vietnamita",
+    "en": "Inglés",
+    "select": "Seleccionar idioma"
+  }
+}
+
