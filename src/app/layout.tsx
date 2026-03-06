@@ -3,12 +3,13 @@ import * as React from 'react';
 
 import '@/styles/globals.css';
 
+import { generateMetadata as generateLocaleMetadata } from '@/lib/metadata';
+
 import { viewport } from './viewport';
 
-// Minimal metadata for root layout (all routes go through [locale] which has its own metadata)
-export const metadata: Metadata = {
-  metadataBase: new URL('https://www.truthordaregame.xyz'),
-};
+export async function generateMetadata(): Promise<Metadata> {
+  return generateLocaleMetadata('vi');
+}
 
 export { viewport };
 
